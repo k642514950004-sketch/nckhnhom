@@ -1,0 +1,1592 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NCKH · Agenda nhóm</title>
+<style>
+:root{
+  --paper:#F6F4EE;--card:#FFFFFF;--ink:#1D2230;--muted:#5C6170;--line:#D9D4C7;--soft:#EFEBE0;--hover:#F1EEE6;
+  --acc:#2F43C8;--accsoft:#E4E8FB;--ok:#2C7A4B;--bad:#A8324A;
+  --body:"Times New Roman",Times,"Liberation Serif",serif;--head:"Times New Roman",Times,"Liberation Serif",serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:var(--body);font-size:17px;line-height:1.5;color:var(--ink);background:var(--paper);min-height:100vh}
+h1,h2,h3,h4,.h{font-family:var(--body);font-weight:700;letter-spacing:0;margin:0;line-height:1.2}
+button,input,select,textarea{font-family:var(--body);font-size:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+a{color:var(--acc)}
+.wrap{max-width:1240px;margin:0 auto;padding:0 20px}
+.muted{color:var(--muted)}.small{font-size:15px}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.spread{justify-content:space-between}.mt{margin-top:20px}.hide{display:none!important}
+/* thanh trên */
+.bar{position:sticky;top:0;z-index:30;background:var(--card);border-bottom:1px solid var(--line)}
+.bar .in{max-width:1240px;margin:0 auto;padding:0 20px;display:flex;align-items:stretch;gap:20px;min-height:58px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:19px;white-space:nowrap}
+.brand i{display:inline-block;width:14px;height:14px;background:var(--ink);border-radius:3px;transform:rotate(45deg)}
+.tabs{display:flex;gap:2px;overflow-x:auto;flex:1;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}
+.tabs button{border:0;background:transparent;padding:0 16px;font-size:17px;white-space:nowrap;border-bottom:3px solid transparent;color:var(--muted)}
+.tabs button:hover{color:var(--ink)}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--acc);font-weight:700}
+.dotb{display:inline-block;background:var(--acc);color:#fff;border-radius:999px;font-size:13px;padding:0 7px;margin-left:6px;font-family:var(--head)}
+.iconbtn{border:0;background:transparent;width:44px;align-self:center;height:44px;border-radius:8px;position:relative;display:flex;align-items:center;justify-content:center}
+.iconbtn:hover{background:var(--hover)}
+.iconbtn b{position:absolute;top:2px;right:2px;background:var(--acc);color:#fff;border-radius:999px;min-width:19px;height:19px;font-size:12px;display:flex;align-items:center;justify-content:center;padding:0 5px;font-family:var(--head)}
+.userchip{align-self:center;border:1px solid var(--line);background:var(--card);padding:5px 12px 5px 6px;border-radius:999px;display:flex;gap:8px;align-items:center;min-height:44px}
+/* thành phần */
+.ini{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;font-family:var(--head);font-weight:700;font-size:11.5px;flex:0 0 auto}
+.av{display:inline-flex;align-items:center;gap:6px;padding:2px 10px 2px 3px;border-radius:999px;font-size:15px;white-space:nowrap}
+.av .ini{width:24px;height:24px;font-size:10.5px;background:#fff}
+.chip{display:inline-flex;align-items:center;gap:5px;padding:1px 10px;border-radius:999px;font-size:14.5px;white-space:nowrap}
+.flag{display:inline-block;padding:0 8px;border-radius:5px;font-size:13.5px;border:1px solid}
+.f-c{background:#FFF4D1;color:#6a5100;border-color:#E6CF86}.f-p{background:#ECE6F8;color:#4b3a85;border-color:#CABFE8}.f-t{background:#FBE7DA;color:#8a4219;border-color:#EFC7AB}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 20px}
+.grid{display:grid;gap:14px}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.btn{border:1px solid var(--line);background:var(--card);padding:8px 16px;border-radius:8px;min-height:42px}
+.btn:hover{background:var(--hover)}
+.btn.pri{background:var(--acc);border-color:var(--acc);color:#fff}
+.btn.dark{background:var(--ink);border-color:var(--ink);color:#fff}
+.btn.ok{background:var(--ok);border-color:var(--ok);color:#fff}
+.btn.warn{color:var(--bad);border-color:#DDB3BE}
+.btn.sm{padding:4px 12px;min-height:36px;font-size:15.5px}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+select,input[type=text],input[type=url],input[type=date],input[type=password],textarea{border:1px solid var(--line);background:#fff;border-radius:8px;padding:9px 12px;width:100%}
+textarea{resize:vertical;min-height:76px}
+input[type=checkbox]{width:20px;height:20px;accent-color:var(--acc);flex:0 0 auto;margin-top:3px}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{border:1px solid var(--line);background:var(--card);padding:6px 14px;border-radius:999px;min-height:38px}
+.seg button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.list{display:flex;flex-direction:column;gap:8px}
+.empty{padding:16px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:10px}
+.over{color:var(--bad);font-weight:700}
+.sh{font-size:26px;margin:34px 0 10px}
+.pbar{height:6px;border-radius:99px;background:var(--soft);overflow:hidden}.pbar i{display:block;height:100%;background:var(--acc);border-radius:99px;transition:width .3s}
+.tip{background:var(--accsoft);border-radius:8px;padding:12px 16px}
+/* tổng quan */
+.top1{padding:30px 0 6px}
+.top1 h1{font-size:clamp(27px,3.4vw,40px);max-width:920px}
+.chs{display:flex;gap:0;margin-top:18px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--card)}
+.chs button{border:0;border-right:1px solid var(--line);background:transparent;padding:12px 12px 10px;text-align:left;min-width:0;display:flex;flex-direction:column;gap:4px}
+.chs button:last-child{border-right:0}
+.chs button:hover{background:var(--hover)}
+.chs .n{font-family:var(--head);font-weight:700;font-size:13.5px;color:var(--muted)}
+.chs .t{font-family:var(--head);font-weight:700;font-size:15px;line-height:1.2}
+.milestones{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;border-top:2px solid var(--ink);margin-top:14px}
+.milestones div{padding:12px 12px 0 0;position:relative}
+.milestones div::before{content:"";position:absolute;top:-7px;left:0;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2px solid var(--ink)}
+.milestones b{display:block;font-family:var(--head);font-size:15.5px;margin-top:6px}
+/* thẻ việc */
+.tc{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-radius:8px;border:1px solid var(--line);background:var(--card);cursor:pointer;text-align:left;width:100%;border-left:5px solid var(--st)}
+.tc:hover{background:var(--hover)}
+.meta{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;margin-top:5px;font-size:15px;color:var(--muted)}
+/* khung lý thuyết */
+.fw{border:1px solid var(--line);border-radius:10px;background:var(--card);margin-top:16px}
+.fw>button.fh{width:100%;display:flex;align-items:center;gap:12px;padding:14px 18px;border:0;background:transparent;text-align:left}
+.fw .body{display:none;padding:0 18px 18px}.fw.open .body{display:block}
+.chev{width:10px;height:10px;border-right:2.5px solid var(--ink);border-bottom:2.5px solid var(--ink);transform:rotate(-45deg);transition:transform .15s;flex:0 0 auto;margin:0 4px}
+.open>button .chev,.open>.fh .chev{transform:rotate(45deg)}
+.map{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;margin-top:4px}
+.map div{padding:8px 12px 8px 0;font-size:15.5px;position:relative}
+.map b{display:block;font-family:var(--head);font-size:15px}
+.map div:not(:last-child)::after{content:"";position:absolute;right:6px;top:14px;width:8px;height:8px;border-right:2px solid var(--muted);border-top:2px solid var(--muted);transform:rotate(45deg)}
+.pil{border:1px solid var(--line);border-radius:10px;padding:14px 16px;text-align:left;background:var(--card);display:flex;flex-direction:column;gap:6px;min-height:150px}
+.pil:hover{border-color:var(--ink)}
+.pil .k{font-family:var(--head);font-weight:800;font-size:13.5px;color:var(--acc)}
+.pil .q{font-size:16px;color:var(--muted)}
+/* bảng kéo thả */
+.board{display:grid;grid-template-columns:repeat(6,minmax(180px,1fr));gap:12px;overflow-x:auto;padding-bottom:10px;align-items:start}
+.kcol{background:var(--soft);border-radius:10px;padding:10px;min-height:200px;max-height:max(420px,calc(100vh - 250px));overflow-y:auto;border:2px solid transparent}
+.kcol.over{border-color:var(--acc);background:var(--accsoft)}
+.kcol h4{display:flex;justify-content:space-between;font-size:14.5px;margin:2px 4px 10px;text-transform:none}
+.kc{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 10px 10px 12px;margin-bottom:8px;cursor:grab;position:relative;user-select:none;-webkit-user-select:none;touch-action:pan-y;border-left:4px solid var(--st)}
+.kc:hover{border-color:var(--ink);border-left-color:var(--st)}
+.kc.dragging{opacity:.35}
+.kc .cd{font-family:var(--head);font-weight:700;font-size:13px;color:var(--muted)}
+.kc .tt{font-size:16px;line-height:1.3;margin:2px 0 6px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.kc .ft{display:flex;justify-content:space-between;align-items:center;gap:6px;font-size:14px;color:var(--muted)}
+.grip{position:absolute;right:4px;top:4px;width:24px;height:24px;touch-action:none;cursor:grab;background:radial-gradient(circle,var(--muted) 1.4px,transparent 1.6px) 0 0/8px 8px;opacity:.5;border-radius:4px}
+.ghost{position:fixed;z-index:100;pointer-events:none;width:210px;box-shadow:0 14px 30px rgba(0,0,0,.25);transform:rotate(2deg);opacity:.95}
+/* theo chương */
+.chap{margin-top:12px;border:1px solid var(--line);border-radius:10px;background:var(--card);overflow:hidden}
+.chap>button{display:flex;width:100%;gap:14px;align-items:center;padding:14px 18px;border:0;background:transparent;text-align:left}
+.chap .cb{display:none;padding:0 12px 10px}.chap.open .cb{display:block}
+.it{display:grid;grid-template-columns:62px minmax(0,1fr) 150px 56px 150px 120px;gap:10px;align-items:center;padding:11px 8px;border:0;border-top:1px solid var(--line);cursor:pointer;width:100%;background:transparent;text-align:left}
+.it:hover{background:var(--hover)}
+.it .cdx{font-weight:700;font-size:16px}
+.ithead{display:grid;grid-template-columns:62px minmax(0,1fr) 150px 56px 150px 120px;gap:10px;padding:4px 8px;font-size:14px;color:var(--muted)}
+/* ngăn kéo chi tiết */
+.ov{position:fixed;inset:0;background:rgba(20,22,32,.42);z-index:60;display:none;justify-content:flex-end}.ov.on{display:flex}
+.modal{background:var(--paper);width:min(720px,100%);height:100%;overflow:auto;padding:22px 26px 40px;box-shadow:-10px 0 40px rgba(0,0,0,.2)}
+.modal.center{align-self:center;margin:auto;height:auto;max-height:92vh;border-radius:12px;width:min(640px,calc(100% - 24px))}
+.modal h2{font-size:25px}
+.box{padding:12px 16px;border-radius:8px;margin-top:12px;background:var(--card);border:1px solid var(--line)}
+.box h5{margin:0 0 6px;font-family:var(--head);font-size:13.5px;font-weight:700;color:var(--muted);letter-spacing:.03em;text-transform:uppercase}
+.box ul{margin:0;padding-left:20px}.box li{margin:5px 0}
+.stg{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.stg label{display:flex;gap:8px;align-items:flex-start;padding:8px 10px;border-radius:8px;border:1px solid var(--line);cursor:pointer;background:#fff;font-size:15.5px}
+.stg label.on{background:#DDF0E4;border-color:var(--ok)}
+.stg b{display:block;font-family:var(--head);font-size:13.5px}
+.checks label,.steps label{display:flex;gap:10px;align-items:flex-start;padding:6px 0;cursor:pointer}
+.cm{padding:10px 14px;border-radius:8px;background:var(--card);border:1px solid var(--line);margin-top:8px}
+.mention{background:#FFF1C9;border-radius:4px;padding:0 4px}
+.pillbar{display:flex;gap:6px;flex-wrap:wrap}.pillbar button{border:1px solid var(--line);background:#fff;padding:5px 12px;border-radius:999px;min-height:36px}.pillbar button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+.panel{position:fixed;top:60px;right:16px;width:min(430px,calc(100vw - 32px));max-height:75vh;overflow:auto;z-index:70;display:none;box-shadow:0 14px 40px rgba(0,0,0,.2)}.panel.on{display:block}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:11px 20px;border-radius:8px;z-index:90;max-width:90vw;opacity:0;pointer-events:none;transition:opacity .2s}.toast.on{opacity:1}
+.struct{width:100%;border-collapse:collapse;font-size:16px}.struct td,.struct th{padding:8px 10px;border-top:1px solid var(--line);text-align:left;vertical-align:top}.struct th{font-family:var(--head);font-size:13px;color:var(--muted)}
+.pgb{height:7px;border-radius:99px;background:var(--acc);min-width:5px;margin-bottom:3px}
+.hyp{background:var(--accsoft);border-left:4px solid var(--acc);padding:10px 14px;border-radius:0 8px 8px 0}
+.code{background:#232634;color:#EDEEF6;border-radius:8px;padding:12px 14px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13.5px;line-height:1.5;overflow-x:auto;white-space:pre;margin:6px 0 0}
+.mod{border:1px solid var(--line);border-radius:10px;background:var(--card);margin-top:10px;overflow:hidden}
+.mod>button{display:flex;width:100%;gap:14px;align-items:center;padding:13px 18px;border:0;background:transparent;text-align:left;min-height:56px}
+.mod .mb{display:none;padding:2px 18px 18px}.mod.open .mb{display:block}
+.mod .no{font-family:var(--head);font-weight:800;width:34px;height:34px;border-radius:50%;border:2px solid var(--ink);display:flex;align-items:center;justify-content:center;flex:0 0 auto;font-size:14px}
+.mod.done .no{background:var(--ok);border-color:var(--ok);color:#fff}
+.tabs2{display:flex;gap:6px;flex-wrap:wrap}.tabs2 button{border:1px solid var(--line);background:#fff;padding:4px 12px;border-radius:999px;min-height:34px}.tabs2 button.on{background:var(--ink);color:#fff}
+.login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:var(--paper)}
+.login .box2{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:32px;max-width:420px;width:100%}
+.login h1{font-size:30px}
+.login label{display:block;margin:14px 0 5px}
+.banner{background:#FFF4D1;border-bottom:1px solid #E6CF86;padding:8px 20px;font-size:15.5px;text-align:center}
+@media (max-width:980px){.g3,.g4{grid-template-columns:repeat(2,minmax(0,1fr))}.map{grid-template-columns:1fr}.map div:not(:last-child)::after{display:none}.chs{flex-wrap:wrap}.chs button{flex:1 1 33%!important;border-bottom:1px solid var(--line)}.milestones{grid-template-columns:repeat(2,minmax(0,1fr));border-top:0}.milestones div::before{display:none}.stg{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:760px){body{font-size:17px}.wrap,.bar .in{padding:0 14px}.g2,.g3,.g4{grid-template-columns:1fr}.brand span{display:none}.it,.ithead{grid-template-columns:50px minmax(0,1fr)}.it>*:nth-child(n+3){grid-column:2}.ithead{display:none}.modal{padding:18px 16px 40px}.userchip span:last-child{display:none}.board{grid-template-columns:repeat(6,78vw)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* hình minh hoạ, lịch Gantt, agenda cá nhân */
+.vt{border-left:2px solid var(--ink);margin-left:6px}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.fig svg{display:block;width:100%;height:auto}
+.fig figcaption{font-size:15px;color:var(--muted);margin-top:6px}
+.flowimg{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.flowimg .st{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;position:relative}
+.flowimg .st b{display:block;margin-top:6px}
+.flowimg .st:not(:last-child)::after{content:"";position:absolute;right:-9px;top:34px;width:12px;height:12px;border-right:3px solid var(--ink);border-top:3px solid var(--ink);transform:rotate(45deg);z-index:2}
+.gwrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+.gantt{position:relative;min-width:980px;display:grid;grid-template-columns:var(--lw,150px) 1fr}
+.gantt .gh{height:44px;border-bottom:1px solid var(--line);position:relative;font-size:13.5px;color:var(--muted)}
+.gantt .gh span{position:absolute;top:4px;transform:translateX(-1px);padding-left:4px;border-left:1px solid var(--line);height:34px}
+.gantt .gl{border-bottom:1px solid var(--line);padding:8px 10px;font-size:15.5px;display:flex;align-items:flex-start;gap:8px;min-width:0}
+.gl1{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;max-width:100%}
+.gantt .gt{position:relative;border-bottom:1px solid var(--line);background-image:linear-gradient(to right,#EAE6DA 1px,transparent 1px);background-size:calc(100%*7/var(--n)) 100%}
+.gantt .gov{position:absolute;left:var(--lw,150px);right:0;top:0;bottom:0;pointer-events:none}
+.gantt .today{position:absolute;top:0;bottom:0;width:2px;background:var(--bad)}
+.gantt .today i{position:absolute;top:2px;left:4px;font-style:normal;font-size:12.5px;color:var(--bad);background:var(--card);padding:0 3px;white-space:nowrap}
+.gantt .ms{position:absolute;top:28px;width:11px;height:11px;background:var(--ink);transform:rotate(45deg);margin-left:-5px}
+.gb{position:absolute;height:22px;border-radius:5px;border:1px solid;padding:0 6px;font-size:13.5px;line-height:20px;overflow:hidden;white-space:nowrap;text-align:left;cursor:pointer;font-weight:700}
+.gb:hover{outline:2px solid var(--ink)}
+.gb .pf{position:absolute;left:0;top:0;bottom:0;opacity:.35;z-index:0}
+.gb span{position:relative;z-index:1}
+.gm{position:absolute;width:11px;height:11px;border-radius:50%;border:2px solid;background:#fff;margin-left:-5px;top:5px;z-index:2}
+.gm.on{background:var(--ink)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:14.5px;color:var(--muted);margin-top:8px}
+.legend i{display:inline-block;width:13px;height:13px;border-radius:50%;border:2px solid;vertical-align:-2px;margin-right:5px;background:#fff}
+.legend i.f{background:var(--ink)}
+.wl{display:grid;grid-template-columns:150px 1fr 120px;gap:10px;align-items:center;margin:8px 0}
+.wlb{height:16px;background:var(--soft);border-radius:4px;overflow:hidden;display:flex}
+.wlb i{display:block;height:100%}
+.hello{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.bigini{width:68px;height:68px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:24px;border:3px solid;flex:0 0 auto}
+.wkh{display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid var(--ink);padding-bottom:4px;margin:26px 0 10px}
+.helpchip{background:#FFF1C9;border:1px solid #E6CF86;color:#6a5100;border-radius:999px;padding:0 10px;font-size:14px}
+.note{border-left:4px solid var(--line);padding:2px 0 2px 10px;margin-top:8px;font-size:15.5px;color:var(--muted);font-style:italic}
+.pilico{width:64px;height:64px}
+@media (max-width:980px){.flowimg{grid-template-columns:repeat(2,minmax(0,1fr))}.flowimg .st:not(:last-child)::after{display:none}}
+@media (max-width:760px){.flowimg{grid-template-columns:1fr}.wl{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div class="card panel" id="panel" role="dialog" aria-label="Thông báo"></div>
+<div class="ov" id="ov" role="dialog" aria-modal="true"><div class="modal" id="modal"></div></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+/* ===== v3: người, chương, mốc ===== */
+const MEM={
+ ca:{n:'Châu Anh',full:'Phạm Châu Anh',user:'chauanh',ini:'CA',acc:'#B4501F',soft:'#FBE9DD',ink:'#8A3A12',role:'Nhóm trưởng · chạy số liệu',
+  tip:'Chạy xong mỗi mô hình, ghi ngay vào “Nhật ký chạy mô hình” (lệnh đã chạy + kết quả). Bích Ngọc sẽ chạy lại để so, nên đừng sửa số liệu sau khi đã đóng băng bản.'},
+ bn:{n:'Bích Ngọc',full:'Lê Bích Ngọc',user:'bichngoc',ini:'BN',acc:'#A8326B',soft:'#F8E1EC',ink:'#7E2250',role:'Trợ lý số liệu · chạy lại, vẽ biểu đồ',
+  tip:'Khi chạy lại, làm độc lập từ file gốc, đừng nhìn kết quả của Châu Anh trước. Hai bên ra khác nhau là tin tốt: ta tìm ra lỗi sớm.'},
+ td:{n:'Thuỳ Dương',full:'Đàm Thị Thuỳ Dương',user:'thuyduong',ini:'TD',acc:'#2559B8',soft:'#E0E9F9',ink:'#1B428A',role:'Thu thập số liệu · bối cảnh VN · slide',
+  tip:'Trước khi nộp: (1) mở từng link nguồn, (2) đối chiếu từng con số với nguồn, (3) nếu dùng AI để soạn thì đọc lại từng câu. AI có thể bịa con số hoặc tên bài nghiên cứu nghe rất thật, nên nguồn nào chưa tự mở được thì ghi “chưa kiểm chứng”.'},
+ tg:{n:'Thuỳ Dung',full:'Nguyễn Thuỳ Dung',user:'thuydung',ini:'TG',acc:'#2C7A4B',soft:'#DEF0E5',ink:'#1C5535',role:'Lý thuyết · giám sát Mỹ · chính sách',
+  tip:'Chỉ ghi vào bài những gì bạn đã tự mở và đọc. Gặp nguồn chưa mở được thì ghi “chưa kiểm chứng”, đừng đoán.'}
+};
+const MEM_IDS=['ca','bn','td','tg'];
+const LEADER='ca';
+const CHAPTERS=[
+ {id:'cd',n:'',t:'Việc nền: số liệu & mô hình',tag:'Chạy song song, xong khoảng 10/1',ring:false},
+ {id:'c2',n:'2',t:'Cơ sở lý thuyết và tổng quan nghiên cứu',short:'Lý thuyết',tag:'Làm trước: đây là khung lý thuyết',ring:true},
+ {id:'c3',n:'3',t:'Thực trạng tỷ giá, can thiệp và giám sát của Mỹ',short:'Bối cảnh',ring:true},
+ {id:'c4',n:'4',t:'Phương pháp nghiên cứu và dữ liệu',short:'Phương pháp',ring:true},
+ {id:'c5',n:'5',t:'Kết quả nghiên cứu và thảo luận',short:'Kết quả',ring:true},
+ {id:'c6',n:'6',t:'Kết luận và hàm ý chính sách',short:'Kết luận',ring:true},
+ {id:'c1',n:'1',t:'Mở đầu',short:'Mở đầu',tag:'Viết nháp sớm, chốt sau cùng',ring:true},
+ {id:'cp',n:'',t:'Phần đầu, tài liệu tham khảo, phụ lục',ring:false},
+ {id:'cs',n:'',t:'Slide và bảo vệ',ring:false}
+];
+const CH_BY={};CHAPTERS.forEach(c=>CH_BY[c.id]=c);
+const PHASES=[
+ {t:'Khung lý thuyết',s:'2026-11-30',e:'2026-12-27',c:'#B4501F'},
+ {t:'Số liệu & mô hình',s:'2026-12-07',e:'2027-01-10',c:'#A8326B'},
+ {t:'Viết & ghép bài',s:'2027-01-04',e:'2027-01-22',c:'#2559B8'},
+ {t:'Slide & bảo vệ',s:'2027-01-18',e:'2027-01-29',c:'#2C7A4B'}
+];
+const MILES=[
+ {d:'2026-12-04',t:'Họp cô lần 1',s:'Chốt giả thuyết, thời kỳ, phần mềm'},
+ {d:'2026-12-27',t:'Xong khung lý thuyết',s:'Chương 2 bản cuối'},
+ {d:'2027-01-10',t:'Có kết quả mô hình',s:'Họp cô lần 2'},
+ {d:'2027-01-22',t:'Chốt bản bài',s:'Cả nhóm đọc lần cuối'},
+ {d:'2027-01-29',t:'Tập bảo vệ',s:'Slide và 30 câu hỏi'}
+];
+const STAT={todo:{l:'Chưa làm',bg:'#ECE8DC',ink:'#55525C'},doing:{l:'Đang viết',bg:'#DDEAFB',ink:'#1F4E91'},submitted:{l:'Chờ kiểm',bg:'#FFEFC2',ink:'#7A5A00'},checked:{l:'Chờ duyệt',bg:'#EADFF8',ink:'#5B3F98'},fix:{l:'Cần sửa',bg:'#F9DDE9',ink:'#8A2D57'},done:{l:'Xong',bg:'#D9F0E3',ink:'#1F6A48'}};
+const FLG={c:{l:'Chưa kiểm chứng',cls:'f-c',tip:'Thông tin này chưa có nguồn gốc xác nhận. Đừng coi là sự thật cho đến khi tự mở nguồn kiểm.'},p:{l:'Chờ cô duyệt',cls:'f-p',tip:'Cần hỏi cô trước khi chốt.'},t:{l:'Hạn tạm',cls:'f-t',tip:'Hạn do trợ lý đặt tạm; chỉnh khi biết hạn thật của cuộc thi.'}};
+const STAGES=[['dan','Dàn ý'],['nhap','Bản nháp'],['kiem','Kiểm chéo'],['cuoi','Bản cuối']];
+/* ===== MỤC CỦA BÀI (1/2): chương 2, 3, 4 và 1 ===== */
+const ITEMS=[];
+function I(o){ITEMS.push(Object.assign({h:[],src:[],fl:[],heads:[],inputs:[],write:[],prod:'',pg:0,dl:{}},o));}
+const S1='2026-12-04';
+/* ---- CHƯƠNG 2: KHUNG LÝ THUYẾT (làm trước) ---- */
+I({id:'S2.1',ch:'c2',code:'2.1',t:'Các khái niệm cơ bản',o:'td',c:'tg',pg:2,
+ heads:['2.1.1. Tỷ giá hối đoái và biến động tỷ giá','2.1.2. Can thiệp ngoại hối','2.1.3. Dự trữ ngoại hối và mức đủ của dự trữ','2.1.4. Giám sát chính sách tiền tệ của Hoa Kỳ'],
+ dl:{dan:S1,nhap:'2026-12-11',kiem:'2026-12-14',cuoi:'2026-12-18'},
+ write:['Mỗi khái niệm một đoạn ≈ 170 từ: (1) định nghĩa có trích nguồn, (2) một câu “Trong bài này, … được hiểu là …”.','2.1.1: tỷ giá danh nghĩa VND/USD; biến động tỷ giá là mức dao động trong tháng (công thức đặt ở Chương 4, ở đây chỉ nói bằng lời).','2.1.2: can thiệp = ngân hàng trung ương mua/bán ngoại tệ; phân biệt mua và bán; nói rõ Việt Nam không công bố số liệu can thiệp.','2.1.3: dự trữ ngoại hối là gì, vì sao dùng “số tháng nhập khẩu” để đo mức đủ.','2.1.4: “danh sách theo dõi” khác “bị gắn nhãn thao túng tiền tệ”.'],
+ inputs:['Giáo trình kinh tế quốc tế (chương thị trường ngoại hối và tỷ giá).','Phần định nghĩa trong các bài tổng quan về can thiệp ngoại hối.','Báo cáo gốc của Bộ Tài chính Mỹ (phần giải thích thuật ngữ).'],src:['R20','R02','R09','R21'],
+ prod:'≈ 700 từ, đúng 4 mục 2.1.1–2.1.4. Mỗi định nghĩa có chú thích nguồn (tác giả, năm). Chỉ trích nguồn đã tự mở.'});
+I({id:'S2.2',ch:'c2',code:'2.2',t:'Lý thuyết can thiệp ngoại hối và các kênh tác động',o:'bn',c:'ca',pg:3,
+ heads:['2.2.1. Mục tiêu của can thiệp ngoại hối','2.2.2. Kênh tín hiệu','2.2.3. Kênh cân bằng danh mục','2.2.4. Kênh dòng lệnh và thanh khoản (tuỳ chọn)','2.2.5. Vì sao hiệu ứng của can thiệp có thể yếu dần'],
+ dl:{dan:S1,nhap:'2026-12-15',kiem:'2026-12-20',cuoi:'2026-12-27'},
+ write:['2.2.1 (≈150 từ): vì sao ngân hàng trung ương can thiệp: làm êm biến động, chống mất giá quá nhanh; nhắc “sợ thả nổi” (fear of floating).','2.2.2 Kênh tín hiệu (≈250 từ): can thiệp báo cho thị trường biết ý định chính sách → kỳ vọng thay đổi → tỷ giá thay đổi. Nêu điều kiện để kênh có tác dụng (niềm tin vào ngân hàng trung ương).','2.2.3 Kênh cân bằng danh mục (≈250 từ): tài sản trong nước và ngoại tệ không thay thế hoàn hảo; thay đổi lượng ngoại tệ trên thị trường làm đổi giá.','2.2.4 (≈100 từ, tuỳ chọn): kênh dòng lệnh/thanh khoản, chỉ viết nếu có thời gian.','2.2.5 (≈250 từ): vì sao hiệu ứng yếu dần (thị trường thích nghi, quy mô nhỏ so với thị trường, dự trữ có hạn) → nối sang mục 2.3.','Cuối mục: 3 dòng “Hàm ý cho H1”.'],
+ inputs:['Đọc Tóm tắt + Mở đầu + Kết luận của từng bài trước, rồi mới đọc phần cần trích.','Bài khảo sát về can thiệp ở thị trường mới nổi để lấy bức tranh chung.','Tài liệu của BIS/IMF mô tả mục tiêu và công cụ can thiệp.'],src:['R01','R02','R03','R05','R06','R13'],
+ prod:'≈ 1.050 từ + Hình 2.1 (sơ đồ đơn giản: can thiệp → kênh → tỷ giá). Viết bằng lời của nhóm, không dịch nguyên văn.'});
+I({id:'S2.3',ch:'c2',code:'2.3',t:'Dự trữ ngoại hối và năng lực can thiệp',o:'tg',c:'bn',pg:3,
+ heads:['2.3.1. Vì sao các nước tích lũy dự trữ ngoại hối','2.3.2. Các thước đo mức đủ của dự trữ','2.3.3. Chi phí của việc giữ dự trữ','2.3.4. Dự trữ ngoại hối và hiệu quả của can thiệp'],
+ dl:{dan:S1,nhap:'2026-12-15',kiem:'2026-12-20',cuoi:'2026-12-27'},
+ write:['2.3.1 (≈300 từ): hai quan điểm: phòng ngừa rủi ro vs. “trọng thương” (tích lũy để giữ tỷ giá thấp).','2.3.2 (≈350 từ): các thước đo: số tháng nhập khẩu, dự trữ so với nợ ngắn hạn, chỉ số ARA của IMF. Giải thích vì sao bài dùng số tháng nhập khẩu (có số liệu tháng). Chỉ viết “3 tháng nhập khẩu” là quy ước kinh nghiệm nếu đúng như nguồn đã đọc.','2.3.3 (≈100 từ): chi phí cơ hội của dự trữ.','2.3.4 (≈300 từ): cơ chế đề xuất cho H2: dự trữ thấp → thị trường nghi ngờ NHNN còn bán được lâu → tín hiệu yếu → can thiệp kém tác dụng. Nói rõ đây là lập luận; nếu chưa tìm thấy bằng chứng trực tiếp thì viết thẳng như vậy.'],
+ inputs:['Các bài về tích lũy dự trữ (phòng ngừa và trọng thương).','Tài liệu gốc của IMF về đánh giá mức đủ dự trữ (đọc phần định nghĩa chỉ số).','Báo cáo tham vấn Điều IV của IMF với Việt Nam (phần dự trữ).'],src:['R07','R08','R09','R10','R17','R18','R23'],
+ prod:'≈ 1.050 từ + Bảng 2.1 so sánh các thước đo (ưu điểm, nhược điểm, dữ liệu cần có).'});
+I({id:'S2.4',ch:'c2',code:'2.4',t:'Áp lực thị trường ngoại hối (EMP)',o:'td',c:'bn',pg:1,fl:['c'],
+ heads:['2.4.1. Khái niệm áp lực thị trường ngoại hối','2.4.2. Liên hệ với đo lường can thiệp trong bài'],
+ dl:{dan:S1,nhap:'2026-12-11',kiem:'2026-12-15',cuoi:'2026-12-20'},
+ write:['2.4.1 (≈150 từ): EMP gộp áp lực lên đồng nội tệ qua hai đường: tỷ giá đổi và dự trữ hao đi.','2.4.2 (≈200 từ): vì sao thay đổi dự trữ phản ánh cả can thiệp lẫn áp lực thị trường → vì thế “can thiệp ước tính” trong bài chỉ là số đo thay thế. Nói rõ bài không dùng EMP làm mô hình chính.'],
+ inputs:['Hai bài gốc về EMP (xem Nguồn).','Đọc phần đầu của từng bài, đừng cố hiểu hết công thức.'],src:['R11','R12'],
+ prod:'≈ 350 từ. Mỗi trích dẫn đã mở và đọc ít nhất phần tóm tắt.'});
+I({id:'S2.5',ch:'c2',code:'2.5',t:'Giám sát tiền tệ của Hoa Kỳ',o:'tg',c:'bn',pg:3,fl:['c'],
+ heads:['2.5.1. Khuôn khổ pháp lý','2.5.2. Ba tiêu chí và ngưỡng đánh giá','2.5.3. Danh sách theo dõi, đối thoại tăng cường và gắn nhãn','2.5.4. Giám sát của Mỹ và hành vi mua ngoại tệ của ngân hàng trung ương'],
+ dl:{dan:S1,nhap:'2026-12-15',kiem:'2026-12-20',cuoi:'2026-12-27'},
+ write:['2.5.1 (≈300 từ): hai đạo luật nền (1988 và 2015); Bộ Tài chính báo cáo Quốc hội định kỳ (tần suất lấy từ báo cáo gốc).','2.5.2 (≈250 từ): ba tiêu chí và con số ngưỡng, CHÉP TỪ BÁO CÁO GỐC. Dàn ý ghi “8 tháng trong năm” nhưng có thể sai, phải kiểm.','2.5.3 (≈250 từ): ba mức: theo dõi → đối thoại tăng cường → gắn nhãn; hệ quả của từng mức.','2.5.4 (≈250 từ): lập luận cho H3: hai tiêu chí kia khó điều chỉnh ngắn hạn, tiêu chí mua ngoại tệ là thứ NHNN tự điều chỉnh được. Đây là lập luận, chưa chứng minh. Chỉ nói Mỹ quan sát cả hai phía nếu báo cáo gốc có.'],
+ inputs:['Báo cáo của Bộ Tài chính Mỹ: phần Criteria/Methodology và phần nói về Việt Nam.','Văn bản hai đạo luật (tìm trên trang chính thức của Quốc hội Mỹ).','Bảng mốc báo cáo Mỹ (việc nền D1).'],src:['R21','R22','R19'],
+ prod:'≈ 1.050 từ + Bảng 2.2 (3 tiêu chí – ngưỡng – nguồn và trang). Mọi con số có số trang PDF.'});
+I({id:'S2.6a',ch:'c2',code:'2.6a',t:'Tổng quan nghiên cứu quốc tế và thị trường mới nổi',o:'bn',c:'ca',pg:1.5,fl:['c'],
+ heads:['2.6.1. Bằng chứng quốc tế và thị trường mới nổi'],
+ dl:{dan:S1,nhap:'2026-12-15',kiem:'2026-12-20',cuoi:'2026-12-27'},
+ write:['Viết theo chủ đề, KHÔNG liệt kê từng bài. Mỗi bài chỉ 1–2 câu: dữ liệu + cách làm + kết quả.','(i) Can thiệp có làm êm biến động không (≈200 từ).','(ii) Khi nào can thiệp hiệu quả: quy mô, độ đáng tin, dự trữ (≈175 từ).','(iii) Hạn chế chung của các nghiên cứu: đo lường can thiệp, tần suất dữ liệu, quan hệ hai chiều (≈150 từ).'],
+ inputs:['Bảng tổng quan tài liệu trong Kho file (mỗi bài một dòng: câu hỏi – dữ liệu – cách làm – kết quả – hạn chế).','Tóm tắt kết quả theo chính tác giả; không suy diễn thêm.'],src:['R01','R02','R13','R14','R15','R16'],
+ prod:'≈ 525 từ + Bảng 2.3 (6–8 bài chính: tác giả-năm | dữ liệu | cách làm | kết quả | hạn chế). Chỉ đưa vào bài nguồn đã đọc.'});
+I({id:'S2.6b',ch:'c2',code:'2.6b',t:'Các nghiên cứu về Việt Nam',o:'td',c:'tg',pg:1.5,fl:['c'],
+ heads:['2.6.2. Các nghiên cứu về Việt Nam'],
+ dl:{dan:S1,nhap:'2026-12-18',kiem:'2026-12-22',cuoi:'2026-12-27'},
+ write:['(i) Nghiên cứu về tỷ giá và can thiệp của NHNN (≈250 từ): CHỈ ghi bài bạn tự tìm được và mở được. Dàn ý nhắc “các nghiên cứu trên JAFEB” nhưng chưa có tên bài: tìm lại; không thấy thì ghi “KHÔNG TÌM THẤY”.','(ii) Báo cáo của IMF/BIS/Bộ Tài chính Mỹ về Việt Nam (≈150 từ).','(iii) Điều còn thiếu (≈125 từ). Nếu chỉ tìm được ít bài, viết thẳng “số nghiên cứu còn hạn chế”, đừng viết thêm.'],
+ inputs:['Google Scholar, từ khoá: “can thiệp ngoại hối Việt Nam”, “tỷ giá VND/USD biến động”, “State Bank of Vietnam exchange rate intervention”.','Trang tạp chí JAFEB; trang IMF (Điều IV Việt Nam).'],src:['R23','R21'],
+ prod:'≈ 525 từ + các dòng bổ sung vào Bảng 2.3. Thuỳ Dung sẽ mở lại từng link. Không dùng AI để liệt kê bài.'});
+I({id:'S2.7',ch:'c2',code:'2.7',t:'Khoảng trống, khung phân tích và giả thuyết',o:'ca',c:'tg',pg:2,fl:['p'],
+ heads:['2.7.1. Khoảng trống nghiên cứu','2.7.2. Khung phân tích','2.7.3. Các giả thuyết nghiên cứu'],
+ dl:{dan:S1,nhap:'2026-12-18',kiem:'2026-12-22',cuoi:'2026-12-27'},
+ write:['2.7.1 (≈200 từ): “Trong các nghiên cứu nhóm đã đọc, chưa thấy …”, ba ý: đo hiệu quả khi thiếu số liệu can thiệp; vai trò của dự trữ; ràng buộc từ giám sát của Mỹ. Không viết “chưa ai nghiên cứu”.','2.7.2 (≈150 từ + Hình 2.2): sơ đồ biến: can thiệp → biến động; dự trữ điều tiết; giám sát Mỹ ảnh hưởng mua ngoại tệ; biến kiểm soát.','2.7.3 (≈350 từ): H1, H1b, H2, H3. Mỗi giả thuyết: phát biểu – cơ sở lý thuyết (trỏ về 2.2/2.3/2.5) – biến đo – kỳ vọng dấu.'],
+ inputs:['Trang “Khung lý thuyết” của web này (3 trụ và 3 giả thuyết).','Kết quả viết của 2.2–2.6.','Từ điển số liệu (tên biến thống nhất).'],src:[],
+ prod:'≈ 700 từ + Hình 2.2 + Bảng 2.4 (giả thuyết – biến – dấu kỳ vọng). Cô duyệt trước khi chốt.'});
+/* ---- CHƯƠNG 3 ---- */
+I({id:'S3.1',ch:'c3',code:'3.1–3.2',t:'Cơ chế tỷ giá và công cụ can thiệp của NHNN',o:'td',c:'tg',pg:3,fl:['c'],
+ heads:['3.1. Cơ chế điều hành tỷ giá của Việt Nam','3.2. Các công cụ can thiệp của Ngân hàng Nhà nước'],
+ dl:{dan:'2026-12-11',nhap:'2026-12-22',kiem:'2026-12-27',cuoi:'2027-01-03'},
+ write:['3.1 (≈350 từ): cơ chế tỷ giá trung tâm (cách tính theo văn bản gốc) và biên độ giao dịch, kèm ngày thay đổi biên độ (phải có văn bản gốc).','3.2 (≈700 từ): mỗi công cụ một đoạn: bán USD giao ngay, bán kỳ hạn, tín phiếu: là gì, dùng khi nào, một ví dụ có nguồn. Các mốc trong dàn ý (4/2024 giá 25.450; 3/2024 tín phiếu; 8/2025 kỳ hạn 180 ngày) đều CHƯA kiểm chứng.'],
+ inputs:['Văn bản của NHNN về tỷ giá trung tâm và biên độ.','Thông cáo báo chí của NHNN (nguồn gốc); báo chí uy tín chỉ để tìm ra nguồn gốc.','Báo cáo Điều IV của IMF về Việt Nam.'],src:['R24','R27','R23'],
+ prod:'≈ 1.050 từ + Bảng 3.1 (công cụ – mô tả – ví dụ có nguồn). Mọi con số, ngày đều có chú thích nguồn gốc.'});
+I({id:'S3.3',ch:'c3',code:'3.3',t:'Diễn biến tỷ giá và dự trữ ngoại hối',o:'bn',c:'ca',pg:2,
+ heads:['3.3. Diễn biến tỷ giá, dự trữ ngoại hối và độ rung lắc giai đoạn nghiên cứu'],
+ dl:{dan:'2026-12-22',nhap:'2027-01-09',kiem:'2027-01-13',cuoi:'2027-01-18'},
+ write:['3–4 hình (≈ 400 từ mô tả): tỷ giá, dự trữ, độ rung lắc, dự trữ đủ mấy tháng.','Chia giai đoạn theo những gì đồ thị cho thấy, không theo ý định có sẵn.','Dưới mỗi hình 2 dòng: “Đọc được gì” và “Không kết luận được gì” (≈ 300 từ chung).'],
+ inputs:['Bảng số liệu sạch (việc nền D6) và 5 biểu đồ (D11).'],src:[],
+ prod:'2 trang: 3–4 hình có tiêu đề, đơn vị, nguồn + ≈ 700 từ. Chỉ dùng số trong bảng đã đóng băng.'});
+I({id:'S3.4',ch:'c3',code:'3.4',t:'Các mốc giám sát tiền tệ của Mỹ đối với Việt Nam',o:'tg',c:'bn',pg:1,fl:['c'],
+ heads:['3.4. Các mốc giám sát tiền tệ của Hoa Kỳ đối với Việt Nam'],
+ dl:{dan:S1,nhap:'2026-12-18',kiem:'2026-12-22',cuoi:'2026-12-27'},
+ write:['Bảng mốc (chiếm ≈ 0,6 trang): ngày công bố – giai đoạn số liệu – trạng thái của Việt Nam – 3 tiêu chí – nguồn và trang.','≈ 150 từ nhận xét: mốc nào quan trọng và vì sao. Dàn ý hiện tự mâu thuẫn (ra khỏi danh sách 11/2022 nhưng “vẫn nằm trong danh sách” năm 2023): sửa theo báo cáo gốc.'],
+ inputs:['Bảng mốc ở việc nền D1 (đã được Bích Ngọc kiểm).','Từng báo cáo PDF gốc.'],src:['R21'],
+ prod:'Bảng 3.2 + ≈ 150 từ. Mỗi dòng có link PDF và số trang.'});
+/* ---- CHƯƠNG 4 ---- */
+I({id:'S4.1',ch:'c4',code:'4.1',t:'Thiết kế nghiên cứu',o:'ca',c:'bn',pg:0.5,
+ heads:['4.1. Thiết kế nghiên cứu'],
+ dl:{dan:'2026-12-23',nhap:'2027-01-04',kiem:'2027-01-09',cuoi:'2027-01-15'},
+ write:['≈ 150 từ: nghiên cứu định lượng, chuỗi thời gian theo tháng, 3 mô hình; kết quả diễn giải là “mối liên hệ”.','Nêu rõ thời kỳ mẫu và ngày chốt số liệu đã được cô duyệt.'],
+ inputs:['Bảng “Có số liệu không?” và biên bản họp cô.'],src:['R31','R32'],
+ prod:'≈ 150 từ (nửa trang).'});
+I({id:'S4.2',ch:'c4',code:'4.2',t:'Dữ liệu và nguồn dữ liệu',o:'td',c:'bn',pg:2,fl:['c'],
+ heads:['4.2. Dữ liệu và nguồn dữ liệu'],
+ dl:{dan:'2026-12-11',nhap:'2026-12-22',kiem:'2026-12-29',cuoi:'2027-01-05'},
+ write:['Bảng biến (≈ 0,8 trang): tên biến – ký hiệu – đo gì – đơn vị – nguồn – tần suất.','≈ 250 từ: mô tả từng nguồn (IMF, NHNN, cơ quan thống kê, FRED).','≈ 250 từ: ngày chốt số liệu, kỳ cuối, các tháng thiếu và cách xử lý.','≈ 100 từ: hạn chế của số liệu (độ trễ công bố, thay đổi thống kê).'],
+ inputs:['Từ điển số liệu và bảng “Có số liệu không?” (việc nền).','Trang gốc của từng cơ sở dữ liệu.'],src:['R25','R26','R27','R28'],
+ prod:'Bảng 4.1 + ≈ 700 từ. Mỗi dòng của bảng có nguồn mở được.'});
+I({id:'S4.3',ch:'c4',code:'4.3',t:'Xây dựng các biến',o:'bn',c:'ca',pg:2,fl:['p'],
+ heads:['4.3. Xây dựng các biến'],
+ dl:{dan:'2026-12-18',nhap:'2026-12-29',kiem:'2027-01-03',cuoi:'2027-01-08'},
+ write:['Độ rung lắc tỷ giá (≈ 200 từ): độ lệch chuẩn của mức thay đổi hằng ngày trong tháng.','Can thiệp ước tính (≈ 250 từ): bằng số âm của thay đổi dự trữ; vì sao chỉ là số đo thay thế (giá tài sản biến động, tiền lãi, giao dịch Chính phủ).','Dự trữ đủ mấy tháng nhập khẩu (≈ 150 từ).','Biến giám sát của Mỹ (≈ 100 từ) và biến kiểm soát (≈ 100 từ).'],
+ inputs:['Sổ biến và nhật ký chuẩn hoá số liệu.','Các bài về EMP và mức đủ dự trữ.'],src:['R11','R12','R09'],
+ prod:'≈ 700 từ. Công thức viết bằng lời trước, ký hiệu sau.'});
+I({id:'S4.4',ch:'c4',code:'4.4–4.5',t:'Ba mô hình và kiểm định',o:'ca',c:'bn',pg:2.5,fl:['p'],
+ heads:['4.4. Mô hình kinh tế lượng','4.4.1. Mô hình 1: can thiệp và biến động tỷ giá','4.4.2. Mô hình 2: vai trò điều tiết của dự trữ','4.4.3. Mô hình 3: giám sát tiền tệ của Mỹ','4.5. Kiểm định và kiểm tra độ vững'],
+ dl:{dan:'2026-12-23',nhap:'2027-01-04',kiem:'2027-01-09',cuoi:'2027-01-15'},
+ write:['4.4 (≈ 600 từ): mỗi mô hình: phương trình (đánh số), giải thích TỪNG ký hiệu bằng lời, kỳ vọng dấu, lý do chọn độ trễ.','4.5 (≈ 300 từ): kiểm tra tính dừng (ADF), sai số chuẩn Newey–West, các kiểm tra chẩn đoán, danh sách kiểm tra độ vững ĐÃ DUYỆT trước khi chạy.'],
+ inputs:['Kế hoạch 3 mô hình (việc nền D8, cô duyệt).','Sổ biến (tên biến thống nhất).','Tài liệu phương pháp: chuỗi thời gian, sai số Newey–West, mô hình tương tác.'],src:['R29','R30','R31','R32','R33'],
+ prod:'≈ 900 từ + 3 phương trình có đánh số. Ký hiệu khớp Sổ biến.'});
+/* ===== MỤC CỦA BÀI (2/2): chương 5, 6, 1, phần đầu/cuối, slide, việc nền ===== */
+I({id:'S5.1',ch:'c5',code:'5.1',t:'Thống kê mô tả và kiểm tra tính dừng',o:'bn',c:'ca',pg:2,
+ heads:['5.1. Thống kê mô tả và kiểm định tính dừng'],
+ dl:{dan:'2026-12-29',nhap:'2027-01-08',kiem:'2027-01-13',cuoi:'2027-01-18'},
+ write:['Bảng 5.1 thống kê mô tả (trung bình, độ lệch chuẩn, nhỏ nhất, lớn nhất) và ma trận tương quan (≈ 0,8 trang).','≈ 300 từ nhận xét: biến nào dao động mạnh, có giá trị lạ không, giai đoạn nào đặc biệt.','≈ 100 từ: kết quả kiểm tra tính dừng (ADF) và các biến đã lấy sai phân.'],
+ inputs:['Bảng thống kê và kết quả ADF từ nhật ký chạy mô hình.'],src:['R30'],
+ prod:'2 trang. Mọi con số copy từ bảng kết quả, KHÔNG gõ lại bằng tay.'});
+I({id:'S5.2',ch:'c5',code:'5.2–5.4',t:'Kết quả ba mô hình',o:'ca',c:'bn',pg:5,
+ heads:['5.2. Kết quả Mô hình 1: can thiệp và biến động tỷ giá','5.3. Kết quả Mô hình 2: vai trò điều tiết của dự trữ','5.4. Kết quả Mô hình 3: giám sát tiền tệ của Mỹ'],
+ dl:{dan:'2027-01-03',nhap:'2027-01-11',kiem:'2027-01-15',cuoi:'2027-01-20'},
+ write:['5.2 (≈ 600 từ): bảng kết quả; hệ số chính, dấu, mức ý nghĩa; độ trễ 1–3 tháng; kết luận H1 và H1b: ủng hộ, không ủng hộ hay chưa đủ bằng chứng; ý nghĩa kinh tế bằng số cụ thể.','5.3 (≈ 550 từ): hệ số tương tác; tác động của can thiệp khi dự trữ thấp và khi cao (kèm sai số chuẩn); kết luận H2.','5.4 (≈ 550 từ): trạng thái giám sát và khoảng cách tới ngưỡng; ghi rõ số tháng thuộc mỗi trạng thái; kết luận H3.','Quy tắc viết: “có mối liên hệ”, “chưa tìm thấy bằng chứng”; KHÔNG viết “chứng minh”, “gây ra”. Hệ số không có ý nghĩa thống kê vẫn phải báo cáo.'],
+ inputs:['Nhật ký chạy mô hình (lệnh và kết quả).','Bảng “mọi mô hình đã chạy” (kể cả kết quả không đẹp).','Kế hoạch 3 mô hình đã khoá.'],src:['R33'],
+ prod:'≈ 1.750 từ + 3 bảng kết quả. Mỗi con số khớp nhật ký. Bích Ngọc dò từng số trước khi tính là xong.'});
+I({id:'S5.5',ch:'c5',code:'5.5',t:'Kiểm tra độ vững',o:'bn',c:'ca',pg:1,
+ heads:['5.5. Kiểm tra độ vững'],
+ dl:{dan:'2027-01-03',nhap:'2027-01-11',kiem:'2027-01-14',cuoi:'2027-01-19'},
+ write:['Bảng độ vững (≈ 0,6 trang): dấu và mức ý nghĩa của hệ số chính qua từng cách đổi: bỏ tháng điền ước tính, dữ liệu quý, đổi nguồn dự trữ, đổi độ trễ, đổi khoảng thời gian.','≈ 200 từ nhận xét: kết quả có giữ không; chỗ nào đổi.'],
+ inputs:['Bảng kiểm tra độ vững (việc nền D10).'],src:[],
+ prod:'Bảng 5.5 + ≈ 200 từ. Báo cáo cả kiểm tra không có lợi.'});
+I({id:'S5.6',ch:'c5',code:'5.6',t:'Thảo luận',o:'tg',c:'ca',pg:1.5,
+ heads:['5.6. Thảo luận'],
+ dl:{dan:'2027-01-11',nhap:'2027-01-16',kiem:'2027-01-19',cuoi:'2027-01-21'},
+ write:['≈ 250 từ: so kết quả với các nghiên cứu ở mục 2.6: giống ở đâu, khác ở đâu.','≈ 150 từ: giải thích kết quả không như kỳ vọng (quan hệ hai chiều, số đo thay thế, ít quan sát), nhưng không đổi mô hình cho đẹp.','≈ 125 từ: nói rõ kết quả cho phép nói đến đâu.'],
+ inputs:['Kết quả Chương 5 (5.2–5.5).','Bảng tổng quan nghiên cứu 2.3.'],src:[],
+ prod:'≈ 525 từ.'});
+I({id:'S6.1',ch:'c6',code:'6.1',t:'Kết luận',o:'ca',c:'tg',pg:1,
+ heads:['6.1. Kết luận'],
+ dl:{dan:'2027-01-11',nhap:'2027-01-17',kiem:'2027-01-19',cuoi:'2027-01-21'},
+ write:['Trả lời lần lượt 3 câu hỏi nghiên cứu, mỗi câu ≈ 100 từ, đúng thứ tự ở mục 1.3.','1 câu tổng kết, không đưa thông tin mới.'],
+ inputs:['Mục 1.3 và kết quả 5.2–5.4.'],src:[],prod:'≈ 350 từ. Không câu nào mạnh hơn bằng chứng.'});
+I({id:'S6.2',ch:'c6',code:'6.2',t:'Hàm ý chính sách',o:'tg',c:'ca',pg:2,
+ heads:['6.2. Hàm ý chính sách'],
+ dl:{dan:'2027-01-11',nhap:'2027-01-17',kiem:'2027-01-19',cuoi:'2027-01-21'},
+ write:['Chọn 3 kết quả vững nhất; mỗi kết quả một hàm ý (≈ 200 từ): với NHNN, với quản lý dự trữ, với công bố dữ liệu.','Mỗi hàm ý nêu giới hạn đi kèm (≈ 50 từ).','≈ 100 từ: hướng kiểm tra lại khi NHNN công bố dữ liệu (kiểm chứng cam kết này trước khi nhắc đến).'],
+ inputs:['Kết quả vững nhất từ Chương 5.','Báo cáo IMF/NHNN để biết bối cảnh chính sách.'],src:['R23'],fl:['c'],prod:'≈ 700 từ.'});
+I({id:'S6.3',ch:'c6',code:'6.3',t:'Hạn chế và hướng nghiên cứu tiếp theo',o:'bn',c:'ca',pg:1,
+ heads:['6.3. Hạn chế và hướng nghiên cứu tiếp theo'],
+ dl:{dan:'2027-01-11',nhap:'2027-01-17',kiem:'2027-01-19',cuoi:'2027-01-21'},
+ write:['Hạn chế (≈ 250 từ): số đo can thiệp chỉ là ước tính; quan hệ hai chiều; ít quan sát; có tháng điền ước tính; thay đổi biên độ tỷ giá.','Hướng tiếp theo (≈ 100 từ): dữ liệu quý, so với ước tính của IMF/Mỹ, nhóm nước đối chứng.'],
+ inputs:['Mục 4.3 (hạn chế của biến) và 4.2 (hạn chế của số liệu).'],src:[],prod:'≈ 350 từ.'});
+I({id:'S1',ch:'c1',code:'1',t:'Mở đầu',o:'tg',c:'ca',pg:5,fl:['c'],
+ heads:['1.1. Tính cấp thiết của đề tài','1.2. Mục tiêu nghiên cứu','1.3. Câu hỏi nghiên cứu','1.4. Đối tượng và phạm vi nghiên cứu','1.5. Phương pháp nghiên cứu','1.6. Đóng góp của đề tài','1.7. Kết cấu của bài nghiên cứu'],
+ dl:{dan:'2026-12-11',nhap:'2027-01-04',kiem:'2027-01-12',cuoi:'2027-01-19'},
+ write:['1.1 (≈ 500 từ): tỷ giá VND/USD biến động, NHNN can thiệp, dự trữ thay đổi, Mỹ giám sát. Con số lấy từ Chương 3, chỉ dùng số đã kiểm chứng. Kết đoạn bằng 1 câu nêu vấn đề.','1.2 (≈ 150 từ): 1 mục tiêu chung + 3 mục tiêu cụ thể, khớp H1–H3.','1.3 (≈ 150 từ): 3 câu hỏi, mỗi câu một dòng.','1.4 (≈ 200 từ): đối tượng, thời kỳ, tần suất tháng, ngày chốt số liệu.','1.5 (≈ 250 từ): tóm tắt dữ liệu, 3 mô hình, kiểm định.','1.6 (≈ 250 từ): 3 đóng góp, mỗi cái gắn với việc nhóm thực sự làm. Không viết “lần đầu tiên” khi chưa kiểm.','1.7 (≈ 150 từ): kết cấu 6 chương.'],
+ inputs:['Khung lý thuyết (2.7) và bảng giả thuyết.','Bảng “Có số liệu không?” (ngày chốt, số tháng).','Chương 3 (số liệu bối cảnh).'],src:['R21','R23'],
+ prod:'≈ 1.750 từ, đúng 7 mục. Viết nháp sớm; sửa lại sau khi có kết quả để khớp thực tế.'});
+/* ---- Phần đầu, cuối ---- */
+I({id:'P1',ch:'cp',code:'Đầu',t:'Bìa, mục lục, danh mục và tóm tắt',o:'ca',c:'bn',h:['td'],pg:4,
+ heads:['Trang bìa','Mục lục','Danh mục bảng, hình và chữ viết tắt','Tóm tắt'],
+ dl:{nhap:'2027-01-20',kiem:'2027-01-21',cuoi:'2027-01-22'},
+ write:['Tóm tắt ≈ 350 từ: vấn đề – cách làm – kết quả chính (số thật) – hạn chế. Hỏi cô có cần Abstract tiếng Anh không.','Thuỳ Dương dựng mục lục tự động, danh mục bảng/hình.'],
+ inputs:['Bản bài đã chốt (không viết tóm tắt trước khi có kết quả).'],src:[],prod:'Bìa theo mẫu của trường; mục lục tự động; tóm tắt ≈ 350 từ.'});
+I({id:'P2',ch:'cp',code:'Cuối',t:'Tài liệu tham khảo',o:'td',c:'tg',pg:3,fl:['c'],
+ heads:['Tài liệu tham khảo'],
+ dl:{dan:'2026-12-11',nhap:'2027-01-08',kiem:'2027-01-19',cuoi:'2027-01-22'},
+ write:['Gom mọi nguồn trong bài vào một danh sách, sắp xếp A–Z, một cách trích dẫn thống nhất (đề xuất APA 7, chờ cô duyệt).','Mỗi nguồn: tác giả, năm, tên, nơi đăng, link/DOI.','Tự mở từng link; Thuỳ Dung mở lại lần nữa. Nguồn không mở được thì xoá.'],
+ inputs:['Tab “Nguồn & file” (thư viện nguồn có trạng thái đã mở/chưa).'],src:[],
+ prod:'≈ 3 trang, 50–70 nguồn. Mỗi nguồn có trong thư viện nguồn với dấu “đã mở”. KHÔNG dùng AI để tạo danh mục.'});
+I({id:'P3',ch:'cp',code:'Cuối',t:'Phụ lục',o:'bn',c:'ca',pg:3,
+ heads:['Phụ lục A. Từ điển số liệu','Phụ lục B. Bảng mọi mô hình đã chạy','Phụ lục C. Bảng mốc giám sát của Mỹ đầy đủ','Phụ lục D. Lệnh chạy chính (rút gọn)'],
+ dl:{nhap:'2027-01-18',kiem:'2027-01-20',cuoi:'2027-01-22'},
+ write:['A: từ điển số liệu (copy từ Kho file).','B: bảng mọi mô hình đã chạy, kể cả kết quả không đẹp.','C: bảng mốc Mỹ có link PDF.','D: các lệnh chính, rút gọn.'],
+ inputs:['Các bảng đã có trong Kho file.'],src:[],prod:'≈ 3 trang, đánh số phụ lục A–D.'});
+/* ---- Slide và bảo vệ ---- */
+I({id:'X1',ch:'cs',code:'Slide',t:'Slide (12–15 trang)',o:'td',h:['ca'],c:'ca',pg:0,
+ dl:{dan:'2027-01-22',nhap:'2027-01-25',kiem:'2027-01-27',cuoi:'2027-01-28'},
+ write:['Khung: vấn đề → khoảng trống → số liệu → 3 mô hình → kết quả → hạn chế → hàm ý.','Mỗi slide một ý chính; mỗi con số copy từ bảng kết quả.','Slide hạn chế nói thẳng giới hạn của số đo thay thế và quan hệ hai chiều.'],
+ inputs:['Bản bài đã chốt (22/1).'],src:[],prod:'Google Slides 12–15 trang. Không dán nguyên bảng hồi quy lớn; không để AI tự viết con số.'});
+I({id:'X2',ch:'cs',code:'Q&A',t:'30 câu hỏi hội đồng và câu trả lời',o:'tg',h:['ca','bn','td'],c:'ca',pg:0,
+ dl:{dan:'2027-01-22',nhap:'2027-01-25',kiem:'2027-01-27',cuoi:'2027-01-28'},
+ write:['Mỗi người viết 8 câu khó thuộc nhóm của mình: lý thuyết, tính mới, số liệu, phương pháp, nội sinh, nhân quả, giám sát Mỹ, hàm ý chính sách.','Mỗi câu: câu trả lời mẫu + bằng chứng cần mang theo. Có cả câu “khi kết quả không như kỳ vọng”.'],
+ inputs:['Bản bài; bảng kết quả; sổ kiểm chứng.'],src:[],prod:'Google Doc ≥ 30 câu, mỗi câu có trả lời và bằng chứng; câu trả lời nhắc đến giới hạn.'});
+/* ---- VIỆC NỀN: số liệu và mô hình ---- */
+const DX=(a,b,c)=>({nhap:a,kiem:b,cuoi:c});
+I({id:'D1',ch:'cd',code:'D1',t:'Bảng mốc báo cáo của Mỹ và 3 tiêu chí',o:'tg',c:'bn',fl:['c'],dl:DX('2026-12-02','2026-12-03','2026-12-04'),
+ write:['Vào trang chính thức của Bộ Tài chính Mỹ, tìm các báo cáo “Macroeconomic and Foreign Exchange Policies of Major Trading Partners of the United States” từ 2018.','Mỗi báo cáo một dòng: ngày công bố – giai đoạn số liệu – trạng thái của Việt Nam – link PDF – số trang.','Chép nguyên văn 3 tiêu chí và ngưỡng; kiểm “6 hay 8 trên 12 tháng”.','Mốc nào không tìm thấy báo cáo gốc: ghi KHÔNG TÌM THẤY.'],
+ inputs:['Báo cáo PDF gốc (không dùng tin báo chí).'],src:['R21','R22'],prod:'Google Sheet “Bảng mốc báo cáo Mỹ”. Mỗi dòng có link PDF và số trang.'});
+I({id:'D2',ch:'cd',code:'D2',t:'Kiểm tra và tải số liệu: dự trữ, tỷ giá',o:'td',c:'bn',fl:['c'],dl:DX('2026-12-03','2026-12-08','2026-12-11'),
+ write:['Dự trữ (IMF): chọn chỉ tiêu, xem có số theo tháng không, ghi tháng đầu, tháng cuối, các tháng thiếu.','Tỷ giá liên ngân hàng hằng ngày (NHNN): ngày đầu, ngày cuối, ngày thiếu. Không dùng tỷ giá trung tâm thay tỷ giá thị trường.','Tải về, cất vào 01_SoLieuGoc, đặt tên ngày_nguồn_tên, ghi ngày tải và link.','Nộp bảng “Có số liệu không?” phần của mình ngày 3/12; tải đủ ngày 11/12.'],
+ inputs:['Trang dữ liệu IMF (IFS), trang NHNN, trang ngân hàng thương mại (chuỗi đối chiếu).'],src:['R25','R27'],prod:'File gốc + dòng trong bảng “Có số liệu không?”. Bích Ngọc mở lại cùng link và đếm giống.'});
+I({id:'D3',ch:'cd',code:'D3',t:'Kiểm tra và tải số liệu: nhập khẩu, lãi suất, chỉ số USD, GDP',o:'bn',h:['td'],c:'ca',fl:['c'],dl:DX('2026-12-03','2026-12-08','2026-12-11'),
+ write:['Nhập khẩu hàng hoá từng tháng (không phải cộng dồn): nguồn gốc là cơ quan thống kê/Hải quan.','Lãi suất VND và lãi suất USD cùng kỳ hạn gần nhau.','Chỉ số đồng USD: dàn ý ghi DXY nhưng khó tải; xem chỉ số đồng USD diện rộng trên FRED (chưa kiểm chứng).','GDP (quý hoặc năm): ghi USD hay VND.'],
+ inputs:['Cơ quan thống kê, NHNN, FRED, IMF.'],src:['R26','R28'],prod:'File gốc + dòng trong bảng “Có số liệu không?”.'});
+I({id:'D4',ch:'cd',code:'D4',t:'Sổ kiểm chứng: mọi con số và ngày trong dàn ý',o:'tg',h:['td'],c:'ca',fl:['c'],dl:DX('2026-12-04','2026-12-08','2026-12-11'),
+ write:['Mỗi con số, ngày, tên nghiên cứu trong dàn ý là một dòng: nằm ở đâu – nguồn gốc – link – ai kiểm – đã kiểm chưa.','Mặc định “Chưa kiểm chứng”; chỉ đổi thành “Rồi” khi đã tự mở nguồn và thấy đúng.','Tiếp tục cập nhật cho đến hết dự án.'],
+ inputs:['Dàn ý hiện tại.'],src:[],prod:'Google Sheet “Sổ kiểm chứng”.'});
+I({id:'D5',ch:'cd',code:'D5',t:'Giả thuyết phiên bản 2, thư gửi cô và họp lần 1',o:'ca',h:['tg'],c:'tg',fl:['p'],dl:DX('2026-12-03','2026-12-03','2026-12-04'),
+ write:['Viết lại H1, H1b, H2, H3 (xem trang Khung lý thuyết), mỗi giả thuyết có biến đo và dấu kỳ vọng.','Thư 2 trang cho cô: tối đa 5 điều cần cô quyết (thời kỳ mẫu, theo tháng hay quý, loại tỷ giá, phần mềm, giả thuyết), mỗi điều có phương án A, B.','Họp cô 4/12; ghi biên bản; hỏi luôn hạn nộp thật của cuộc thi.'],
+ inputs:['Phản hồi dàn ý của cả nhóm; bảng “Có số liệu không?”.'],src:[],prod:'Google Doc thư + biên bản họp. Hạn nộp thật nhập vào tab Trang chủ.'});
+I({id:'D0',ch:'cd',code:'D0',t:'Cài phần mềm và học cơ bản (R/RStudio)',o:'ca',h:['bn'],c:'bn',fl:['p'],dl:DX('2026-12-08','2026-12-10','2026-12-13'),
+ write:['Hỏi khoa có bản quyền Stata/EViews không; nếu không thì dùng R (miễn phí).','Làm Bài 1 đến 4 trong tab “Học & từ điển”.','Chụp màn hình lệnh chạy được.'],
+ inputs:['Tab Học & từ điển.'],src:[],prod:'Ảnh chụp màn hình của 2 người; Bài 1–4 đã tick.'});
+I({id:'D6',ch:'cd',code:'D6',t:'Làm sạch, gộp số liệu và xử lý tháng thiếu',o:'bn',h:['td'],c:'ca',dl:DX('2026-12-18','2026-12-20','2026-12-22'),
+ write:['Làm trên bản sao trong 02_SoLieuSach; không sửa file gốc.','Đồng nhất ngày (năm-tháng-ngày) và đơn vị; gộp theo tháng: mỗi dòng một tháng.','Thiếu 1–2 tháng liền: điền số ước tính (nội suy) và thêm cột đánh dấu; thiếu từ 3 tháng: không điền.','Ghi mọi thay đổi vào nhật ký chuẩn hoá.'],
+ inputs:['Các file gốc trong 01_SoLieuGoc.'],src:[],prod:'Bảng số liệu sạch v1 + nhật ký chuẩn hoá. Người khác làm lại theo nhật ký ra đúng bảng.'});
+I({id:'D7',ch:'cd',code:'D7',t:'Tạo các biến',o:'ca',h:['bn'],c:'bn',fl:['p'],dl:DX('2026-12-22','2026-12-24','2026-12-26'),
+ write:['Độ rung lắc tỷ giá theo tháng; can thiệp ước tính = −(thay đổi dự trữ); dự trữ đủ mấy tháng nhập khẩu (trung bình 12 tháng); biến giám sát của Mỹ (từ bảng mốc đã kiểm).','Bích Ngọc tự tính lại độc lập rồi so.','Chốt cách phân dự trữ cao/thấp TRƯỚC khi chạy mô hình.'],
+ inputs:['Bảng số liệu sạch; bảng mốc Mỹ.'],src:['R11','R09'],prod:'Các cột biến + Sổ biến ghi cách tính.'});
+I({id:'D8',ch:'cd',code:'D8',t:'Kế hoạch 3 mô hình (ghi trước khi chạy)',o:'ca',c:'bn',fl:['p'],dl:DX('2026-12-23','2026-12-24','2026-12-27'),
+ write:['Viết rõ Mô hình 1, 2, 3 và danh sách kiểm tra độ vững sẽ làm.','Ghi ngày khoá kế hoạch. Sau ngày này, thay đổi phải ghi lý do.','Gửi cô duyệt.'],
+ inputs:['Khung lý thuyết (3 giả thuyết).'],src:[],prod:'Google Doc “Kế hoạch mô hình”, cô đã duyệt.'});
+I({id:'D9',ch:'cd',code:'D9',t:'Chạy mô hình 1–3 (Châu Anh chạy, Bích Ngọc chạy lại)',o:'ca',h:['bn'],c:'bn',dl:DX('2027-01-03','2027-01-05','2027-01-06'),
+ write:['Kiểm tra tính dừng trước (ADF).','Chạy 3 mô hình theo kế hoạch đã khoá; lưu mọi lệnh và kết quả vào Nhật ký.','Bích Ngọc chạy lại độc lập, so từng hệ số.'],
+ inputs:['Tab Học & từ điển (Bài 9–13).'],src:['R29','R30'],prod:'Bảng kết quả 3 mô hình + nhật ký. Hai bản giống nhau hoặc chỗ khác đã được giải thích.'});
+I({id:'D10',ch:'cd',code:'D10',t:'Kiểm tra mô hình khoẻ và độ vững',o:'ca',h:['bn'],c:'bn',dl:DX('2027-01-08','2027-01-09','2027-01-10'),
+ write:['Chạy các kiểm tra chẩn đoán.','Chạy đúng danh sách độ vững đã duyệt, báo cáo cả khi kết quả đổi.','Lập bảng “mọi mô hình đã chạy”.'],
+ inputs:['Tab Học & từ điển (Bài 14–15).'],src:[],prod:'Bảng chẩn đoán + bảng độ vững + bảng mọi mô hình. Họp cô lần 2 (10/1) xem kết quả.'});
+I({id:'D11',ch:'cd',code:'D11',t:'Vẽ 5 biểu đồ',o:'bn',h:['td'],c:'ca',dl:DX('2027-01-07','2027-01-08','2027-01-09'),
+ write:['Tỷ giá, dự trữ, độ rung lắc, dự trữ đủ mấy tháng, và các mốc giám sát của Mỹ.','Dưới mỗi biểu đồ 2 dòng: “Đọc được gì” và “Không kết luận được gì”.','Ghi đơn vị và nguồn.'],
+ inputs:['Bảng số liệu sạch.'],src:[],prod:'5 biểu đồ có tiêu đề, đơn vị, nguồn.'});
+/* ===== KHUNG LÝ THUYẾT + NGUỒN GỢI Ý ===== */
+const PILLARS=[
+ {k:1,t:'Can thiệp ngoại hối',h:'H1',q:'Khi NHNN bán USD, tỷ giá có bớt rung lắc không? Hiệu ứng kéo dài bao lâu?',sec:'2.2',
+  idea:['Mục tiêu can thiệp: làm êm biến động, chống mất giá quá nhanh.','Hai kênh chính: tín hiệu (đổi kỳ vọng) và cân bằng danh mục (đổi lượng ngoại tệ trên thị trường).','Hiệu ứng thường yếu dần: thị trường thích nghi, quy mô nhỏ so với thị trường, niềm tin phụ thuộc năng lực can thiệp tiếp.'],
+  hyp:'H1: Tháng trước dự trữ giảm nhiều (dấu hiệu bán USD) có liên hệ với biến động tỷ giá tháng này thấp hơn. H1b: liên hệ đó yếu đi ở độ trễ 2–3 tháng.',
+  meas:'Biến động = độ lệch chuẩn của mức thay đổi tỷ giá hằng ngày trong tháng. Can thiệp ước tính = −(thay đổi dự trữ).',
+  exp:'Theo lý thuyết, hệ số của “can thiệp ước tính” mang dấu âm. Nhưng có thể ra dương vì NHNN thường bán khi thị trường đã rung lắc (quan hệ hai chiều): phải nói rõ khi diễn giải.',
+  read:['R01','R02','R03','R06','R13']},
+ {k:2,t:'Dự trữ và mức đủ',h:'H2',q:'Dự trữ thấp có làm can thiệp kém hiệu quả không?',sec:'2.3',
+  idea:['Dự trữ là “đạn” để can thiệp; thị trường nhìn dự trữ để đoán NHNN còn can thiệp được bao lâu.','Mức đủ đo bằng số tháng nhập khẩu, nợ ngắn hạn hoặc chỉ số ARA của IMF. “3 tháng nhập khẩu” là quy ước kinh nghiệm (kiểm nguồn).','Cơ chế đề xuất: dự trữ thấp → tín hiệu kém đáng tin → hiệu ứng làm êm biến động yếu hơn. Đây là lập luận, chưa phải kết luận.'],
+  hyp:'H2: Mối liên hệ ở H1 yếu hơn khi dự trữ (đo bằng số tháng nhập khẩu) thấp.',
+  meas:'Dự trữ đủ mấy tháng nhập khẩu (chuẩn hoá); hệ số tương tác “can thiệp × dự trữ”.',
+  exp:'Tác động làm giảm biến động nhỏ đi khi dự trữ thấp. Không chia mẫu theo trung vị; không chọn ngưỡng sau khi thấy kết quả.',
+  read:['R07','R08','R09','R10','R17']},
+ {k:3,t:'Giám sát tiền tệ của Mỹ',h:'H3',q:'NHNN có mua ít USD hơn khi bị Mỹ giám sát chặt, nên khó tái tích lũy dự trữ không?',sec:'2.5',
+  idea:['Bộ Tài chính Mỹ báo cáo định kỳ về chính sách tỷ giá của các đối tác; ba tiêu chí; danh sách theo dõi; gắn nhãn thao túng.','Hai tiêu chí (thặng dư thương mại, thặng dư vãng lai) NHNN khó điều chỉnh ngắn hạn; tiêu chí mua ngoại tệ thì NHNN tự điều chỉnh được.','Vì thế sau khi bán USD, việc mua lại để tái tích lũy có thể bị ràng buộc bởi nguy cơ bị gắn nhãn. Lập luận cần kiểm chứng bằng số liệu.'],
+  hyp:'H3: Mua ròng USD (ước tính) của NHNN thấp hơn khi bị giám sát chặt và khi tổng mua ròng 12 tháng (so với GDP) tiến gần ngưỡng của Mỹ.',
+  meas:'Trạng thái giám sát (từ bảng mốc đã kiểm); khoảng cách tới ngưỡng; “tháng có báo cáo” để đối chiếu.',
+  exp:'Hệ số mang dấu âm. Số sự kiện ít nên chỉ diễn giải thận trọng.',
+  read:['R19','R21','R22']}
+];
+const FW_RULES=[
+ ['Phông và trang','Times New Roman 13, giãn dòng 1,5, lề trái 3 cm, các lề khác 2–2,5 cm (xác nhận mẫu của trường). Quy ước ≈ 350 từ/trang chữ; bảng/hình tính 1/3–1/2 trang.'],
+ ['Trích dẫn','Đề xuất APA 7 (Tác giả, năm). Chỉ trích nguồn đã tự mở và đọc. Chờ cô duyệt.'],
+ ['Tên biến và ký hiệu','Dùng đúng tên trong Từ điển số liệu và Sổ biến. Giả thuyết đặt tên H1, H1b, H2, H3 xuyên suốt.'],
+ ['Từ ngữ khi nói về kết quả','“có mối liên hệ”, “chưa tìm thấy bằng chứng”. Không viết “chứng minh”, “gây ra” khi chưa đủ bằng chứng.'],
+ ['Con số','Mọi con số có chú thích nguồn. Số trong Chương 5 copy từ bảng kết quả, không gõ lại.'],
+ ['Chưa chắc thì nói thẳng','Chưa kiểm chứng được thì ghi “chưa kiểm chứng”; không tìm thấy thì ghi “KHÔNG TÌM THẤY”.']
+];
+const SOURCES=[
+ {id:'R01',a:'Fratzscher, Gloede, Menkhoff, Sarno & Stöhr',y:2019,t:'When Is Foreign Exchange Intervention Effective? Evidence from 33 Countries',v:'American Economic Journal: Macroeconomics, 11(1), 132–156',use:'2.2, 2.6'},
+ {id:'R02',a:'Menkhoff, L.',y:2013,t:'Foreign Exchange Intervention in Emerging Markets: A Survey of Empirical Studies',v:'The World Economy, 36(9), 1187–1208',use:'2.1, 2.2, 2.6'},
+ {id:'R03',a:'Dominguez, K. & Frankel, J.',y:1993,t:'Does Foreign-Exchange Intervention Matter? The Portfolio Effect',v:'American Economic Review, 83(5), 1356–1369',use:'2.2'},
+ {id:'R05',a:'Neely, C.',y:2008,t:'Central bank authorities’ beliefs about foreign exchange intervention',v:'Journal of International Money and Finance, 27(1), 1–25',use:'2.2'},
+ {id:'R06',a:'Calvo, G. & Reinhart, C.',y:2002,t:'Fear of Floating',v:'Quarterly Journal of Economics, 117(2), 379–408',use:'2.2'},
+ {id:'R07',a:'Aizenman, J. & Lee, J.',y:2007,t:'International Reserves: Precautionary versus Mercantilist Views, Theory and Evidence',v:'Open Economies Review, 18, 191–214',use:'2.3'},
+ {id:'R08',a:'Obstfeld, Shambaugh & Taylor',y:2010,t:'Financial Stability, the Trilemma, and International Reserves',v:'American Economic Journal: Macroeconomics, 2(2), 57–94',use:'2.3'},
+ {id:'R09',a:'IMF',y:2011,t:'Assessing Reserve Adequacy',v:'IMF Policy Paper (tìm trên imf.org)',use:'2.1, 2.3, 4.3'},
+ {id:'R10',a:'IMF',y:2015,t:'Assessing Reserve Adequacy: Specific Proposals',v:'IMF Policy Paper (tìm trên imf.org)',use:'2.3'},
+ {id:'R11',a:'Girton, L. & Roper, D.',y:1977,t:'A Monetary Model of Exchange Market Pressure Applied to the Postwar Canadian Experience',v:'American Economic Review, 67(4), 537–548',use:'2.4, 4.3'},
+ {id:'R12',a:'Eichengreen, Rose & Wyplosz',y:1996,t:'Contagious Currency Crises: First Tests',v:'Scandinavian Journal of Economics, 98(4), 463–484',use:'2.4, 4.3'},
+ {id:'R13',a:'Adler, G. & Tovar, C.',y:2011,t:'Foreign Exchange Intervention: A Shield Against Appreciation Winds?',v:'IMF Working Paper WP/11/165',use:'2.2, 2.6'},
+ {id:'R14',a:'Blanchard, Adler & de Carvalho Filho',y:2015,t:'Can Foreign Exchange Intervention Stem Exchange Rate Pressures from Global Capital Flow Shocks?',v:'NBER Working Paper 21427',use:'2.6'},
+ {id:'R15',a:'BIS',y:2013,t:'Market volatility and foreign exchange intervention in EMEs: what has changed?',v:'BIS Papers No 73',use:'2.6'},
+ {id:'R16',a:'BIS (Patel & Cavallino)',y:2019,t:'FX intervention: goals, strategies and tactics',v:'BIS Papers No 104 (kiểm tra tên và số tập)',use:'2.6'},
+ {id:'R17',a:'Rodrik, D.',y:2006,t:'The Social Cost of Foreign Exchange Reserves',v:'International Economic Journal, 20(3), 253–266',use:'2.3'},
+ {id:'R18',a:'Dooley, Folkerts-Landau & Garber',y:2003,t:'An Essay on the Revived Bretton Woods System',v:'NBER Working Paper 9971',use:'2.3'},
+ {id:'R19',a:'Bergsten, C. F. & Gagnon, J.',y:2012,t:'Currency Manipulation, the US Economy, and the Global Economic Order',v:'Peterson Institute for International Economics, Policy Brief 12-25',use:'2.5'},
+ {id:'R20',a:'Krugman, Obstfeld & Melitz',y:'(kiểm tra lần xuất bản)',t:'International Economics: Theory and Policy',v:'Giáo trình, chương thị trường ngoại hối và tỷ giá',use:'2.1'},
+ {id:'R21',a:'U.S. Department of the Treasury',y:'(các kỳ 2018 đến nay)',t:'Macroeconomic and Foreign Exchange Policies of Major Trading Partners of the United States',v:'Báo cáo nửa năm gửi Quốc hội, home.treasury.gov',use:'2.5, 3.4, D1',official:true},
+ {id:'R22',a:'Quốc hội Hoa Kỳ',y:'1988; 2015',t:'Omnibus Trade and Competitiveness Act of 1988 (mục 3004) và Trade Facilitation and Trade Enforcement Act of 2015 (mục 701)',v:'Văn bản luật, tìm trên congress.gov',use:'2.5',official:true},
+ {id:'R23',a:'IMF',y:'(các năm gần nhất)',t:'Báo cáo tham vấn Điều IV với Việt Nam (IMF Country Report)',v:'imf.org, tìm “Vietnam Article IV”',use:'2.3, 2.6, 3.1',official:true},
+ {id:'R24',a:'Ngân hàng Nhà nước Việt Nam',y:'2015',t:'Quyết định về tỷ giá trung tâm (dàn ý ghi số 2730/QĐ-NHNN; cần kiểm số hiệu và ngày)',v:'sbv.gov.vn',use:'3.1',official:true},
+ {id:'R25',a:'IMF',y:'—',t:'International Financial Statistics (IFS): dự trữ ngoại hối, nhập khẩu',v:'data.imf.org',use:'4.2, D2',official:true},
+ {id:'R26',a:'FRED (Fed St. Louis)',y:'—',t:'Lãi suất Mỹ và chỉ số đồng USD',v:'fred.stlouisfed.org',use:'4.2, D3',official:true},
+ {id:'R27',a:'Ngân hàng Nhà nước Việt Nam',y:'—',t:'Tỷ giá, lãi suất liên ngân hàng, thông cáo báo chí, báo cáo thường niên',v:'sbv.gov.vn',use:'3.2, 4.2, D2',official:true},
+ {id:'R28',a:'Cơ quan thống kê quốc gia Việt Nam',y:'—',t:'Nhập khẩu hàng tháng, GDP (kiểm tra tên cơ quan và trang hiện hành)',v:'gso.gov.vn hoặc trang kế nhiệm',use:'4.2, D3',official:true},
+ {id:'R29',a:'Newey, W. & West, K.',y:1987,t:'A Simple, Positive Semi-Definite, Heteroskedasticity and Autocorrelation Consistent Covariance Matrix',v:'Econometrica, 55(3), 703–708',use:'4.4'},
+ {id:'R30',a:'Dickey, D. & Fuller, W.',y:1979,t:'Distribution of the Estimators for Autoregressive Time Series with a Unit Root',v:'Journal of the American Statistical Association, 74(366), 427–431',use:'4.4, 5.1'},
+ {id:'R31',a:'Wooldridge, J.',y:'(kiểm tra lần xuất bản)',t:'Introductory Econometrics: A Modern Approach',v:'Giáo trình, chương chuỗi thời gian',use:'4.4'},
+ {id:'R32',a:'Stock, J. & Watson, M.',y:'(kiểm tra lần xuất bản)',t:'Introduction to Econometrics',v:'Giáo trình, chương chuỗi thời gian',use:'4.4'},
+ {id:'R33',a:'Brambor, Clark & Golder',y:2006,t:'Understanding Interaction Models: Improving Empirical Analyses',v:'Political Analysis, 14(1), 63–82',use:'4.4, 5.3'}
+];
+const SRC_BY={};SOURCES.forEach(s=>SRC_BY[s.id]=s);
+const SRC_ST={none:{l:'Chưa mở',bg:'#EFE8D6',ink:'#5E5568'},ok:{l:'Đã mở, đúng',bg:'#D9F0E3',ink:'#1F6A48'},bad:{l:'Sai thông tin',bg:'#F9DDE9',ink:'#8A2D57'},nf:{l:'Không tìm thấy',bg:'#FFEFC2',ink:'#7A5A00'}};
+const SIM_R = `# SIMULATED DATA – chỉ để tập thao tác, KHÔNG phải dữ liệu nghiên cứu
+set.seed(123)            # cố định số ngẫu nhiên để mọi người ra cùng kết quả
+n   <- 100               # tạo 100 quan sát giả
+x   <- rnorm(n)          # biến giải thích giả
+y   <- 1 + 0.5 * x + rnorm(n)   # biến phụ thuộc giả: có quan hệ với x cộng nhiễu
+sim <- data.frame(y, x)  # gộp thành bảng dữ liệu
+fit <- lm(y ~ x, data = sim)    # chạy OLS: y giải thích bởi x
+summary(fit)             # xem bảng kết quả`;
+const SIM_S = `* SIMULATED DATA – chỉ để tập thao tác, KHÔNG phải dữ liệu nghiên cứu
+clear
+set obs 100
+set seed 123
+gen x = rnormal()
+gen y = 1 + 0.5*x + rnormal()
+regress y x`;
+const MODULES = [
+ {id:'L1',t:'Hiểu bộ dữ liệu của đề tài',goal:'Biết mỗi biến là gì, đơn vị gì, tần suất nào, lấy từ đâu và dấu kỳ vọng ra sao.',why:'Sai đơn vị hoặc nhầm định nghĩa là lỗi phổ biến nhất khiến cả mô hình vô nghĩa.',need:'Data Dictionary bản nháp (T3.1).',
+  steps:['Mở Data Dictionary và đọc từng biến: Vol, Sales, Cover, US_status, chênh lệch lãi suất, chỉ số USD.','Tưởng tượng bảng dữ liệu: mỗi hàng là 1 tháng, mỗi cột là 1 biến.','Với mỗi biến, tự nói bằng lời: "biến này đo cái gì, đơn vị nào".','Hỏi nhau: "dòng của tháng 3/2021 nghĩa là gì?"'],
+  out:'Mỗi thành viên giải thích được 7 biến bằng lời của mình.',check:['Giải thích được đơn vị của từng biến','Biết biến nào là biến phụ thuộc, biến nào là biến giải thích'],mis:['Nhầm triệu USD với tỷ USD.','Nhầm ngày công bố báo cáo với kỳ dữ liệu của báo cáo.'],
+  simple:'Bộ dữ liệu giống bảng điểm của lớp: mỗi hàng là một học sinh (ở đây là một tháng), mỗi cột là một môn (ở đây là một biến như biến động tỷ giá, dự trữ). Trước khi tính điểm trung bình, ta phải biết điểm đang chấm theo thang 10 hay thang 100.'},
+ {id:'L2',t:'Cài đặt và làm quen phần mềm',goal:'Có một phần mềm thống kê chạy được trên máy của cả 4 người.',why:'Nếu mỗi người dùng một phần mềm khác nhau thì không đối chiếu được kết quả.',need:'Quyết định phần mềm (PENDING SUPERVISOR APPROVAL): đề xuất R + RStudio (miễn phí); Stata nếu trường có bản quyền.',
+  steps:['Cài R, sau đó cài RStudio.','Mở RStudio, chọn File → New Project, chọn thư mục NCKH không có dấu tiếng Việt.','Gõ vào cửa sổ Console: 1+1 rồi nhấn Enter, phải thấy kết quả 2.','Cài các gói cần dùng (một lần), rồi nạp thư viện.','Nếu dùng Stata: mở Stata, đặt thư mục làm việc bằng lệnh cd.'],
+  out:'Ảnh chụp màn hình lệnh kiểm tra chạy thành công của 4 người.',check:['getwd() hiện đúng thư mục dự án','Không báo lỗi khi library(tidyverse)'],mis:['Cài trong thư mục có dấu tiếng Việt gây lỗi đường dẫn.','Quên nạp thư viện bằng library() mỗi lần mở lại.'],
+  simple:'Phần mềm thống kê giống một cái máy tính rất mạnh. Lệnh là các phép bấm; script là tờ giấy ghi lại các phép bấm để người khác làm lại được.',
+  code:{R:`# Chạy MỘT LẦN để cài gói (cần Internet)
+install.packages(c("tidyverse","lubridate","readxl","zoo","sandwich","lmtest","tseries","car"))
+
+# Chạy MỖI LẦN mở lại RStudio
+library(tidyverse)   # xử lý dữ liệu và vẽ đồ thị
+getwd()              # xem thư mục làm việc hiện tại`,Stata:`cd "C:/NCKH"                                  // thay bằng đường dẫn thực tế của nhóm
+log using "04_output/log_session1.smcl", replace  // ghi lại mọi lệnh đã chạy`}},
+ {id:'L3',t:'Nhập dữ liệu Excel/CSV',goal:'Đưa file dữ liệu vào phần mềm và kiểm tra nhập đúng.',why:'Nếu ngày bị đọc thành chữ hoặc số có dấu phẩy bị đọc sai, mọi tính toán sau đó đều sai.',need:'File analysis_dataset_v1.csv (hoặc file thô để tập).',
+  steps:['Đặt file CSV vào thư mục 02_clean.','Dùng lệnh nhập dữ liệu (xem mã mẫu).','Xem 5 dòng đầu và 5 dòng cuối.','Kiểm tra kiểu dữ liệu của từng cột (cột ngày phải là ngày).','Đếm số dòng và so với số tháng mong đợi.','Kiểm tra tháng trùng.'],
+  out:'Bảng dữ liệu đã nhập; ảnh chụp kết quả glimpse/describe.',check:['Số dòng đúng số tháng','Không có tháng trùng','Cột ngày đúng định dạng'],mis:['Ngày dạng dd/mm bị đọc nhầm thành mm/dd.','Dấu phẩy thập phân khiến số bị đọc thành chữ.'],
+  simple:'Giống mở một quyển sổ lạ: trước tiên lật qua vài trang đầu, vài trang cuối, đếm số trang để chắc là đúng quyển sổ mình cần.',
+  code:{R:`# VÍ DỤ MINH HOẠ – đổi tên file và tên cột theo dữ liệu thật của nhóm
+library(tidyverse)
+df <- read_csv("02_clean/analysis_dataset_v1.csv")   # nhập file CSV
+glimpse(df)                  # xem tên cột, kiểu dữ liệu, vài giá trị đầu
+nrow(df)                     # số dòng
+sum(duplicated(df$month))    # số tháng bị trùng (mong đợi: 0)`,Stata:`* VÍ DỤ MINH HOẠ – đổi tên file theo dữ liệu thật
+import delimited "02_clean/analysis_dataset_v1.csv", clear
+describe          // xem tên cột và kiểu dữ liệu
+count             // đếm số dòng
+duplicates report month   // kiểm tra tháng trùng`}},
+ {id:'L4',t:'Biến và thống kê mô tả',goal:'Hiểu mean, median, SD, min, max và ma trận tương quan của từng biến.',why:'Phát hiện giá trị bất thường và hiểu hình dạng dữ liệu trước khi chạy mô hình.',need:'Bộ dữ liệu đã nhập (L3).',
+  steps:['Chạy thống kê mô tả cho các biến chính.','Đọc từng cột: trung bình (mean), trung vị (median), độ lệch chuẩn (SD), nhỏ nhất, lớn nhất.','Tìm giá trị lạ (ví dụ min/max quá xa trung bình).','Chạy ma trận tương quan và đọc dấu, độ lớn.','Viết 5 dòng nhận xét; ghi chú những điều chưa chắc.'],
+  out:'Bảng thống kê mô tả và ma trận tương quan lưu vào 04_output.',check:['Mỗi biến có đơn vị rõ ràng','Đã giải thích mọi giá trị lạ'],mis:['Coi tương quan cao là nhân quả.','Bỏ qua giá trị min/max vô lý.'],
+  simple:'Trung bình cho biết "mức thường thấy", độ lệch chuẩn cho biết "dao động nhiều hay ít quanh mức đó". Hai tháng đều có trung bình 10 nhưng một tháng dao động từ 9 đến 11, tháng kia từ 0 đến 20 thì khác nhau hoàn toàn. (Ví dụ giả định.)',
+  code:{R:`# VÍ DỤ MINH HOẠ – tên biến phải khớp với dữ liệu thật
+vars <- c("vol","sales","cover","ratediff","usd")
+summary(df[, vars])                                  # min, quartile, median, mean, max
+sapply(df[, vars], sd, na.rm = TRUE)                 # độ lệch chuẩn
+round(cor(df[, vars], use = "pairwise.complete.obs"), 2)   # ma trận tương quan`,Stata:`* VÍ DỤ MINH HOẠ
+summarize vol sales cover ratediff usd, detail
+pwcorr vol sales cover ratediff usd, sig`}},
+ {id:'L5',t:'Tạo biến biến động tỷ giá',goal:'Từ tỷ giá hằng ngày tính ra một con số biến động cho mỗi tháng.',why:'Biến phụ thuộc của H1 và H2; cách tính phải rõ ràng và tái lập được.',need:'File tỷ giá hằng ngày (chuỗi chính).',
+  steps:['Sắp xếp dữ liệu theo ngày tăng dần.','Tính log-return: r(t) = ln(P(t)) − ln(P(t−1)).','Chỉ tính trên các ngày có giao dịch; không điền giá cho ngày nghỉ.','Nhóm theo tháng, tính độ lệch chuẩn của r trong tháng.','Đếm số ngày có số liệu mỗi tháng; gắn cờ tháng quá ít ngày.','Vẽ đồ thị Vol để tìm giá trị bất thường.'],
+  out:'Bảng Vol theo tháng kèm số ngày quan sát.',check:['Hai người tính độc lập ra cùng kết quả','Không có tháng nào Vol = 0 do điền giá cho ngày nghỉ'],mis:['Tính SD của giá thay vì SD của log-return.','Điền giá cho ngày nghỉ làm return bằng 0.'],
+  simple:'Log-return là "tỷ giá hôm nay thay đổi bao nhiêu phần trăm so với hôm qua". Độ lệch chuẩn của chuỗi các phần trăm này trong một tháng cho biết tháng đó rung lắc nhiều hay ít. Ví dụ giả định: tỷ giá từ 25.000 lên 25.100 → r = ln(25.100/25.000) ≈ 0,004 (khoảng 0,4%).',
+  code:{R:`# VÍ DỤ MINH HOẠ – cột date và rate phải khớp với file thật
+library(tidyverse); library(lubridate)
+fx <- read_csv("01_raw/fx_daily.csv")      # cột: date, rate
+vol_m <- fx %>%
+  arrange(date) %>%                                   # sắp xếp theo ngày
+  mutate(ret = log(rate) - log(lag(rate))) %>%        # log-return hằng ngày
+  mutate(month = floor_date(date, "month")) %>%       # gắn mỗi ngày vào tháng của nó
+  group_by(month) %>%
+  summarise(vol = sd(ret, na.rm = TRUE),              # độ lệch chuẩn trong tháng
+            n_days = sum(!is.na(ret)))                # số ngày có số liệu`,Stata:`* VÍ DỤ MINH HOẠ – date phải là biến ngày của Stata
+sort date
+gen ret = ln(rate) - ln(rate[_n-1])
+gen month = mofd(date)
+format month %tm
+collapse (sd) vol=ret (count) n_days=ret, by(month)`}},
+ {id:'L6',t:'Xây dựng proxy can thiệp',goal:'Tạo biến Sales(t) = −ΔRes(t) và hiểu vì sao đây chỉ là proxy.',why:'Việt Nam không công bố số liệu can thiệp; đây là chỗ yếu nhất của đề tài và hội đồng sẽ hỏi.',need:'Chuỗi dự trữ đã xử lý khuyết (T4.6).',
+  steps:['Tính ΔRes(t) = Res(t) − Res(t−1).','Đặt Sales(t) = −ΔRes(t) (Sales > 0: dự trữ giảm, bán ròng proxy).','Tách phần mua (ΔRes > 0) và phần bán (ΔRes < 0).','Đánh dấu tháng nằm trong khoảng trống ≥ 3 tháng là thiếu (không tính).','Viết ngắn: vì sao dự trữ giảm chưa chắc là NHNN bán USD.'],
+  out:'Các cột dres, sales, buy, sell.',check:['Ví dụ: dự trữ từ 80,0 xuống 79,0 → sales = +1,0 (ví dụ giả định)','Cả nhóm giải thích được đánh giá lại tài sản ảnh hưởng thế nào'],mis:['Gọi ΔRes là "lượng can thiệp" mà không nói rõ là proxy.','Diễn giải ngược dấu.'],
+  simple:'Giống nhìn số dư tài khoản tiết kiệm: số dư giảm có thể do bạn rút tiền, nhưng cũng có thể do phí hoặc lãi thay đổi. Dự trữ giảm có thể do NHNN bán USD, nhưng cũng do đánh giá lại tài sản hay Chính phủ trả nợ.',
+  code:{R:`# VÍ DỤ MINH HOẠ – res_usd phải khớp với tên cột dự trữ thật
+df <- df %>%
+  arrange(month) %>%
+  mutate(dres  = res_usd - lag(res_usd),   # thay đổi dự trữ so với tháng trước
+         sales = -dres,                    # >0 nghĩa là dự trữ giảm (bán ròng proxy)
+         buy   = pmax(dres, 0),            # phần dự trữ tăng
+         sell  = pmax(-dres, 0))           # phần dự trữ giảm`,Stata:`* VÍ DỤ MINH HOẠ
+tsset month
+gen dres  = D.res_usd
+gen sales = -dres
+gen buy   = max(dres, 0)
+gen sell  = max(-dres, 0)`}},
+ {id:'L7',t:'Xây dựng biến dự trữ ngoại hối',goal:'Tính Import Cover (số tháng nhập khẩu) và biến đã chuẩn hoá để làm tương tác.',why:'Biến điều tiết của H2; chuẩn hoá giúp đọc hệ số tương tác đúng.',need:'Chuỗi dự trữ và nhập khẩu tháng.',
+  steps:['Tính nhập khẩu bình quân 12 tháng liền trước.','Tính Cover = dự trữ / nhập khẩu bình quân tháng.','Tính Cover_c = Cover − trung bình mẫu.','Quyết định bằng văn bản về ngưỡng "cao/thấp" TRƯỚC khi chạy hồi quy; không đổi ngưỡng sau.','Ghi lại lý do nếu không tính được ARA.'],
+  out:'Các cột cover, cover_c.',check:['Cover có giá trị hợp lý (không âm, không vô lý)','Đã ghi rõ định nghĩa vào Variable Log'],mis:['Chia cho nhập khẩu một tháng (nhiễu).','Đổi ngưỡng để p-value đẹp.'],
+  simple:'"Dự trữ đủ cho mấy tháng nhập khẩu" giống như hỏi tiền trong ví đủ ăn mấy tháng. Dùng chi tiêu trung bình 12 tháng thay vì chỉ một tháng để một tháng chi nhiều bất thường không làm sai kết quả.',
+  code:{R:`# VÍ DỤ MINH HOẠ – imports_usd là nhập khẩu từng tháng (USD)
+df <- df %>%
+  arrange(month) %>%
+  mutate(imp12   = zoo::rollmeanr(lag(imports_usd), 12, fill = NA), # trung bình 12 tháng liền trước
+         cover   = res_usd / imp12,                                  # số tháng nhập khẩu
+         cover_c = cover - mean(cover, na.rm = TRUE))                # chuẩn hoá (trừ trung bình)`,Stata:`* VÍ DỤ MINH HOẠ
+tsset month
+gen imp12 = (L1.imports_usd + L2.imports_usd + L3.imports_usd + L4.imports_usd + L5.imports_usd + L6.imports_usd + L7.imports_usd + L8.imports_usd + L9.imports_usd + L10.imports_usd + L11.imports_usd + L12.imports_usd)/12
+gen cover = res_usd / imp12
+summarize cover
+gen cover_c = cover - r(mean)`}},
+ {id:'L8',t:'Tạo các biến giám sát Mỹ',goal:'Mã hoá trạng thái giám sát, sự kiện công bố và khoảng cách tới ngưỡng 2% GDP.',why:'Biến sai mốc thì H3 vô nghĩa; trạng thái và sự kiện là hai thứ khác nhau.',need:'Bảng mốc Mỹ đã xác minh (T0.5, T0.6).',
+  steps:['Mở bảng mốc đã xác minh; chỉ dùng mốc có link PDF.','Biến trạng thái: bằng 1 trong các tháng Việt Nam ở trạng thái đó (một biến cho mỗi trạng thái).','Biến sự kiện: bằng 1 trong tháng công bố báo cáo.','Biến khoảng cách: tổng mua ròng 12 tháng (proxy) chia GDP.','Ghi từng mốc và nguồn vào Variable Log.'],
+  out:'Các cột us_status, us_event, dist_threshold.',check:['Mỗi mốc có link PDF gốc','Không có mốc nào lấy từ outline chưa xác minh'],mis:['Dùng một dummy cho cả sự kiện và trạng thái.','Quên rằng báo cáo đánh giá 12 tháng trước đó.'],
+  simple:'"Sự kiện" là ngày thầy phát bảng điểm; "trạng thái" là việc em đang bị nhắc nhở hay không trong cả học kỳ. Hành vi học tập thay đổi theo trạng thái nhiều hơn theo đúng ngày phát bảng điểm.',
+  code:{R:`# VÍ DỤ MINH HOẠ – các ngày dưới đây là CHỖ TRỐNG, thay bằng mốc đã xác minh từ báo cáo gốc
+df <- df %>%
+  mutate(us_status = if_else(month >= as.Date("YYYY-MM-01") & month < as.Date("YYYY-MM-01"), 1, 0), # THAY mốc thật
+         us_event  = if_else(month %in% as.Date(c("YYYY-MM-01")), 1, 0)) %>%                        # THAY tháng công bố thật
+  arrange(month) %>%
+  mutate(buy12 = zoo::rollsumr(buy, 12, fill = NA),           # tổng mua ròng proxy 12 tháng
+         dist_threshold = buy12 / gdp_usd)                     # chia GDP (USD, 12 tháng)`,Stata:`* VÍ DỤ MINH HOẠ – THAY mốc thật vào chỗ YYYYmM
+gen us_status = (month >= tm(YYYYmM) & month < tm(YYYYmM))
+gen us_event  = (month == tm(YYYYmM))
+tsset month
+gen buy12 = buy + L1.buy + L2.buy + L3.buy + L4.buy + L5.buy + L6.buy + L7.buy + L8.buy + L9.buy + L10.buy + L11.buy
+gen dist_threshold = buy12 / gdp_usd`}},
+ {id:'L9',t:'Vẽ đồ thị chuỗi thời gian',goal:'Nhìn dữ liệu bằng mắt trước khi chạy mô hình.',why:'Đồ thị giúp phát hiện lỗi dữ liệu, gãy cấu trúc và các giai đoạn đặc biệt.',need:'Bộ dữ liệu sạch.',
+  steps:['Vẽ tỷ giá, dự trữ, Vol, Cover theo thời gian.','Thêm đường thẳng đứng tại các mốc Mỹ đã xác minh.','Ghi đơn vị, nguồn trên mỗi đồ thị.','Viết dưới mỗi đồ thị hai dòng: "Đọc được gì" và "Không thể kết luận gì".'],
+  out:'5 đồ thị trong 04_output.',check:['Mọi đồ thị có tiêu đề và đơn vị','Có dòng "không thể kết luận"'],mis:['Dùng trục kép khiến hai đường trông có quan hệ.','Kết luận nhân quả chỉ từ đồ thị.'],
+  simple:'Đồ thị giống ảnh chụp X-quang: thấy được chỗ bất thường, nhưng chưa nói được nguyên nhân.',
+  code:{R:`# VÍ DỤ MINH HOẠ
+ggplot(df, aes(x = month, y = vol)) +
+  geom_line() +
+  labs(title = "Biến động tỷ giá theo tháng", x = "Tháng", y = "Vol (SD của log-return)",
+       caption = "Nguồn: tính toán của nhóm từ dữ liệu NHNN") +
+  theme_minimal()
+# Thêm mốc Mỹ: + geom_vline(xintercept = as.Date("YYYY-MM-01"), linetype = "dashed")  # THAY mốc thật`,Stata:`* VÍ DỤ MINH HOẠ
+tsset month
+tsline vol, title("Biến động tỷ giá theo tháng")`}},
+ {id:'L10',t:'Tính dừng và kiểm định ADF',goal:'Biết chuỗi có "trôi" theo thời gian hay không và xử lý đúng.',why:'Hồi quy trên chuỗi không dừng có thể cho kết quả giả (spurious regression).',need:'Các chuỗi sẽ đưa vào mô hình.',
+  steps:['Hiểu: chuỗi dừng dao động quanh một mức ổn định; chuỗi không dừng trôi dần.','H0 của ADF: chuỗi có nghiệm đơn vị (không dừng). H1: chuỗi dừng.','Chạy ADF cho từng biến.','Nếu p-value nhỏ (ví dụ < 0,05): bác bỏ H0, có bằng chứng chuỗi dừng.','Nếu không bác bỏ: lấy sai phân (ΔX) hoặc log-sai phân; kiểm lại.','Ghi quyết định vào log, kể cả số độ trễ đã dùng.'],
+  out:'Bảng kết quả ADF của các biến.',check:['Mỗi biến trong mô hình đã được kiểm','Đã ghi số độ trễ và loại kiểm định (có hằng số/xu hướng)'],mis:['Quên rằng ΔRes đã là một phép sai phân.','Dùng mẫu ngắn mà tin chắc vào ADF (kiểm định có ít sức mạnh với mẫu nhỏ).'],
+  simple:'Chuỗi dừng như người đi bộ quanh quán cà phê, luôn quay lại gần quán. Chuỗi không dừng như người đi lang thang, càng lúc càng xa. ADF kiểm tra xem chuỗi có phải "người đi lang thang" không.',
+  code:{R:`library(tseries)
+adf.test(na.omit(df$vol))      # H0: có nghiệm đơn vị (không dừng); p nhỏ → bằng chứng dừng
+adf.test(na.omit(df$sales))
+# Nếu không dừng: lấy sai phân rồi kiểm lại
+adf.test(na.omit(diff(df$cover)))`,Stata:`tsset month
+dfuller vol, lags(3)         // H0: có nghiệm đơn vị; p nhỏ → bằng chứng dừng
+dfuller sales, lags(3)
+dfuller D.cover, lags(3)`}},
+ {id:'L11',t:'Chạy hồi quy OLS',goal:'Chạy được một hồi quy và hiểu bảng kết quả.',why:'Đây là công cụ chính của Model 1.',need:'Dữ liệu đã nhập; biến đã tạo (L5–L8); đã hiểu L10.',
+  steps:['Tạo các biến trễ: vol_l1, sales_l1, cover_c_l1.','Viết phương trình: Vol(t) = α + ρ·Vol(t−1) + β·Sales(t−1) + γ·X(t) + ε(t).','Chạy hồi quy.','Đọc bảng: Estimate (hệ số), Std. Error, t value, p-value.','Làm bài tập với SIMULATED DATA trước, rồi mới chạy dữ liệu thật.'],
+  out:'Bảng kết quả hồi quy lưu bằng văn bản (log).',check:['Biết α, ρ, β, γ nghĩa là gì','Số quan sát trong bảng đúng như dự kiến'],mis:['Quên biến Vol(t−1).','Chạy rồi chỉ chép số "đẹp".'],
+  simple:'OLS là cách vẽ một đường thẳng gần nhất với đám điểm. Hệ số β cho biết khi Sales tăng một đơn vị thì Vol (trung bình) thay đổi bao nhiêu đơn vị, nếu các biến còn lại giữ nguyên.',
+  code:{R:`# --- PHẦN A: SIMULATED DATA (chỉ tập thao tác) ---
+${SIM_R}
+
+# --- PHẦN B: DỮ LIỆU THẬT (VÍ DỤ MINH HOẠ – tên biến phải khớp dữ liệu thật) ---
+df <- df %>% arrange(month) %>%
+  mutate(vol_l1 = lag(vol, 1), sales_l1 = lag(sales, 1))
+m1 <- lm(vol ~ vol_l1 + sales_l1 + ratediff + usd, data = df)
+summary(m1)`,Stata:`* --- PHẦN A: SIMULATED DATA ---
+${SIM_S}
+
+* --- PHẦN B: DỮ LIỆU THẬT (VÍ DỤ MINH HOẠ) ---
+tsset month
+gen vol_l1 = L.vol
+gen sales_l1 = L.sales
+regress vol vol_l1 sales_l1 ratediff usd`}},
+ {id:'L12',t:'Hiểu hệ số và p-value',goal:'Đọc bảng hồi quy đúng, không diễn giải quá mức.',why:'Hội đồng thường hỏi "p-value này nghĩa là gì".',need:'Một bảng hồi quy đã chạy.',
+  steps:['Estimate: ước lượng của hệ số; dấu cho biết hướng, độ lớn cho biết mức.','Std. Error: độ không chắc chắn của ước lượng.','p-value: nếu thực tế hệ số bằng 0, xác suất ra kết quả cực đoan bằng hoặc hơn kết quả nhóm thấy.','R-squared: tỷ lệ biến thiên của Vol được mô hình giải thích; không đánh giá mô hình đúng hay sai.','Luôn tự hỏi: dấu có đúng kỳ vọng? độ lớn có ý nghĩa kinh tế?'],
+  out:'Một đoạn diễn giải mẫu cho mỗi hệ số chính.',check:['Giải thích được p = 0,03 và p = 0,30 nghĩa là gì','Phân biệt được ý nghĩa thống kê và ý nghĩa kinh tế'],mis:['Hiểu p-value là xác suất giả thuyết đúng.','Viết "không có tác động" khi p > 0,05 (đúng ra là "chưa tìm thấy bằng chứng").'],
+  simple:'p-value giống tiếng chuông báo động: chuông kêu (p nhỏ) nghĩa là "có vẻ không phải ngẫu nhiên", chưa kêu không có nghĩa là hoàn toàn an toàn. Một hệ số có p nhỏ nhưng quá bé về độ lớn thì vẫn không quan trọng trong thực tế.'},
+ {id:'L13',t:'Sai số chuẩn Newey–West',goal:'Có sai số chuẩn đáng tin hơn khi sai số hồi quy có tự tương quan hoặc phương sai thay đổi.',why:'Dữ liệu chuỗi thời gian thường có tự tương quan; sai số chuẩn thông thường sẽ quá nhỏ.',need:'Mô hình OLS đã chạy (L11).',
+  steps:['Chọn độ trễ L (quy tắc tham khảo: làm tròn xuống 4·(T/100)^(2/9), với T là số quan sát).','Chạy lại với sai số Newey–West.','So sánh sai số chuẩn trước và sau.','Thử L từ 1 đến 6 để xem kết luận có thay đổi không.','Ghi độ trễ đã dùng trong báo cáo.'],
+  out:'Bảng Newey–West cho Model 1.',check:['Đã ghi L trong chú thích bảng','Kết luận không đổi theo L hoặc đã nêu rõ'],mis:['Chọn L cho đến khi p-value đẹp.','Cho rằng Newey–West giải quyết được nội sinh (không phải vậy).'],
+  simple:'Sai số hồi quy giống tiếng vọng: tháng này còn vang lại từ tháng trước. Sai số chuẩn thường coi mỗi tháng độc lập nên quá tự tin. Newey–West điều chỉnh để "bớt tự tin" đúng mức.',
+  code:{R:`library(sandwich); library(lmtest)
+coeftest(m1, vcov = NeweyWest(m1, lag = 3, prewhite = FALSE))   # L = 3 là VÍ DỤ; dùng quy tắc ở trên`,Stata:`newey vol vol_l1 sales_l1 ratediff usd, lag(3)    // lag(3) là VÍ DỤ`}},
+ {id:'L14',t:'Biến tương tác và hiệu ứng điều tiết',goal:'Kiểm tra tác động của Sales có phụ thuộc vào mức dự trữ không.',why:'Đây là cách kiểm định H2 mà không phải chia mẫu theo ngưỡng tuỳ ý.',need:'cover_c đã chuẩn hoá (L7).',
+  steps:['Viết mô hình: Vol = α + ρVol(−1) + β1·Sales(−1) + β2·Cover_c(−1) + β3·Sales(−1)×Cover_c(−1) + ...','β1: tác động của Sales khi dự trữ ở mức trung bình.','Tác động biên của Sales = β1 + β3·Cover_c.','Tính tác động biên tại dự trữ thấp (−1 SD) và cao (+1 SD), kèm sai số chuẩn.','Báo cáo như phân tích thăm dò và nêu rõ cỡ mẫu.'],
+  out:'Bảng Model 2 + bảng tác động biên.',check:['Biến điều tiết đã chuẩn hoá','Không chia mẫu theo trung vị'],mis:['Đọc β1 như tác động trung bình khi chưa chuẩn hoá.','Kết luận ngưỡng chỉ từ một hệ số tương tác.'],
+  simple:'Tác động của "bán USD" lên biến động giống tác động của "uống thuốc" lên sức khoẻ: có thể khác nhau tuỳ cơ thể khoẻ hay yếu. Hệ số tương tác đo mức khác nhau đó theo "độ khoẻ" (mức dự trữ).',
+  code:{R:`# VÍ DỤ MINH HOẠ – tên biến phải khớp dữ liệu thật
+df <- df %>% mutate(cover_c_l1 = lag(cover_c, 1))
+m2 <- lm(vol ~ vol_l1 + sales_l1 * cover_c_l1 + ratediff + usd, data = df)   # '*' tạo cả biến đơn và biến tương tác
+library(car); library(sandwich)
+sd_c <- sd(df$cover_c_l1, na.rm = TRUE)
+# Tác động biên của Sales khi dự trữ cao hơn trung bình 1 SD:
+linearHypothesis(m2, paste0("sales_l1 + ", sd_c, "*sales_l1:cover_c_l1 = 0"),
+                 vcov. = NeweyWest(m2, lag = 3, prewhite = FALSE))`,Stata:`* VÍ DỤ MINH HOẠ
+gen cover_c_l1 = L.cover_c
+regress vol vol_l1 c.sales_l1##c.cover_c_l1 ratediff usd, vce(robust)
+summarize cover_c_l1
+lincom sales_l1 + r(sd)*c.sales_l1#c.cover_c_l1     // tác động biên khi dự trữ cao hơn TB 1 SD`}},
+ {id:'L15',t:'Kiểm định chẩn đoán',goal:'Kiểm tra mô hình có vi phạm giả định chính không.',why:'Kết quả chỉ đáng tin khi giả định cơ bản được kiểm tra.',need:'Mô hình OLS đã chạy.',
+  steps:['VIF: đo mức độ các biến giải thích "trùng nhau"; giá trị cao (thường > 5 hoặc 10) là cảnh báo.','Breusch–Godfrey: H0 không có tự tương quan.','Breusch–Pagan: H0 phương sai không đổi.','RESET: H0 dạng hàm đúng.','Nếu phát hiện vấn đề: dùng Newey–West, đổi độ trễ, kiểm tra biến bị thiếu; ghi lại cách xử lý.'],
+  out:'Bảng chẩn đoán gồm H0, p-value, kết luận, xử lý.',check:['Mỗi kiểm định ghi rõ H0','Đã ghi hướng xử lý'],mis:['Nhầm VIF là kiểm định có p-value.','Bỏ qua kết quả không có lợi.'],
+  simple:'Giống đi khám tổng quát trước khi chạy marathon: không phải để "được điểm cao", mà để biết cơ thể (mô hình) có chịu nổi không.',
+  code:{R:`library(car); library(lmtest)
+vif(m1)                              # đa cộng tuyến (không phải kiểm định có p-value)
+bgtest(m1, order = 3)                # tự tương quan (Breusch–Godfrey)
+bptest(m1)                           # phương sai thay đổi (Breusch–Pagan)
+resettest(m1, power = 2:3, type = "fitted")   # dạng hàm (RESET)`,Stata:`regress vol vol_l1 sales_l1 ratediff usd
+estat vif
+estat bgodfrey, lags(1/3)
+estat hettest
+estat ovtest`}},
+ {id:'L16',t:'Kiểm tra độ vững (robustness)',goal:'Xem kết luận có thay đổi khi đổi cách đo hoặc mẫu không.',why:'Một kết quả chỉ đáng tin nếu không biến mất khi đổi lựa chọn hợp lý.',need:'Danh sách robustness đã được duyệt trước (T5.4).',
+  steps:['Chạy đúng các kiểm tra trong danh sách: đổi Vol, đổi proxy, đổi độ trễ, dữ liệu quý, bỏ tháng nội suy, đổi cách đo dự trữ, đổi khoảng thời gian.','Với mỗi kiểm tra ghi dấu và mức ý nghĩa của hệ số chính.','Ghi nhận mọi thay đổi, kể cả khi kết quả mất ý nghĩa.','Không thêm kiểm tra mới sau khi nhìn kết quả; nếu thêm, ghi vào Change Log kèm lý do.'],
+  out:'Bảng robustness.',check:['Mọi kiểm tra trong danh sách đã chạy','Báo cáo cả kiểm tra không có lợi'],mis:['Chọn kiểm tra có lợi để báo cáo.'],
+  simple:'Nếu một đáp án chỉ đúng khi làm tròn theo một cách riêng, thì đó chưa phải đáp án chắc chắn.',
+  code:{R:`# VÍ DỤ MINH HOẠ – thử nhiều độ trễ Newey–West
+for (L in 1:6) {
+  cat("Newey-West lag =", L, "\\n")
+  print(coeftest(m1, vcov = NeweyWest(m1, lag = L, prewhite = FALSE)))
+}
+# Bỏ các tháng nội suy
+m1_nointerp <- lm(vol ~ vol_l1 + sales_l1 + ratediff + usd, data = filter(df, interp == 0))`,Stata:`* VÍ DỤ MINH HOẠ
+forvalues L = 1/6 {
+    newey vol vol_l1 sales_l1 ratediff usd, lag(\`L')
+}
+newey vol vol_l1 sales_l1 ratediff usd if interp==0, lag(3)`}},
+ {id:'L17',t:'Diễn giải và báo cáo kết quả',goal:'Viết kết quả đúng, đủ, thận trọng.',why:'Điểm cao đến từ sự trung thực và rõ ràng, không đến từ kết quả "đẹp".',need:'Bảng kết quả của Model 1–3 và robustness.',
+  steps:['Với mỗi giả thuyết: nêu hệ số, dấu, sai số chuẩn, p-value (số thật từ log).','Phân biệt ý nghĩa thống kê và ý nghĩa kinh tế.','Dùng từ "có mối liên hệ", "chưa tìm thấy bằng chứng", không dùng "chứng minh", "gây ra".','Phân biệt tác động ngắn hạn (độ trễ 1) và các độ trễ sau.','Đưa bảng tất cả mô hình đã chạy vào phụ lục.'],
+  out:'Bản diễn giải 2–3 trang.',check:['Mọi con số khớp log','Không có câu nào mạnh hơn bằng chứng'],mis:['Cherry-picking.','Giấu kết quả không có ý nghĩa thống kê.'],
+  simple:'Kết quả "chưa tìm thấy bằng chứng" vẫn là kết quả khoa học có giá trị: nó cho biết với dữ liệu hiện có, giả thuyết chưa được ủng hộ, và gợi ý cần dữ liệu tốt hơn.'}
+];
+
+/* ===== HỌC LÀM: bài học ngắn, từng bước (R là phần mềm đề xuất, Stata là phương án khác) ===== */
+const LEARN_TXT=[
+ ['L2','Cài và làm quen phần mềm','Có một phần mềm chạy số liệu hoạt động trên máy của Châu Anh và Bích Ngọc.','Hai người phải dùng cùng một phần mềm thì mới so được kết quả.',['Cài R, rồi cài RStudio (tải từ trang chính thức của dự án R và của Posit).','Mở RStudio, chọn File → New Project, chọn thư mục NCKH không có dấu tiếng Việt.','Gõ 1+1 vào ô “Console” rồi nhấn Enter, phải thấy số 2.','Chạy các lệnh cài gói trong khung mã bên dưới (chỉ cần chạy 1 lần).'],'Lệnh 1+1 chạy ra 2 và lệnh getwd() hiện đúng thư mục dự án.',['Cài vào thư mục có dấu tiếng Việt nên bị lỗi.','Quên chạy library(tidyverse) mỗi lần mở lại.']],
+ ['L3','Nhập số liệu vào phần mềm','Đưa file số liệu (CSV hoặc Excel) vào phần mềm và chắc rằng nó nhập đúng.','Nếu ngày bị đọc thành chữ, mọi phép tính sau đó đều sai.',['Đặt file CSV vào thư mục 02_SoLieuSach.','Chạy lệnh nhập trong khung mã (đổi tên file theo file thật).','Xem 5 dòng đầu và 5 dòng cuối.','Đếm số dòng: phải bằng số tháng mong đợi. Kiểm tra không có tháng nào lặp.'],'Số dòng đúng, cột ngày đúng là ngày.',['Ngày dạng ngày/tháng bị đọc thành tháng/ngày.','Dấu phẩy thập phân làm số thành chữ.']],
+ ['L4','Xem số liệu tổng quan (trung bình, nhỏ nhất, lớn nhất…)','Hiểu hình dạng của từng biến trước khi chạy mô hình.','Giúp phát hiện số liệu lạ (ví dụ số nhỏ nhất âm vô lý).',['Chạy lệnh thống kê mô tả trong khung mã.','Với mỗi biến đọc: trung bình, trung vị (số ở giữa), độ lệch chuẩn (mức dao động), nhỏ nhất, lớn nhất.','Ghi những con số lạ và tra lại nguồn.','Chạy bảng tương quan (hai biến cùng tăng hay cùng giảm) và đọc dấu.'],'Mỗi biến có đơn vị rõ và mọi số lạ đã được giải thích.',['Coi hai biến tương quan là cái này gây ra cái kia.']],
+ ['L9','Vẽ đồ thị','Nhìn dữ liệu bằng mắt trước khi chạy mô hình.','Đồ thị giúp bắt lỗi số liệu và thấy các giai đoạn đặc biệt.',['Vẽ tỷ giá, dự trữ, độ rung lắc, dự trữ đủ mấy tháng theo thời gian.','Thêm đường thẳng đứng tại các mốc báo cáo của Mỹ (dùng mốc đã được kiểm).','Ghi đơn vị và nguồn trên mỗi đồ thị.','Dưới mỗi đồ thị viết hai dòng: “Đọc được gì” và “Không kết luận được gì”.'],'5 đồ thị có tiêu đề, đơn vị, nguồn.',['Vẽ hai đường trên cùng một trục nên trông như có liên hệ.']],
+ ['L5','Tính độ rung lắc tỷ giá','Từ tỷ giá mỗi ngày, tính ra một con số “rung lắc” cho mỗi tháng.','Đây là điều ta muốn giải thích (biến phụ thuộc).',['Sắp xếp tỷ giá theo ngày tăng dần.','Tính mức thay đổi mỗi ngày theo phần trăm (log-return: lấy log của tỷ giá hôm nay trừ log tỷ giá hôm qua).','Chỉ tính cho ngày có giao dịch; không điền giá cho ngày nghỉ.','Với mỗi tháng, tính độ lệch chuẩn của các mức thay đổi đó, và đếm số ngày có số liệu.'],'Cột “độ rung lắc” theo tháng; Bích Ngọc tính lại cho kết quả giống.',['Tính độ lệch chuẩn của giá thay vì của mức thay đổi.','Điền giá cho ngày nghỉ nên mức thay đổi bằng 0.']],
+ ['L6','Tính lượng can thiệp ước tính','Tạo số đo “NHNN bán USD bao nhiêu” từ thay đổi dự trữ và hiểu vì sao nó chỉ là ước tính.','Việt Nam không công bố số can thiệp; hội đồng chắc chắn sẽ hỏi về chỗ này.',['Tính thay đổi dự trữ so với tháng trước.','Đặt “can thiệp ước tính” = số âm của thay đổi dự trữ (dự trữ giảm thì số dương = bán ròng).','Tách riêng phần dự trữ tăng và phần dự trữ giảm.','Viết ngắn: vì sao dự trữ giảm chưa chắc là NHNN bán USD (giá tài sản biến động, tiền lãi, giao dịch Chính phủ).'],'Cột can thiệp ước tính và ghi chú về quy ước dấu.',['Gọi đây là “lượng can thiệp thật”.','Đọc ngược dấu.']],
+ ['L7','Tính dự trữ đủ cho mấy tháng nhập khẩu','Tạo thước đo mức dự trữ cao hay thấp.','Dùng cho giả thuyết 2 (vai trò của dự trữ).',['Với mỗi tháng, lấy nhập khẩu trung bình 12 tháng liền trước.','Chia dự trữ cho số đó.','Trừ đi giá trị trung bình cả kỳ (gọi là “chuẩn hoá”) để dùng trong mô hình.','Ghi lại, TRƯỚC khi chạy mô hình, cách bạn định nghĩa dự trữ cao hay thấp.'],'Cột “dự trữ đủ mấy tháng”.',['Chia cho nhập khẩu của đúng một tháng (rất nhiễu).','Đổi ngưỡng cho đến khi kết quả đẹp.']],
+ ['L8','Tạo biến giám sát của Mỹ','Biến báo cho mô hình biết khi nào Mỹ giám sát Việt Nam.','Mốc sai thì giả thuyết 3 vô nghĩa.',['Mở bảng mốc đã được kiểm; chỉ dùng mốc có link PDF gốc.','Tạo biến “trạng thái” (1 trong các tháng Việt Nam ở trạng thái đó, 0 ở các tháng khác).','Tạo biến “tháng có báo cáo” (1 trong tháng công bố).','Tạo biến “khoảng cách tới ngưỡng”: tổng mua ròng ước tính 12 tháng chia GDP.'],'Các cột biến Mỹ, mỗi mốc có nguồn.',['Dùng một biến cho hai ý nghĩa khác nhau.','Quên rằng báo cáo đánh giá 12 tháng trước đó.']],
+ ['L10','Chuỗi có trôi không?','Biết chuỗi số có “trôi” (không dừng) hay dao động quanh một mức ổn định.','Hồi quy trên chuỗi trôi có thể cho kết quả giả.',['Hiểu: kiểm định ADF có giả thuyết gốc là “chuỗi trôi” (không dừng).','Chạy ADF cho từng biến.','Nếu p-value nhỏ (ví dụ dưới 0,05): có bằng chứng chuỗi dừng.','Nếu không: lấy sai phân (hiệu hai tháng liên tiếp) và kiểm lại.'],'Bảng kết quả ADF cho các biến.',['Quên rằng thay đổi dự trữ đã là một sai phân.','Tin tuyệt đối vào ADF khi chỉ có ít tháng.']],
+ ['L11','Chạy hồi quy','Chạy được một hồi quy (đường “vừa khít nhất” với các điểm) và đọc bảng kết quả.','Hồi quy là công cụ chính của mô hình 1.',['Làm phần SIMULATED DATA (số giả) trước để quen lệnh.','Tạo các biến trễ (giá trị của tháng trước).','Chạy hồi quy trên số liệu thật.','Đọc bảng: hệ số (Estimate), sai số chuẩn, p-value.'],'Bảng kết quả hồi quy lưu trong nhật ký.',['Quên đưa độ rung lắc tháng trước vào mô hình.','Chỉ giữ lại kết quả “đẹp”.']],
+ ['L12','Đọc hệ số và p-value','Đọc bảng kết quả đúng, không nói quá.','Hội đồng thường hỏi “p-value này nghĩa là gì”.',['Hệ số: dấu cho hướng, độ lớn cho mức tác động.','Sai số chuẩn: mức không chắc chắn của hệ số.','p-value: nếu thật ra tác động bằng 0, xác suất ta vẫn thấy kết quả cực đoan như vậy là bao nhiêu. Nhỏ thì “có vẻ không phải ngẫu nhiên”.','R-bình-phương: mô hình giải thích được bao nhiêu phần dao động; không cho biết mô hình đúng hay sai.'],'Mỗi hệ số chính có một đoạn diễn giải mẫu.',['Hiểu p-value là xác suất giả thuyết đúng.','Viết “không có tác động” khi p lớn (đúng ra là “chưa tìm thấy bằng chứng”).']],
+ ['L13','Sai số chuẩn bền (Newey–West)','Có sai số chuẩn đáng tin hơn khi tháng này ảnh hưởng tháng sau.','Số liệu theo thời gian thường “vang” từ tháng này sang tháng sau.',['Chọn độ trễ (số tháng “vang”), ví dụ theo quy tắc trong khung mã.','Chạy lại với Newey–West.','So sai số chuẩn trước và sau.','Thử độ trễ từ 1 đến 6 xem kết luận có đổi không.'],'Bảng Newey–West cho mô hình 1.',['Chọn độ trễ cho đến khi p-value đẹp.']],
+ ['L14','Hệ số tương tác','Xem tác động của can thiệp có khác nhau khi dự trữ cao hay thấp.','Đây là cách kiểm tra giả thuyết 2 mà không phải chia mẫu tuỳ ý.',['Thêm vào mô hình tích “can thiệp × dự trữ (đã chuẩn hoá)”.','Tác động của can thiệp = hệ số can thiệp + hệ số tích × mức dự trữ.','Tính tác động ở mức dự trữ thấp (thấp hơn trung bình 1 độ lệch chuẩn) và cao.','Báo cáo như phân tích thăm dò, ghi rõ số tháng.'],'Bảng mô hình 2 + bảng tác động ở dự trữ thấp/cao.',['Đọc hệ số can thiệp như tác động trung bình khi chưa chuẩn hoá.']],
+ ['L15','Kiểm tra mô hình khoẻ','Kiểm tra mô hình có vi phạm các điều kiện cơ bản không.','Kết quả chỉ đáng tin khi mô hình ổn.',['Kiểm tra các biến có “trùng nhau” quá không (VIF).','Kiểm tra sai số có tự lặp lại không (Breusch–Godfrey).','Kiểm tra mức dao động của sai số có đều không (Breusch–Pagan).','Kiểm tra dạng mô hình có hợp lý không (RESET).'],'Bảng chẩn đoán: mỗi kiểm tra có kết luận và hướng xử lý.',['Nhầm VIF là kiểm định có p-value.','Bỏ qua kết quả không có lợi.']],
+ ['L16','Kiểm tra độ vững','Xem kết luận có còn giữ khi đổi cách đo hoặc đổi mẫu không.','Kết quả mất đi khi đổi cách đo hợp lý thì chưa đáng tin.',['Chạy đúng danh sách đã duyệt trước: bỏ tháng điền ước tính, theo quý, đổi nguồn dự trữ, đổi độ trễ, đổi khoảng thời gian.','Với mỗi cách ghi dấu và mức ý nghĩa của hệ số chính.','Báo cáo cả khi kết quả đổi.','Không thêm kiểm tra mới sau khi nhìn kết quả (nếu thêm phải ghi lý do).'],'Bảng độ vững.',['Chỉ báo cáo kiểm tra có lợi.']],
+ ['L17','Viết kết quả cho đúng','Viết kết quả thận trọng và trung thực.','Điểm cao đến từ sự rõ ràng và trung thực, không đến từ kết quả “đẹp”.',['Với mỗi giả thuyết: ghi hệ số, dấu, p-value (số thật từ nhật ký).','Phân biệt “có ý nghĩa thống kê” và “đủ lớn để quan trọng”.','Dùng “có mối liên hệ”, “chưa tìm thấy bằng chứng”, không dùng “chứng minh”, “gây ra”.','Đưa bảng mọi mô hình đã chạy vào phụ lục.'],'Bản diễn giải 2–3 trang.',['Chọn kết quả đẹp để viết.']]
+];
+const LEARN=LEARN_TXT.map((r,i)=>{const o=MODULES.find(m=>m.id===r[0]);return {id:r[0],n:i+1,t:r[1],goal:r[2],why:r[3],steps:r[4],done:r[5],mis:r[6],simple:o?o.simple:'',code:o?o.code:null};});
+const GLOSS=[
+ ['Rà soát (audit)','Đọc lại thật kỹ để tìm chỗ sai hoặc thiếu. Ở đây là kiểm tra dàn ý và số liệu.'],
+ ['Sổ kiểm chứng','Bảng ghi mỗi con số, mỗi ngày tháng trong bài: nó lấy từ đâu và đã được kiểm chưa.'],
+ ['Nguồn gốc','Nơi công bố đầu tiên của thông tin (ví dụ báo cáo của Bộ Tài chính Mỹ), không phải bài báo kể lại.'],
+ ['Can thiệp ngoại hối','Ngân hàng trung ương bán hoặc mua đô la Mỹ để giữ cho tỷ giá không dao động quá mạnh.'],
+ ['Dự trữ ngoại hối','Số tiền nước ngoài (chủ yếu USD) mà ngân hàng trung ương giữ để can thiệp và để đảm bảo thanh toán quốc tế.'],
+ ['Số đo thay thế (proxy)','Con số dùng thay cho cái ta muốn đo nhưng không có. Ở đây dùng thay đổi dự trữ thay cho lượng can thiệp thật (không được công bố). Nó chỉ gần đúng.'],
+ ['Độ rung lắc tỷ giá (biến động)','Tỷ giá dao động mạnh hay êm trong một tháng. Dao động càng mạnh thì số càng lớn.'],
+ ['Biến','Một cột số liệu trong bảng, ví dụ “dự trữ” hay “độ rung lắc”.'],
+ ['Biến phụ thuộc','Điều ta muốn giải thích (ở đây là độ rung lắc tỷ giá).'],
+ ['Biến kiểm soát','Những yếu tố khác cũng ảnh hưởng, đưa vào mô hình để không nhầm với tác động ta quan tâm (ví dụ lãi suất, đồng USD mạnh lên).'],
+ ['Giả thuyết','Điều ta nghĩ có thể đúng và sẽ dùng số liệu để kiểm tra. Chưa phải sự thật.'],
+ ['Mô hình / hồi quy','Cách dùng số liệu để xem cái này liên quan thế nào đến cái kia. Như vẽ một đường “vừa khít nhất” qua đám điểm.'],
+ ['Hệ số','Con số cho biết khi biến này tăng một đơn vị thì kết quả thay đổi bao nhiêu (các biến khác giữ nguyên).'],
+ ['p-value','Con số dùng để đánh giá kết quả có phải do may rủi không. Nhỏ (thường dưới 0,05) nghĩa là “có vẻ không phải ngẫu nhiên”. Lớn không có nghĩa là “không có tác động”, chỉ là chưa đủ bằng chứng.'],
+ ['R-bình-phương (R²)','Mô hình giải thích được bao nhiêu phần dao động của dữ liệu. Cao chưa chắc mô hình đúng.'],
+ ['Chuỗi dừng / ADF','Chuỗi dừng là chuỗi dao động quanh một mức ổn định, không “trôi” đi xa. ADF là phép kiểm xem chuỗi có trôi không.'],
+ ['Sai phân','Hiệu của hai tháng liên tiếp (tháng này trừ tháng trước). Dùng để làm chuỗi hết “trôi”.'],
+ ['Nội suy (điền số ước tính)','Điền số vào chỗ thiếu bằng số nằm giữa hai tháng có số. Chỉ làm khi thiếu 1–2 tháng liền và phải đánh dấu.'],
+ ['Nội sinh','Khi hai điều ảnh hưởng lẫn nhau nên khó nói cái nào gây ra cái nào (ví dụ NHNN bán USD vì tỷ giá rung lắc, và rung lắc cũng do bán USD).'],
+ ['Tương quan và nhân quả','Tương quan là hai điều cùng đổi. Nhân quả là cái này làm cái kia đổi. Có tương quan chưa chắc có nhân quả.'],
+ ['Hệ số tương tác','Dùng để xem tác động của một biến có khác nhau tuỳ biến khác hay không (ví dụ can thiệp có tác dụng khác nhau khi dự trữ cao hay thấp).'],
+ ['Sai số chuẩn bền (Newey–West)','Cách tính độ không chắc chắn của kết quả có tính đến việc tháng này “vang” sang tháng sau.'],
+ ['Độ vững (robustness)','Kiểm tra xem kết quả có còn giữ khi đổi cách đo hoặc đổi mẫu không.'],
+ ['Số giả (SIMULATED DATA)','Số tự tạo ra chỉ để tập làm. Tuyệt đối không phải kết quả nghiên cứu.'],
+ ['Danh sách theo dõi / thao túng tiền tệ','Bộ Tài chính Mỹ công bố báo cáo định kỳ. Nước nào đáp ứng một số tiêu chí thì vào “danh sách theo dõi”; nước đáp ứng nặng hơn có thể bị gắn nhãn “thao túng tiền tệ”.'],
+ ['Dự trữ đủ mấy tháng nhập khẩu','Dự trữ chia cho nhập khẩu trung bình mỗi tháng: nếu ngừng thu ngoại tệ thì dự trữ đủ trả nhập khẩu trong bao lâu.'],
+ ['Khoảng trống nghiên cứu','Điều mà các nghiên cứu trước chưa làm hoặc làm chưa rõ, và bài của ta bổ sung.'],
+ ['Hàm ý chính sách','Từ kết quả, nhà làm chính sách nên cân nhắc điều gì. Không được nói mạnh hơn bằng chứng.'],
+ ['Biến trễ','Giá trị của tháng trước, dùng để xem tháng trước ảnh hưởng tháng này thế nào.'],
+ ['Chuẩn hoá','Trừ đi giá trị trung bình để số dễ so sánh và dễ đọc hơn trong mô hình.'],
+ ['Link “Người chỉnh sửa / Người bình luận”','Quyền khi chia sẻ Google Docs: chỉnh sửa được là sửa trực tiếp; bình luận được là chỉ để lại ghi chú.']
+];
+'use strict';
+/* ================= LÕI: tiện ích, kết nối backend, hành động ================= */
+const $=(s,r)=>(r||document).querySelector(s);
+const $$=(s,r)=>Array.from((r||document).querySelectorAll(s));
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad=n=>String(n).padStart(2,'0');
+const iso=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const pd=s=>{const a=s.split('-').map(Number);return new Date(a[0],a[1]-1,a[2]);};
+const today=()=>window.__TODAY||iso(new Date());
+const ddiff=(a,b)=>Math.round((pd(b)-pd(a))/86400000);
+const WD=['CN','T2','T3','T4','T5','T6','T7'];
+const fd=s=>{if(!s)return '—';const a=s.split('-');return a[2]+'/'+a[1];};
+const fdy=s=>{if(!s)return '—';const a=s.split('-');return a[2]+'/'+a[1]+'/'+a[0];};
+const fdw=s=>s?WD[pd(s).getDay()]+' '+fd(s):'—';
+const addDays=(s,n)=>{const d=pd(s);d.setDate(d.getDate()+n);return iso(d);};
+const nowISO=()=>new Date().toISOString();
+function ago(t){const d=(Date.now()-new Date(t).getTime())/1000;if(d<60)return 'vừa xong';if(d<3600)return Math.floor(d/60)+' phút trước';if(d<86400)return Math.floor(d/3600)+' giờ trước';return Math.floor(d/86400)+' ngày trước';}
+let toastT=null;
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('on'),3800);}
+const fmtPg=n=>String(n).replace('.',',');
+const normUser=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d').replace(/Đ/g,'d').toLowerCase().replace(/[^a-z0-9]/g,'');
+const USER2M={};MEM_IDS.forEach(m=>USER2M[MEM[m].user]=m);
+const rid=()=>new Date().toISOString().replace(/[:.]/g,'-')+'_'+Math.random().toString(16).slice(2,8);
+
+/* ---------- kết nối: backend thật (Netlify) hoặc chế độ thử trên máy ---------- */
+const RemoteApi={
+  tok:null,
+  async call(path,opt){
+    const o=Object.assign({headers:{}},opt||{});
+    o.headers['content-type']='application/json';
+    if(this.tok)o.headers.authorization='Bearer '+this.tok;
+    const r=await fetch('/api/'+path,o);
+    let j={};try{j=await r.json();}catch(e){j={error:'server'};}
+    if(!r.ok&&!j.error)j.error='server';
+    j._s=r.status;return j;
+  },
+  login(u,pw){return this.call('login',{method:'POST',body:JSON.stringify({user:u,pw:pw})});},
+  state(cs,ns){return this.call('state?cs='+encodeURIComponent(cs||'')+'&ns='+encodeURIComponent(ns||''));},
+  put(col,id,patch){return this.call('put',{method:'POST',body:JSON.stringify({col:col,id:id,patch:patch})});},
+  add(col,data){return this.call('add',{method:'POST',body:JSON.stringify({col:col,data:data})});},
+  pw(o,n){return this.call('pw',{method:'POST',body:JSON.stringify({old:o,new:n})});},
+  resetpw(m){return this.call('resetpw',{method:'POST',body:JSON.stringify({m:m})});}
+};
+const LocalApi={
+  me:null,
+  get S(){try{return JSON.parse(localStorage.getItem('nckh_local_v4')||'null')||{items:{},learn:{},sources:{},links:{},settings:{},comments:{},notifs:{},pw:{}};}catch(e){return {items:{},learn:{},sources:{},links:{},settings:{},comments:{},notifs:{},pw:{}};}},
+  save(s){try{localStorage.setItem('nckh_local_v4',JSON.stringify(s));}catch(e){}},
+  async login(u,pw){const m=USER2M[normUser(u)];const s=this.S;const p=(s.pw&&s.pw[m])||'demo';if(!m||pw!==p)return {error:'bad',_s:401};this.me=m;return {token:'local.'+m,m:m,must:false};},
+  async state(cs,ns){const s=this.S;const f=(o,k)=>{const r={};Object.keys(o).forEach(i=>{if(i>k)r[i]=o[i];});return r;};
+    const nn={};Object.keys(s.notifs).forEach(k=>{if(k.indexOf(this.me+'/')===0&&k.slice(this.me.length+1)>ns)nn[k.slice(this.me.length+1)]=s.notifs[k];});
+    return {items:s.items,learn:s.learn,sources:s.sources,links:s.links,settings:s.settings,comments:f(s.comments,cs||''),notifs:nn};},
+  async put(col,id,patch){const s=this.S;const key=col==='notifs'?this.me+'/'+id:id;s[col]=s[col]||{};s[col][key]=Object.assign({},s[col][key]||{},patch,col==='notifs'?{}:{by:this.me});this.save(s);return {ok:true,doc:s[col][key]};},
+  async add(col,data){const s=this.S;const id=rid();if(col==='comments')s.comments[id]={itemId:data.itemId,from:this.me,text:data.text,at:nowISO(),mentions:data.mentions||[]};else s.notifs[data.to+'/'+id]={to:data.to,from:this.me,type:data.type,itemId:data.itemId,text:data.text,at:nowISO(),read:false};this.save(s);return {ok:true,id:id};},
+  async pw(o,n){const s=this.S;const p=(s.pw&&s.pw[this.me])||'demo';if(o!==p)return {error:'bad',_s:401};s.pw=s.pw||{};s.pw[this.me]=n;this.save(s);return {ok:true};},
+  async resetpw(m){const s=this.S;s.pw=s.pw||{};s.pw[m]='demo';this.save(s);return {ok:true,pw:'demo'};}
+};
+let Api=LocalApi,MODE='local',BACKEND_READY=true;
+
+/* ---------- trạng thái ---------- */
+let ME=null,MUST=false;
+const D={items:{},learn:{},sources:{},links:{},settings:{},comments:{},notifs:{}};
+let CS='',NS='',pending=0,ready=false,pollT=null;
+const UI={tab:'overview',openC:{c2:true},flt:'all',cf:'all',view:'board',fw:true,modal:null,draft:{},mopen:{},mlang:{},panel:false,sv:'files',sfl:'all',confirm:null,pw:null,gl:false};
+try{const u=JSON.parse(sessionStorage.getItem('nckh_ui')||'{}');if(u.tab)UI.tab=({agenda:'team'})[u.tab]||u.tab;if(u.view)UI.view=u.view;}catch(e){}
+function saveUI(){try{sessionStorage.setItem('nckh_ui',JSON.stringify({tab:UI.tab,view:UI.view}));}catch(e){}}
+
+/* ---------- mục của bài ---------- */
+const BASE_I={};ITEMS.forEach(i=>BASE_I[i.id]=i);
+const TOTAL_PG=ITEMS.reduce((a,i)=>a+(i.pg||0),0);
+function IT(id){
+  const b=BASE_I[id];if(!b)return null;const d=D.items[id]||{};
+  const dl=Object.assign({},b.dl,d.dl||{});
+  const keys=STAGES.filter(s=>dl[s[0]]);
+  const ticks=d.ticks||{};
+  const status=d.status||(keys.some(s=>ticks[s[0]])?'doing':'todo');
+  const nextS=keys.find(s=>!ticks[s[0]]);
+  const next=nextS?{k:nextS[0],l:nextS[1],d:dl[nextS[0]]}:null;
+  const lastD=keys.length?dl[keys[keys.length-1][0]]:'2027-02-01';
+  const due=next?next.d:lastD;
+  const tent=!d.dueOk&&lastD>'2026-12-04';
+  const fl=b.fl.filter(f=>f!=='t');if(tent)fl.push('t');
+  return Object.assign({},b,{dl:dl,keys:keys,ticks:ticks,status:status,next:next,due:due,lastD:lastD,link:d.link||'',note:d.note||'',dueOk:!!d.dueOk,fl:fl,
+    needsLeader:b.o!==LEADER&&b.c!==LEADER,submittedAt:d.submittedAt||null,doneAt:d.doneAt||null});
+}
+const allI=()=>ITEMS.map(i=>IT(i.id));
+const isDone=t=>t.status==='done';
+const isOver=t=>!isDone(t)&&t.due<today();
+const mine=(t,m)=>t.o===m||t.h.includes(m);
+const pctI=l=>l.length?Math.round(l.filter(isDone).length/l.length*100):0;
+const pgDone=l=>l.filter(isDone).reduce((a,i)=>a+(i.pg||0),0);
+
+/* ---------- ghi dữ liệu ---------- */
+function writeErr(e){
+  const c=e&&e.error;
+  if(c==='auth'){doLogout(true);toast('Phiên đăng nhập đã hết. Hãy đăng nhập lại.');}
+  else if(c==='forbidden')toast('Bạn không có quyền làm việc này.');
+  else toast('Chưa lưu được. Kiểm tra mạng rồi thử lại.');
+}
+async function put(col,id,patch){
+  pending++;D[col][id]=Object.assign({},D[col][id]||{},patch);render();
+  try{const r=await Api.put(col,id,patch);if(r.error)throw r;}catch(e){writeErr(e);}finally{pending--;}
+}
+async function addDoc(col,data){try{const r=await Api.add(col,data);if(r.error)throw r;}catch(e){writeErr(e);}}
+async function notify(to,type,itemId,text){if(!to||to===ME)return;await addDoc('notifs',{to:to,type:type,itemId:itemId||'',text:text});}
+const nm=m=>MEM[m]?MEM[m].n:'?';
+async function sync(){
+  if(!ME||pending>0)return;
+  let r;try{r=await Api.state(CS,NS);}catch(e){return;}
+  if(r.error==='auth'){doLogout(true);return;}
+  if(r.error||pending>0)return;
+  ['items','learn','sources','links','settings'].forEach(c=>{D[c]=r[c]||{};});
+  Object.assign(D.comments,r.comments||{});Object.assign(D.notifs,r.notifs||{});
+  const ck=Object.keys(r.comments||{}).sort();if(ck.length)CS=ck[ck.length-1]>CS?ck[ck.length-1]:CS;
+  const nk=Object.keys(r.notifs||{}).sort();if(nk.length)NS=nk[nk.length-1]>NS?nk[nk.length-1]:NS;
+  render();
+}
+function startPoll(){clearInterval(pollT);pollT=setInterval(()=>{if(!document.hidden)sync();},8000);}
+
+/* ---------- tài khoản ---------- */
+async function doLogin(u,pw){
+  let r;try{r=await Api.login(u,pw);}catch(e){return 'net';}
+  if(r.error==='setup')return 'setup';
+  if(r.error||!r.token)return r._s===401?'pw':'net';
+  Api.tok=r.token;ME=r.m;MUST=!!r.must;
+  try{if(MODE==='remote')localStorage.setItem('nckh_tok',r.token);else localStorage.setItem('nckh_tok_local',r.m);}catch(e){}
+  if(MODE==='local')LocalApi.me=r.m;
+  return 'ok';
+}
+async function doLogout(silent){
+  try{localStorage.removeItem('nckh_tok');localStorage.removeItem('nckh_tok_local');}catch(e){}
+  Api.tok=null;ME=null;MUST=false;CS='';NS='';D.comments={};D.notifs={};clearInterval(pollT);
+  if(!silent)closeModal();UI.panel=false;UI.pw=null;loginShown=false;render();
+}
+
+/* ---------- hành động ---------- */
+const canEditI=t=>ME&&(t.o===ME||t.h.includes(ME)||ME===LEADER);
+async function actTick(id,k){const t=IT(id);const ticks=Object.assign({},t.ticks);ticks[k]=!ticks[k];const p={ticks:ticks};if(t.status==='todo'&&ticks[k])p.status='doing';await put('items',id,p);}
+async function actSubmit(id,link,note){
+  const t=IT(id);
+  if(!/^https:\/\//i.test(link)){toast('Hãy dán link bắt đầu bằng https:// (link Google Docs/Sheets).');return false;}
+  const ticks=Object.assign({},t.ticks);if(t.dl.nhap)ticks.nhap=true;
+  const base={link:link,note:note,submittedAt:nowISO(),submittedBy:ME,ticks:ticks};
+  const label='“'+t.t+'”';
+  if(t.c){await put('items',id,Object.assign(base,{status:'submitted'}));await notify(t.c,'check',id,nm(ME)+' đã nộp '+label+', nhờ bạn kiểm chéo.');}
+  else if(t.o===LEADER){await put('items',id,Object.assign(base,{status:'done',doneAt:nowISO()}));}
+  else{await put('items',id,Object.assign(base,{status:'checked'}));await notify(LEADER,'approve',id,nm(ME)+' đã nộp '+label+', nhờ nhóm trưởng duyệt.');}
+  toast('Đã nộp bài.');return true;
+}
+async function actCheck(id,ok,reason){
+  const t=IT(id);
+  if(!ok){if(!reason){toast('Hãy viết lý do cần sửa.');return false;}
+    await postComment(id,'[Cần sửa] '+reason,[t.o],true);await put('items',id,{status:'fix'});await notify(t.o,'fix',id,nm(ME)+' nhờ bạn sửa “'+t.t+'”: '+reason);return true;}
+  const ticks=Object.assign({},t.ticks);if(t.dl.kiem)ticks.kiem=true;
+  if(t.needsLeader){await put('items',id,{status:'checked',checkedBy:ME,ticks:ticks});await notify(LEADER,'approve',id,nm(ME)+' đã kiểm “'+t.t+'” và thấy ổn, nhờ nhóm trưởng duyệt.');await notify(t.o,'info',id,nm(ME)+' đã kiểm “'+t.t+'”, đang chờ nhóm trưởng duyệt.');}
+  else{await put('items',id,{status:'done',checkedBy:ME,doneAt:nowISO(),ticks:ticks});await notify(t.o,'done',id,'“'+t.t+'” đã xong.');}
+  toast('Đã ghi nhận.');return true;
+}
+async function actApprove(id,ok,reason){
+  const t=IT(id);
+  if(!ok){if(!reason){toast('Hãy viết lý do trả lại.');return false;}
+    await postComment(id,'[Trả lại] '+reason,[t.o],true);await put('items',id,{status:'fix'});await notify(t.o,'fix',id,'Nhóm trưởng trả lại “'+t.t+'”: '+reason);return true;}
+  await put('items',id,{status:'done',doneAt:nowISO(),approvedBy:ME});await notify(t.o,'done',id,'Nhóm trưởng đã duyệt “'+t.t+'”. Xong!');if(t.c&&t.c!==t.o)await notify(t.c,'info',id,'“'+t.t+'” đã được duyệt xong.');
+  toast('Đã duyệt xong.');return true;
+}
+async function postComment(id,text,mentions,silent){
+  const t=IT(id);const ms=Array.from(new Set((mentions||[]).filter(m=>m&&m!==ME)));
+  await addDoc('comments',{itemId:id,text:text,mentions:ms});
+  if(!silent){const to=new Set(ms);if(t.o!==ME)to.add(t.o);if(t.c&&t.c!==ME)to.add(t.c);
+    for(const m of to)await notify(m,ms.includes(m)?'mention':'comment',id,nm(ME)+(ms.includes(m)?' nhắc đến bạn':' bình luận')+' ở “'+t.t+'”: '+text.slice(0,90));}
+  await sync();
+}
+async function actPing(id,text){const t=IT(id);await notify(t.o,'ping',id,nm(ME)+' nhắc bạn: “'+t.t+'”'+(text?' · '+text:' (hạn '+fd(t.due)+')'));toast('Đã nhắc '+nm(t.o)+'.');}
+async function actDates(id,dl,ok){const o=Object.assign({},(D.items[id]||{}).dl||{});for(const k in dl){if(dl[k])o[k]=dl[k];}await put('items',id,{dl:o,dueOk:!!ok});}
+/* kéo thả: chuyển cột */
+async function requestMove(id,to){
+  const t=IT(id);if(!t||!ME)return;const from=t.status;if(from===to)return;
+  const isLead=ME===LEADER,isOwner=t.o===ME,canW=isOwner||isLead||t.h.includes(ME);
+  const deny=m=>toast(m);
+  if(to==='todo'||to==='doing'){
+    if(['todo','doing','fix'].includes(from)&&canW){await put('items',id,{status:to});return;}
+    if(isLead&&from!=='todo'){await put('items',id,{status:to});toast('Đã mở lại mục này.');return;}
+    return deny('Chỉ người viết hoặc nhóm trưởng chuyển được cột này.');
+  }
+  if(to==='submitted'){
+    if(['todo','doing','fix'].includes(from)&&(isOwner||isLead)){openItem(id);toast('Dán link bài và tick 3 điều để nộp.');return;}
+    return deny('Chỉ người viết nộp bài được, và mục phải đang ở “Chưa làm”, “Đang viết” hoặc “Cần sửa”.');
+  }
+  if(to==='checked'){
+    if(from==='submitted'&&(t.c===ME||isLead)){await actCheck(id,true);return;}
+    return deny('Chỉ người được giao kiểm mới chuyển được, khi bài đã nộp.');
+  }
+  if(to==='fix'){
+    if((from==='submitted'&&(t.c===ME||isLead))||(from==='checked'&&isLead)){askText('Lý do cần sửa','Viết rõ chỗ nào cần sửa…',async r=>{if(from==='checked')await actApprove(id,false,r);else await actCheck(id,false,r);});return;}
+    return deny('Chỉ người kiểm (hoặc nhóm trưởng) trả bài lại được.');
+  }
+  if(to==='done'){
+    if(from==='checked'&&isLead){await actApprove(id,true);return;}
+    if(from==='submitted'&&isLead&&t.c===LEADER){await actCheck(id,true);return;}
+    return deny('Chỉ nhóm trưởng duyệt xong được, sau khi người kiểm đã cho qua.');
+  }
+}
+
+/* ---------- thông báo ---------- */
+const myNotifs=()=>Object.keys(D.notifs).map(id=>Object.assign({id:id},D.notifs[id])).sort((a,b)=>b.at.localeCompare(a.at));
+const unread=()=>myNotifs().filter(n=>!n.read).length;
+async function readAll(){for(const n of myNotifs().filter(n=>!n.read))await put('notifs',n.id,{read:true});}
+function autoReminders(){const t0=today();return allI().filter(t=>t.o===ME&&!isDone(t)&&['todo','doing','fix'].includes(t.status)&&t.due<=addDays(t0,2)).sort((a,b)=>a.due.localeCompare(b.due));}
+/* ================= GIAO DIỆN ================= */
+const chipM=m=>{const M=MEM[m];return M?`<span class="av" style="background:${M.soft};color:${M.ink}"><span class="ini" style="color:${M.ink};border:1.5px solid ${M.acc}">${M.ini}</span>${esc(M.n)}</span>`:'';};
+const iniM=m=>{const M=MEM[m];return M?`<span class="ini" title="${esc(M.full)}" style="background:${M.soft};color:${M.ink};border:1.5px solid ${M.acc}">${M.ini}</span>`:'';};
+const chipS=s=>`<span class="chip" style="background:${STAT[s].bg};color:${STAT[s].ink}">${STAT[s].l}</span>`;
+const flagH=f=>FLG[f]?`<span class="flag ${FLG[f].cls}" title="${esc(FLG[f].tip)}">${FLG[f].l}</span>`:'';
+const barH=p=>`<div class="pbar" role="progressbar" aria-valuenow="${p}" aria-valuemin="0" aria-valuemax="100"><i style="width:${p}%"></i></div>`;
+const chev='<span class="chev" aria-hidden="true"></span>';
+const BELL='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10.3 20a2 2 0 0 0 3.4 0"/></svg>';
+function dueH(t,short){
+  if(isDone(t))return 'Đã xong';
+  const d=ddiff(today(),t.due);const lab=t.next?t.next.l+' ':'';
+  if(d<0)return `<span class="over">${lab}${fd(t.due)}, trễ ${-d} ngày</span>`;
+  if(d===0)return `<b>${lab}hôm nay</b>`;
+  if(d<=2)return `<b>${lab}${fd(t.due)}, còn ${d} ngày</b>`;
+  return lab+(short?fd(t.due):fdw(t.due));
+}
+const chLabel=c=>c.n?'Chương '+c.n:c.t;
+function itemCard(t){
+  return `<button class="tc" style="--st:${STAT[t.status].ink}" data-act="open" data-id="${t.id}"><div style="min-width:0;flex:1"><b>${esc(t.code)}.</b> ${esc(t.t)}
+   <div class="meta">${chipS(t.status)}${iniM(t.o)}<span>${dueH(t)}</span></div></div></button>`;
+}
+const block=(title,list,empty)=>`<div class="mt"><h3 style="font-size:19px">${title}</h3><div class="list" style="margin-top:8px">${list.length?list.map(itemCard).join(''):`<div class="empty">${empty}</div>`}</div></div>`;
+
+/* ---------- Đăng nhập ---------- */
+function renderLogin(){
+  const m=UI.pw||{};
+  $('#app').innerHTML=`${MODE==='local'?'<div class="banner"><b>Chế độ thử:</b> chưa nối backend, dữ liệu chỉ nằm trong trình duyệt này.</div>':''}<div class="login"><div class="box2">
+   <div class="brand" style="margin-bottom:16px"><i></i><span>NCKH · Tỷ giá & giám sát Mỹ</span></div>
+   <h1>Đăng nhập</h1><p class="muted" style="margin:6px 0 0">Dùng tài khoản nhóm trưởng gửi cho bạn.</p>
+   <label for="lg-u">Tên đăng nhập</label><input type="text" id="lg-u" autocomplete="username" autocapitalize="off" placeholder="ví dụ: chauanh" value="${esc(m.u||'')}">
+   <label for="lg-p">Mật khẩu</label><input type="password" id="lg-p" autocomplete="current-password">
+   <div id="lg-err" class="small" style="color:var(--bad);min-height:24px;margin-top:8px">${esc(m.err||'')}</div>
+   <button class="btn dark" style="width:100%;margin-top:6px;min-height:48px" data-act="login">Đăng nhập</button>
+   ${MODE==='local'?'<p class="small muted" style="margin-top:14px">Tên đăng nhập: chauanh, bichngoc, thuyduong, thuydung. Mật khẩu thử: demo.</p>':''}
+   ${MODE==='remote'&&!BACKEND_READY?'<p class="small" style="color:var(--bad);margin-top:12px">Backend chưa sẵn sàng: cần đặt INITIAL_PASSWORD trong Netlify (xem hướng dẫn).</p>':''}</div></div>`;
+}
+
+/* ---------- Thanh trên ---------- */
+const TABS=[['overview','Tổng quan'],['team','Agenda nhóm'],['me','Agenda của tôi'],['src','Nguồn & file'],['learn','Học chạy lượng']];
+function badgeFor(k){
+  if(k!=='me')return '';
+  const n=allI().filter(t=>(t.status==='submitted'&&(t.c===ME||ME===LEADER))||(t.status==='checked'&&ME===LEADER)||(t.o===ME&&t.status==='fix')).length;
+  return n?`<span class="dotb">${n}</span>`:'';
+}
+function topbar(){
+  const M=MEM[ME];
+  return `${MODE==='local'?'<div class="banner"><b>Chế độ thử:</b> chưa nối backend, dữ liệu chỉ nằm trong trình duyệt này.</div>':''}<div class="bar"><div class="in"><div class="brand"><i></i><span>NCKH · Tỷ giá & giám sát Mỹ</span></div>
+   <nav class="tabs" role="tablist" aria-label="Các mục">${TABS.map(t=>`<button role="tab" aria-selected="${UI.tab===t[0]}" data-act="tab" data-tab="${t[0]}">${t[1]}${badgeFor(t[0])}</button>`).join('')}</nav>
+   <button class="iconbtn" data-act="panel" aria-label="Thông báo">${BELL}${unread()?`<b>${unread()}</b>`:''}</button>
+   <button class="userchip" data-act="acct" aria-label="Tài khoản">${iniM(ME)}<span>${esc(M.n)}</span></button></div></div>`;
+}
+function deadlineText(){
+  const s=D.settings.main||{};
+  if(s.deadline){const n=ddiff(today(),s.deadline);return `Hạn nộp <b>${fdy(s.deadline)}</b>, ${n>=0?'còn '+n+' ngày':'đã quá '+(-n)+' ngày'}`;}
+  return 'Hạn nộp thật: <b>chưa rõ</b> (dự kiến đầu đến giữa tháng 2/2027)';
+}
+
+/* ---------- Khung lý thuyết (nằm trong Agenda) ---------- */
+const PAPER=[
+ {t:'Phần đầu',ids:['P1']},{t:'CHƯƠNG 1. MỞ ĐẦU',ids:['S1']},
+ {t:'CHƯƠNG 2. CƠ SỞ LÝ THUYẾT VÀ TỔNG QUAN NGHIÊN CỨU',ids:['S2.1','S2.2','S2.3','S2.4','S2.5','S2.6a','S2.6b','S2.7']},
+ {t:'CHƯƠNG 3. THỰC TRẠNG TỶ GIÁ, CAN THIỆP NGOẠI HỐI VÀ GIÁM SÁT TIỀN TỆ CỦA MỸ ĐỐI VỚI VIỆT NAM',ids:['S3.1','S3.3','S3.4']},
+ {t:'CHƯƠNG 4. PHƯƠNG PHÁP NGHIÊN CỨU VÀ DỮ LIỆU',ids:['S4.1','S4.2','S4.3','S4.4']},
+ {t:'CHƯƠNG 5. KẾT QUẢ NGHIÊN CỨU VÀ THẢO LUẬN',ids:['S5.1','S5.2','S5.5','S5.6']},
+ {t:'CHƯƠNG 6. KẾT LUẬN VÀ HÀM Ý CHÍNH SÁCH',ids:['S6.1','S6.2','S6.3']},
+ {t:'Tài liệu tham khảo và phụ lục',ids:['P2','P3']}
+];
+function srcLine(id){
+  const s=SRC_BY[id];if(!s)return '';const st=(D.sources[id]||{}).st||'none';
+  return `<div class="small" style="display:flex;gap:8px;align-items:flex-start;padding:5px 0"><span class="chip" style="background:${SRC_ST[st].bg};color:${SRC_ST[st].ink}">${SRC_ST[st].l}</span><span><b>${esc(s.a)}</b> (${esc(s.y)}). ${esc(s.t)}. <span class="muted">${esc(s.v)}</span></span></div>`;
+}
+function fwBlock(){
+  return `<div class="fw ${UI.fw?'open':''}"><button class="fh" data-act="fwt" aria-expanded="${UI.fw}">${chev}<span class="h" style="font-size:19px">Khung lý thuyết</span><span class="muted small">3 lý thuyết, 3 giả thuyết, đo bằng 3 mô hình</span></button>
+   <div class="body"><div class="map">
+    <div><b>Vấn đề</b>NHNN bán USD, dự trữ đổi, Mỹ giám sát</div><div><b>3 lý thuyết</b>Can thiệp, dự trữ, giám sát Mỹ</div><div><b>3 giả thuyết</b>H1, H2, H3</div><div><b>Số đo</b>Rung lắc, can thiệp ước tính, dự trữ đủ mấy tháng, trạng thái Mỹ</div><div><b>3 mô hình</b>Mục 4.4, kết quả ở Chương 5</div></div>
+    <div class="grid g3 mt">${PILLARS.map(p=>`<button class="pil" data-act="pillar" data-k="${p.k}">${icoPillar(p.k)}<span class="k">${p.h} · viết ở mục ${p.sec}</span><b class="h" style="font-size:18px">${esc(p.t)}</b><span class="q">${esc(p.q)}</span></button>`).join('')}</div>
+    <div class="row mt"><button class="btn sm" data-act="struct">Cấu trúc bài ≈ ${fmtPg(TOTAL_PG)} trang và tên mục chuẩn</button><span class="small muted">H1–H3 là giả thuyết, chưa phải kết luận; chờ cô duyệt.</span></div></div></div>`;
+}
+
+const COLS=['todo','doing','submitted','checked','fix','done'];
+function openPillar(k){
+  const p=PILLARS.find(x=>x.k===+k);UI.modal='pillar';
+  $('#modal').classList.remove('center');
+  $('#modal').innerHTML=`<div class="row spread"><span class="small muted">Lý thuyết ${p.k} · viết ở mục ${p.sec}</span><button class="btn sm" data-act="closemodal">Đóng</button></div>
+   <h2 style="margin:10px 0 6px">${esc(p.t)}</h2><div class="h" style="font-size:19px;font-weight:600;line-height:1.35">${esc(p.q)}</div>
+   <div class="box"><h5>Ý chính phải viết</h5><ul>${p.idea.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+   <div class="box"><h5>Giả thuyết <span class="flag f-c">chưa kiểm định</span></h5><div class="hyp">${esc(p.hyp)}</div></div>
+   <div class="grid g2"><div class="box"><h5>Đo bằng</h5>${esc(p.meas)}</div><div class="box"><h5>Kỳ vọng</h5>${esc(p.exp)}</div></div>
+   <div class="box"><h5>Đọc (tự mở kiểm trước khi trích)</h5>${p.read.map(srcLine).join('')}</div>
+   <div class="box"><h5>Mục viết theo trụ này</h5>${ITEMS.filter(i=>i.code.indexOf(p.sec)===0||(p.k===1&&i.id==='S2.2')).map(i=>`<div><button class="btn sm" data-act="open" data-id="${i.id}" style="margin:3px 0">${esc(i.code)}. ${esc(i.t)}</button></div>`).join('')}</div>`;
+  $('#ov').classList.add('on');
+}
+function openStruct(){
+  const bi={};allI().forEach(t=>bi[t.id]=t);UI.modal='struct';$('#modal').classList.remove('center');
+  $('#modal').innerHTML=`<div class="row spread"><h2>Cấu trúc bài ≈ ${fmtPg(TOTAL_PG)} trang</h2><button class="btn sm" data-act="closemodal">Đóng</button></div>
+   <p class="small muted">Mục tiêu 50–60 trang gồm mục lục và tài liệu tham khảo. Đặt đúng tên mục như dưới đây. Bấm một dòng để xem cách viết.</p>
+   <table class="struct"><thead><tr><th>Mục</th><th style="width:130px">Trang</th><th style="width:120px">Viết</th></tr></thead><tbody>${PAPER.map(c=>{const l=c.ids.map(i=>bi[i]),pg=l.reduce((a,t)=>a+t.pg,0);
+    return `<tr style="background:var(--soft)"><td colspan="3"><b class="h" style="font-size:15.5px">${esc(c.t)}</b> <span class="muted small">· ${fmtPg(pg)} trang</span></td></tr>`+
+     l.map(t=>`<tr style="cursor:pointer" data-act="open" data-id="${t.id}"><td>${t.heads.map(x=>`<div>${esc(x)}</div>`).join('')}</td><td><div class="pgb" style="width:${Math.max(6,t.pg/17*100)}%"></div><span class="small">${fmtPg(t.pg)} tr, ≈ ${Math.round(t.pg*350)} từ</span></td><td>${iniM(t.o)}</td></tr>`).join('');}).join('')}
+   <tr style="background:var(--soft)"><td><b>Tổng</b></td><td colspan="2"><b>${fmtPg(TOTAL_PG)} trang</b></td></tr></tbody></table>
+   <h3 style="font-size:19px;margin:22px 0 8px">Quy ước viết</h3>${FW_RULES.map(r=>`<div class="box" style="margin-top:8px"><b>${esc(r[0])}.</b> ${esc(r[1])}</div>`).join('')}`;
+  $('#ov').classList.add('on');
+}
+
+/* ---------- Nguồn & file ---------- */
+const SLOTS=[['folder','Thư mục Google Drive chung','Nơi cất mọi file'],['draft','Bản thảo chính của bài (Doc)','Ghép từ các mục'],['claim','Sổ kiểm chứng (Sheet)','Con số nào đã kiểm'],['us','Bảng mốc báo cáo Mỹ (Sheet)','Có link PDF gốc'],['avail','Bảng “Có số liệu không?” (Sheet)','Số liệu nào có, thiếu gì'],['dict','Từ điển số liệu (Sheet)','Mỗi biến là gì'],['lit','Bảng tổng quan tài liệu (Sheet)','Mỗi bài một dòng'],['vars','Sổ biến (Doc)','Cách tính từng biến'],['plan','Kế hoạch mô hình (Doc)','Viết trước khi chạy'],['log','Nhật ký chạy mô hình (Doc)','Lệnh và kết quả'],['slides','Slide (Google Slides)',''],['qa','30 câu hỏi hội đồng (Doc)','']];
+function renderSrc(){
+  const view=UI.sv;
+  let h=`<div class="wrap"><h1 style="font-size:32px;margin:26px 0 12px">Nguồn & file</h1><div class="seg"><button class="${view==='files'?'on':''}" data-act="sview" data-v="files">File Google</button><button class="${view==='lib'?'on':''}" data-act="sview" data-v="lib">Thư viện nguồn</button></div>`;
+  if(view==='files'){
+    const custom=Object.keys(D.links).filter(k=>k.charAt(0)==='x').sort();
+    const card=(k,t,d)=>{const L=D.links[k]||{};const ok=L.url&&/^https:\/\//i.test(L.url);
+     return `<div class="card" style="padding:14px 16px"><h3 style="font-size:17px">${esc(t)}</h3>${d?`<div class="small muted">${esc(d)}</div>`:''}
+      <div style="margin-top:8px">${ok?`<a class="btn dark sm" href="${esc(L.url)}" target="_blank" rel="noopener noreferrer">Mở file</a> <span class="small muted">${L.by?esc(nm(L.by))+', '+ago(L.at||nowISO()):''}</span>`:'<span class="small muted">Chưa có link</span>'}</div>
+      <div class="row" style="margin-top:8px;flex-wrap:nowrap"><input type="url" id="lk-${k}" placeholder="Dán link https://…" value="${esc(L.url||'')}"><button class="btn sm" data-act="savelink" data-k="${k}">Lưu</button></div></div>`;};
+    h+=`<div class="tip mt">Chia sẻ mỗi file cho cả nhóm (quyền “Người chỉnh sửa”), nếu không người kiểm sẽ không mở được. Link bắt đầu bằng https://</div>
+     <div class="grid g3 mt">${SLOTS.map(s=>card(s[0],s[1],s[2])).join('')}${custom.map(k=>card(k,D.links[k].title||'Link khác','')).join('')}</div>
+     <div class="card mt"><h3 style="font-size:17px">Thêm link khác</h3><div class="row" style="flex-wrap:nowrap;margin-top:8px"><input type="text" id="nl-t" placeholder="Tên file"><input type="url" id="nl-u" placeholder="https://…"><button class="btn pri" data-act="addlink">Thêm</button></div></div>`;
+  }else{
+    const sf=UI.sfl;
+    const list=SOURCES.concat(Object.keys(D.sources).filter(k=>k.charAt(0)==='x').map(k=>Object.assign({id:k,custom:true},D.sources[k])));
+    const cnt=s=>list.filter(x=>((D.sources[x.id]||{}).st||'none')===s).length;
+    h+=`<div class="card mt" style="border-left:5px solid #D9A400"><b>Đọc kỹ trước khi dùng.</b> Danh sách do trợ lý gợi ý từ trí nhớ và có thể sai chi tiết (năm, tên bài, trang). Hãy tự tìm và mở từng nguồn rồi đổi trạng thái. <b>Chỉ nguồn “Đã mở, đúng” mới được trích trong bài.</b> Không có nghiên cứu nào về Việt Nam trong danh sách; nhóm tự tìm và thêm ở cuối trang.</div>
+     <div class="row mt"><span class="chip" style="background:#DDF0E4;color:#1C5535">${cnt('ok')} đã mở, đúng</span><span class="chip" style="background:#ECE8DC;color:#55525C">${cnt('none')} chưa mở</span><span class="chip" style="background:#FFF1C9;color:#6a5100">${cnt('nf')} không tìm thấy</span><span class="chip" style="background:#F8E1EC;color:#7E2250">${cnt('bad')} sai thông tin</span></div>
+     <div class="seg mt">${[['all','Tất cả'],['none','Chưa mở'],['ok','Đã mở, đúng'],['official','Nguồn gốc (cơ quan)']].map(x=>`<button class="${sf===x[0]?'on':''}" data-act="sfl" data-v="${x[0]}">${x[1]}</button>`).join('')}</div>
+     <div class="list mt">${list.filter(s=>sf==='all'||(sf==='official'?s.official:((D.sources[s.id]||{}).st||'none')===sf)).map(s=>{
+       const d=D.sources[s.id]||{},st=d.st||'none';
+       return `<div class="card" style="padding:14px 16px"><div class="row spread" style="align-items:flex-start"><div style="min-width:0;flex:1"><span class="chip" style="background:var(--soft)">${esc(s.id)}</span> ${s.official?'<span class="chip" style="background:var(--accsoft)">nguồn gốc</span>':''}
+        <div style="margin-top:6px"><b>${esc(s.a)}</b> (${esc(s.y)}). ${esc(s.t)}.</div><div class="small muted">${esc(s.v)}${s.use?', dùng ở mục '+esc(s.use):''}</div></div>
+        <span class="chip" style="background:${SRC_ST[st].bg};color:${SRC_ST[st].ink}">${SRC_ST[st].l}</span></div>
+        <div class="grid g3" style="margin-top:10px;align-items:end"><label class="small muted">Trạng thái<select data-f="sst" data-id="${esc(s.id)}">${Object.keys(SRC_ST).map(k=>`<option value="${k}" ${k===st?'selected':''}>${SRC_ST[k].l}</option>`).join('')}</select></label>
+        <label class="small muted" style="grid-column:span 2">Link bạn đã mở (https://)<input type="url" data-f="slk" data-id="${esc(s.id)}" value="${esc(d.link||'')}" placeholder="Dán link bài hoặc trang đã mở"></label></div>
+        ${d.by?`<div class="small muted" style="margin-top:6px">Cập nhật bởi ${esc(nm(d.by))}</div>`:''}</div>`;}).join('')}</div>
+     <div class="card mt"><h3 style="font-size:17px">Thêm nguồn bạn tự tìm</h3><div class="grid g2" style="margin-top:8px"><input type="text" id="ns-a" placeholder="Tác giả"><input type="text" id="ns-y" placeholder="Năm"><input type="text" id="ns-t" placeholder="Tên bài hoặc tài liệu" style="grid-column:span 2"><input type="text" id="ns-v" placeholder="Nơi đăng (tạp chí, tổ chức)"><input type="url" id="ns-l" placeholder="Link đã mở https://"></div><div style="margin-top:10px"><button class="btn pri" data-act="addsrc">Thêm vào thư viện</button></div></div>`;
+  }
+  return h+'</div>';
+}
+
+/* ---------- Học chạy lượng ---------- */
+function renderLearn(){
+  const L=D.learn[ME]||{};const done=LEARN.filter(m=>L['d_'+m.id]).length;
+  let h=`<div class="wrap"><div class="row spread" style="margin:26px 0 6px"><h1 style="font-size:32px">Học chạy lượng</h1><span class="chip" style="background:var(--accsoft)"><b>${done}/${LEARN.length}</b> bài xong</span></div>
+   <p class="muted" style="margin:0 0 10px;max-width:760px">${LEARN.length} bài theo thứ tự, từ cài phần mềm đến viết kết quả. Châu Anh chạy số liệu, Bích Ngọc chạy lại; các bạn khác đọc để hiểu. Ví dụ lệnh dùng R hoặc Stata (phần mềm chốt: <span class="flag f-p">Chờ cô duyệt</span>). Khung mã là <b>ví dụ minh hoạ</b>, không phải kết quả nghiên cứu.</p>`;
+  LEARN.forEach(m=>{
+    const sp=L['s_'+m.id]||[],sd=m.steps.filter((_,i)=>sp[i]).length,open=!!UI.mopen[m.id],lang=UI.mlang[m.id]||'R',dn=!!L['d_'+m.id];
+    h+=`<div class="mod ${open?'open':''} ${dn?'done':''}" id="mod-${m.id}"><button data-act="mt" data-id="${m.id}" aria-expanded="${open}"><span class="no">${dn?'OK':m.n}</span><span style="flex:1;min-width:0"><b class="h" style="font-size:17px">${esc(m.t)}</b></span><span class="small muted">${dn?'Xong':sd+'/'+m.steps.length+' bước'}</span>${chev}</button>
+     <div class="mb"><div class="box"><h5>Mục tiêu</h5>${esc(m.goal)}</div><div class="box steps"><h5>Làm lần lượt</h5>${m.steps.map((x,i)=>`<label><input type="checkbox" data-act="lstep" data-id="${m.id}" data-i="${i}" ${sp[i]?'checked':''}><span><b>${i+1}.</b> ${esc(x)}</span></label>`).join('')}</div>
+     ${m.code?`<div class="box"><div class="row spread"><h5 style="margin:0">Ví dụ lệnh (minh hoạ)</h5><div class="tabs2">${Object.keys(m.code).map(l=>`<button class="${l===lang?'on':''}" data-act="llang" data-id="${m.id}" data-l="${l}">${l}</button>`).join('')}<button data-act="lcopy" data-id="${m.id}">Sao chép</button></div></div><pre class="code" id="code-${m.id}"><code></code></pre></div>`:''}
+     <div class="grid g2"><div class="box"><h5>Xong khi</h5>${esc(m.done)}</div><div class="box"><h5>Lỗi hay gặp</h5><ul>${m.mis.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div></div>
+     ${m.simple?`<div class="tip" style="margin-top:12px"><b>Hiểu đơn giản.</b> ${esc(m.simple)}</div>`:''}
+     <label class="row" style="margin-top:12px;cursor:pointer"><input type="checkbox" data-act="ldone" data-id="${m.id}" ${dn?'checked':''}><b>Tôi đã hiểu và làm được bài này</b></label></div></div>`;
+  });
+  h+=`<div class="fw ${UI.gl?'open':''}" style="margin-top:22px"><button class="fh" data-act="glt" aria-expanded="${UI.gl}">${chev}<span class="h" style="font-size:18px">Từ khó (${GLOSS.length})</span><span class="muted small">giải thích ngắn</span></button><div class="body">${GLOSS.map(g=>`<div style="padding:6px 0;border-top:1px solid var(--line)"><b>${esc(g[0])}.</b> ${esc(g[1])}</div>`).join('')}</div></div>`;
+  return h+'</div>';
+}
+function fillCode(){LEARN.forEach(m=>{if(!m.code)return;const p=$('#code-'+m.id);if(!p)return;const l=UI.mlang[m.id]||'R';p.firstElementChild.textContent=m.code[l]||m.code[Object.keys(m.code)[0]];});}
+/* ================= HÌNH MINH HOẠ (SVG) ================= */
+const INK='#1D2230',ACC='#2F43C8',MUT='#6B7080',SOFT='#E4E8FB';
+const TNR='font-family="Times New Roman,Times,serif"';
+function icoPillar(k){
+  const sk=`fill="none" stroke="${INK}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"`;
+  let b='';
+  if(k===1)b=`<polyline ${sk} points="4,44 9,22 15,50 21,20 27,48 32,26"/><line ${sk} x1="35" y1="36" x2="44" y2="36"/><path d="M41 32l4 4-4 4" ${sk}/><path d="M48 38c4-8 8 8 12-1" fill="none" stroke="${ACC}" stroke-width="2.6" stroke-linecap="round"/><line x1="4" y1="56" x2="60" y2="56" stroke="${MUT}" stroke-width="1.5"/>`;
+  else if(k===2)b=`<rect x="16" y="8" width="32" height="48" rx="4" ${sk}/><rect x="18" y="34" width="28" height="20" fill="${SOFT}"/><line x1="12" y1="24" x2="52" y2="24" stroke="${ACC}" stroke-width="2" stroke-dasharray="4 3"/><line x1="12" y1="34" x2="20" y2="34" ${sk}/>`;
+  else b=`<rect x="10" y="6" width="32" height="44" rx="3" ${sk}/><line x1="16" y1="16" x2="36" y2="16" ${sk}/><line x1="16" y1="24" x2="36" y2="24" ${sk}/><line x1="16" y1="32" x2="28" y2="32" ${sk}/><circle cx="44" cy="42" r="10" fill="#fff" stroke="${ACC}" stroke-width="2.6"/><line x1="51" y1="49" x2="60" y2="58" stroke="${ACC}" stroke-width="3.2" stroke-linecap="round"/>`;
+  return `<svg class="pilico" viewBox="0 0 64 64" aria-hidden="true">${b}</svg>`;
+}
+function icoStep(k){
+  const sk=`fill="none" stroke="${INK}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"`;
+  let b='';
+  if(k===1)b=`<path d="M10 38l-2 8 8-2 22-22-6-6z" ${sk}/><line x1="30" y1="14" x2="36" y2="20" ${sk}/><line x1="26" y1="44" x2="40" y2="44" stroke="${MUT}" stroke-width="2"/>`;
+  else if(k===2)b=`<path d="M8 32v10h32V32" ${sk}/><path d="M24 36V10" ${sk}/><path d="M16 18l8-8 8 8" ${sk}/>`;
+  else if(k===3)b=`<circle cx="21" cy="21" r="12" ${sk}/><line x1="30" y1="30" x2="42" y2="42" ${sk}/><path d="M15 21l4 4 7-8" fill="none" stroke="${ACC}" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>`;
+  else b=`<path d="M24 6l15 5v12c0 10-6 16-15 19C15 39 9 33 9 23V11z" ${sk}/><path d="M17 24l5 5 9-10" fill="none" stroke="${ACC}" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>`;
+  return `<svg width="46" height="46" viewBox="0 0 48 48" aria-hidden="true">${b}</svg>`;
+}
+function svgConcept(){
+  const sk=`fill="none" stroke="${INK}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"`;
+  const tag=(x,y,t)=>`<circle cx="${x}" cy="${y}" r="18" fill="${ACC}"/><text x="${x}" y="${y+6}" text-anchor="middle" ${TNR} font-size="17" font-weight="700" fill="#fff">${t}</text>`;
+  return `<svg viewBox="0 0 940 436" role="img" aria-label="Sơ đồ: Bộ Tài chính Mỹ giám sát, Ngân hàng Nhà nước bán USD từ dự trữ để làm êm tỷ giá VND/USD">
+  <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto"><path d="M0 0L10 5L0 10z" fill="${INK}"/></marker><marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto"><path d="M0 0L10 5L0 10z" fill="${ACC}"/></marker></defs>
+  <rect x="330" y="12" width="280" height="104" rx="10" fill="#fff" stroke="${INK}" stroke-width="2"/>
+  <rect x="348" y="30" width="38" height="52" rx="3" ${sk}/><line x1="354" y1="42" x2="380" y2="42" ${sk}/><line x1="354" y1="52" x2="380" y2="52" ${sk}/><line x1="354" y1="62" x2="370" y2="62" ${sk}/><circle cx="386" cy="76" r="11" fill="#fff" stroke="${ACC}" stroke-width="3"/><line x1="394" y1="84" x2="404" y2="94" stroke="${ACC}" stroke-width="3.4" stroke-linecap="round"/>
+  <text x="416" y="48" ${TNR} font-size="21" font-weight="700" fill="${INK}">Bộ Tài chính Mỹ</text><text x="416" y="70" ${TNR} font-size="16" fill="${MUT}">báo cáo định kỳ, 3 tiêu chí</text><text x="416" y="90" ${TNR} font-size="16" fill="${MUT}">danh sách theo dõi</text>
+  <path d="M330 64 C 190 64, 150 100, 150 176" ${sk} marker-end="url(#ar)"/>${tag(206,84,'H3')}
+  <text x="20" y="34" ${TNR} font-size="16" fill="${MUT}">Mỹ theo dõi việc mua USD,</text><text x="20" y="54" ${TNR} font-size="16" fill="${MUT}">khó tái tích lũy dự trữ</text>
+  <rect x="30" y="178" width="290" height="104" rx="10" fill="#fff" stroke="${INK}" stroke-width="2"/>
+  <path d="M46 238h40M50 238v-26M58 238v-26M66 238v-26M74 238v-26M82 238v-26" ${sk}/><path d="M44 212l26-16 26 16z" ${sk}/><line x1="44" y1="244" x2="96" y2="244" ${sk}/>
+  <text x="108" y="222" ${TNR} font-size="20" font-weight="700" fill="${INK}">Ngân hàng Nhà nước</text><text x="108" y="246" ${TNR} font-size="16" fill="${MUT}">bán hoặc mua USD</text>
+  <line x1="320" y1="230" x2="640" y2="230" ${sk} marker-end="url(#ar)"/>
+  <text x="480" y="214" text-anchor="middle" ${TNR} font-size="17" fill="${INK}">bán USD để làm êm tỷ giá</text>${tag(480,258,'H1')}
+  <rect x="650" y="150" width="270" height="150" rx="10" fill="#fff" stroke="${INK}" stroke-width="2"/>
+  <polyline points="668,274 696,240 724,280 752,234 780,276 808,246 836,272 864,250 900,260" fill="none" stroke="${ACC}" stroke-width="3" stroke-linejoin="round"/>
+  <line x1="668" y1="288" x2="902" y2="288" stroke="${MUT}" stroke-width="1.5"/>
+  <text x="668" y="184" ${TNR} font-size="21" font-weight="700" fill="${INK}">Tỷ giá VND/USD</text><text x="668" y="204" ${TNR} font-size="16" fill="${MUT}">độ rung lắc mỗi tháng</text>
+  <line x1="160" y1="282" x2="160" y2="318" ${sk} marker-end="url(#ar)"/><text x="172" y="306" ${TNR} font-size="16" fill="${MUT}">dự trữ giảm khi bán USD</text>
+  <rect x="30" y="322" width="260" height="84" rx="10" fill="#fff" stroke="${INK}" stroke-width="2"/>
+  <rect x="46" y="336" width="34" height="56" rx="4" ${sk}/><rect x="48" y="362" width="30" height="28" fill="${SOFT}"/><line x1="42" y1="350" x2="84" y2="350" stroke="${ACC}" stroke-width="2" stroke-dasharray="4 3"/>
+  <text x="96" y="360" ${TNR} font-size="21" font-weight="700" fill="${INK}">Dự trữ ngoại hối</text><text x="96" y="382" ${TNR} font-size="16" fill="${MUT}">đo bằng số tháng nhập khẩu</text>
+  <path d="M290 364 C 400 364, 480 340, 480 280" fill="none" stroke="${ACC}" stroke-width="2.2" stroke-dasharray="6 4" marker-end="url(#ar2)"/>${tag(388,362,'H2')}
+  <text x="412" y="402" ${TNR} font-size="16" fill="${MUT}">dự trữ thấp thì tác động yếu hơn</text>
+  <text x="920" y="428" text-anchor="end" ${TNR} font-size="15" font-style="italic" fill="${MUT}">H1, H2, H3 là giả thuyết, chưa được kiểm định.</text></svg>`;
+}
+function workflowHTML(){
+  const st=[['Viết','Làm theo mục “Viết gì”, tick từng mốc hạn.'],['Nộp','Dán link Google Docs/Sheets, tự kiểm 3 điều.'],['Kiểm chéo','Một bạn khác mở nguồn, đối chiếu số.'],['Duyệt','Nhóm trưởng đọc lần cuối và chốt.']];
+  return `<div class="flowimg">${st.map((s,i)=>`<div class="st">${icoStep(i+1)}<b>${i+1}. ${s[0]}</b><span class="small muted">${s[1]}</span></div>`).join('')}</div>`;
+}
+
+/* ================= LỊCH GANTT ================= */
+const G_START='2026-11-30',G_END='2027-02-14';
+function ganttHTML(rows,opt){
+  opt=opt||{};const S=G_START,N=ddiff(G_START,G_END)+1,t0=today();
+  const pos=d=>Math.max(0,Math.min(100,ddiff(S,d)/N*100));
+  let weeks='';for(let d=S;d<=G_END;d=addDays(d,7)){weeks+=`<span style="left:${pos(d)}%">${fd(d)}</span>`;}
+  let h=`<div class="gwrap"><div class="gantt" style="--n:${N};--lw:${opt.lw||150}px"><div class="gh" style="border-right:1px solid var(--line)"></div><div class="gh">${weeks}</div>`;
+  rows.forEach(r=>{
+    const lanes=[];const its=r.items.slice().sort((a,b)=>a.s.localeCompare(b.s));
+    its.forEach(it=>{let L=lanes.findIndex(e=>e<it.s);if(L<0){L=lanes.length;lanes.push('');}lanes[L]=it.e;it.lane=L;});
+    const hh=Math.max(1,lanes.length)*30+10;
+    h+=`<div class="gl" style="height:${hh}px">${r.label}</div><div class="gt" style="height:${hh}px">${its.map(it=>{
+      const l=pos(it.s),w=Math.max(2.2,pos(it.e)-pos(it.s)+100/N);
+      const marks=opt.marks?it.marks.map(m=>`<span class="gm ${m.on?'on':''}" title="${esc(m.t)}" style="left:${pos(m.d)+50/N}%;border-color:${it.col}"></span>`).join(''):'';
+      return `<button class="gb" data-act="open" data-id="${it.id}" title="${esc(it.title)}" style="left:${l}%;width:${w}%;top:${5+it.lane*30}px;border-color:${it.col};background:${it.done?it.col:'#fff'};color:${it.done?'#fff':INK}"><span class="pf" style="width:${it.prog}%;background:${it.col}"></span><span>${esc(it.label)}</span></button>`+marks;}).join('')}</div>`;
+  });
+  h+=`<div class="gov">${t0>=S&&t0<=G_END?`<div class="today" style="left:${pos(t0)+50/N}%"><i>hôm nay</i></div>`:''}${MILES.map(m=>`<div class="ms" title="${esc(m.t)}: ${fdy(m.d)}" style="left:${pos(m.d)+50/N}%"></div>`).join('')}</div></div></div>
+  <div class="legend"><span><i style="border-color:${INK}"></i>mốc hạn chưa xong</span><span><i class="f"></i>mốc đã xong</span><span style="color:var(--bad)">| hôm nay</span><span>◆ cột mốc chung của nhóm</span></div>`;
+  return h;
+}
+const ganttLab=t=>t.id==='S1'?'Ch.1':t.id==='P1'?'Bìa, tóm tắt':t.id==='P2'?'Tài liệu TK':t.id==='P3'?'Phụ lục':t.id==='X1'?'Slide':t.id==='X2'?'Hỏi đáp':t.code;
+const itemBar=(t,col,short)=>{const ds=t.keys.map(s=>t.dl[s[0]]).sort();const done=t.keys.filter(s=>t.ticks[s[0]]).length;
+  return {id:t.id,s:ds[0],e:ds[ds.length-1],col:col,done:isDone(t),prog:isDone(t)?100:Math.round(done/Math.max(1,t.keys.length)*100),label:short?ganttLab(t):'',title:t.code+'. '+t.t+' ('+t.keys.map(s=>s[1]+' '+fd(t.dl[s[0]])).join(', ')+')',
+   marks:t.keys.map(s=>({d:t.dl[s[0]],on:!!t.ticks[s[0]],t:s[1]+' '+fd(t.dl[s[0]])}))};};
+function workloadHTML(ts){
+  const maxPg=Math.max.apply(null,MEM_IDS.map(m=>ts.filter(t=>t.o===m).reduce((a,t)=>a+t.pg,0)).concat([1]));
+  return MEM_IDS.map(m=>{const l=ts.filter(t=>t.o===m),pg=l.reduce((a,t)=>a+t.pg,0),pd2=pgDone(l);
+    return `<div class="wl"><span>${chipM(m)}</span><div class="wlb" title="${fmtPg(pg)} trang"><i style="width:${pd2/maxPg*100}%;background:${MEM[m].acc}"></i><i style="width:${(pg-pd2)/maxPg*100}%;background:${MEM[m].soft}"></i></div><span class="small"><b>${fmtPg(pd2)}</b>/${fmtPg(pg)} trang</span></div>`;}).join('');
+}
+
+/* ================= TỔNG QUAN ================= */
+function chapterBar(){
+  const ts=allI();
+  return `<div class="chs" role="group" aria-label="Sáu chương của bài">${['c1','c2','c3','c4','c5','c6'].map(id=>{
+    const c=CH_BY[id],l=ts.filter(t=>t.ch===id),pg=l.reduce((a,t)=>a+t.pg,0),p=pctI(l);
+    return `<button data-act="gochap" data-c="${id}" style="flex:${pg} 1 0" aria-label="${chLabel(c)}: ${esc(c.short)}"><span class="n">Chương ${c.n}</span><span class="t">${esc(c.short)}</span><span class="small muted">${fmtPg(pg)} trang</span>${barH(p)}</button>`;}).join('')}</div>`;
+}
+function greet(){const h=new Date().getHours();return h<11?'Chào buổi sáng':h<14?'Chào buổi trưa':h<18?'Chào buổi chiều':'Chào buổi tối';}
+function renderOverview(){
+  const ts=allI(),t0=today();
+  const doneN=ts.filter(isDone).length,pgd=pgDone(ts);
+  const s=D.settings.main||{};
+  const mineN=ts.filter(t=>(t.o===ME&&['fix'].includes(t.status))||(t.status==='submitted'&&(t.c===ME||ME===LEADER&&t.c!==ME))||(t.status==='checked'&&ME===LEADER)).length;
+  let h=`<div class="wrap"><div class="top1"><div class="small muted">Nghiên cứu khoa học sinh viên · ${deadlineText()}</div>
+   <h1 style="margin-top:6px">Can thiệp ngoại hối và biến động tỷ giá tại Việt Nam giai đoạn 2020–2026: Vai trò của dự trữ và giám sát tiền tệ của Mỹ</h1>
+   <p class="muted" style="margin:10px 0 0;max-width:760px">Bốn người, một bài nghiên cứu. Mỗi người giữ một phần, và luôn có một bạn khác đọc lại giúp bạn trước khi nộp.</p></div>
+   <div class="row mt" style="gap:12px"><div class="card" style="padding:12px 18px;flex:1;min-width:260px"><span class="small muted">${greet()}, ${esc(MEM[ME].n)}.</span><div style="margin-top:2px">${mineN?`Có <b>${mineN}</b> mục đang chờ bạn xử lý.`:'Hiện chưa có mục nào chờ bạn xử lý.'}</div></div><button class="btn dark" data-act="tab" data-tab="me">Mở agenda của tôi</button><button class="btn" data-act="tab" data-tab="team">Mở agenda nhóm</button></div>
+   <h2 class="sh">Bài này nói về điều gì?</h2>
+   <figure class="fig" style="margin:0">${svgConcept()}<figcaption>Hình 1. Ý tưởng chính: Ngân hàng Nhà nước bán USD từ dự trữ để làm êm tỷ giá (H1); dự trữ thấp có thể làm việc đó kém hiệu quả (H2); Mỹ giám sát nên việc mua lại USD bị ràng buộc (H3).</figcaption></figure>
+   <h2 class="sh">Bài gồm sáu chương</h2>${chapterBar()}
+   <div class="row" style="margin-top:12px;gap:18px"><span><b>${doneN}/${ts.length}</b> mục xong</span><span><b>${fmtPg(pgd)}/${fmtPg(TOTAL_PG)}</b> trang xong</span><span class="muted small">Bấm một chương để xem các mục của chương đó.</span></div>
+   <h2 class="sh">Mỗi mục đi qua bốn bước</h2>${workflowHTML()}
+   <div class="grid g2 mt" style="align-items:start"><div><h2 class="sh" style="margin-top:14px">Cả nhóm</h2><div class="list">${MEM_IDS.map(m=>{const X=MEM[m],l=ts.filter(t=>t.o===m),p=pctI(l),over=l.filter(isOver).length,L=D.learn[m]||{};
+     return `<div class="card" style="padding:14px 18px"><div class="row spread">${chipM(m)}<span class="small muted">${l.filter(isDone).length}/${l.length} mục · ${fmtPg(l.reduce((a,t)=>a+t.pg,0))} trang</span></div>
+      <div class="small muted" style="margin-top:4px">${esc(X.role)}</div><div style="margin-top:8px">${barH(p)}</div>
+      ${L.help?`<div style="margin-top:8px"><span class="helpchip">Đang cần được giúp</span></div>`:''}${over&&!L.help?`<div class="small" style="margin-top:6px;color:var(--bad)">${over} mục đã quá hạn, nhóm có thể hỗ trợ.</div>`:''}
+      ${L.note?`<div class="note">“${esc(L.note)}” <span class="small">${L.noteAt?ago(L.noteAt):''}</span></div>`:''}</div>`;}).join('')}</div></div>
+   <div><h2 class="sh" style="margin-top:14px">Cột mốc chung</h2><div class="vt">${MILES.map(m=>{const d=ddiff(t0,m.d);return `<div style="padding:0 0 16px 18px;position:relative"><span style="position:absolute;left:-8px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2px solid var(--ink)"></span><span class="small muted">${fdw(m.d)}, ${d<0?'đã qua':'còn '+d+' ngày'}</span><b style="display:block;margin-top:0">${esc(m.t)}</b><span class="small muted">${esc(m.s)}</span></div>`;}).join('')}</div>
+   ${ME===LEADER?`<h2 class="sh">Hạn nộp thật</h2><div class="row"><input type="date" id="dlin" value="${esc(s.deadline||'')}" style="max-width:200px"><button class="btn pri" data-act="setdl">Lưu</button>${s.deadline?'<button class="btn" data-act="cldl">Xoá</button>':''}</div>`:''}</div></div></div>`;
+  return h;
+}
+
+/* ================= AGENDA NHÓM ================= */
+function renderTeam(){
+  const ts=allI(),f=UI.flt,cf=UI.cf;
+  const pass=t=>(f==='all'||(f==='me'?mine(t,ME):mine(t,f)||t.c===f))&&(cf==='all'||t.ch===cf);
+  const rows=MEM_IDS.map(m=>({label:chipM(m),items:ts.filter(t=>t.o===m&&t.keys.length).map(t=>itemBar(t,MEM[m].acc,true))}));
+  let h=`<div class="wrap"><div class="row spread" style="margin:26px 0 4px"><h1 style="font-size:34px">Agenda của cả nhóm</h1><div class="seg" role="group" aria-label="Kiểu xem"><button class="${UI.view==='board'?'on':''}" data-act="view" data-v="board">Bảng kéo thả</button><button class="${UI.view==='list'?'on':''}" data-act="view" data-v="list">Theo chương</button></div></div>
+   <h2 class="sh" style="margin-top:18px">Lịch tổng thể</h2><p class="small muted" style="margin:0 0 8px">Mỗi thanh là một mục, kéo dài từ mốc hạn đầu đến mốc hạn cuối; phần tô đậm là phần đã làm xong. Bấm vào thanh để mở mục.</p>
+   ${ganttHTML(rows,{marks:false})}
+   <h2 class="sh">Mỗi người viết bao nhiêu trang</h2><div class="fig">${workloadHTML(ts)}<div class="small muted">Phần đậm là số trang đã xong. Châu Anh còn chạy toàn bộ mô hình nên phần viết ít hơn.</div></div>
+   <h2 class="sh">Khung lý thuyết và các mục việc</h2>${fwBlock()}
+   <div class="row spread mt"><div class="seg" role="group" aria-label="Lọc người"><button class="${f==='all'?'on':''}" data-act="flt" data-v="all">Cả nhóm</button><button class="${f==='me'?'on':''}" data-act="flt" data-v="me">Của tôi</button>${MEM_IDS.filter(m=>m!==ME).map(m=>`<button class="${f===m?'on':''}" data-act="flt" data-v="${m}">${esc(MEM[m].n)}</button>`).join('')}</div>
+   <select data-f="cf" style="max-width:300px" aria-label="Lọc chương"><option value="all">Mọi chương</option>${CHAPTERS.map(c=>`<option value="${c.id}" ${cf===c.id?'selected':''}>${esc(c.n?'Chương '+c.n+'. '+c.short:c.t)}</option>`).join('')}</select></div>`;
+  if(UI.view==='board'){
+    h+=`<p class="small muted" style="margin:10px 0">Kéo thẻ sang cột khác để đổi trạng thái (điện thoại: giữ chấm ở góc thẻ rồi kéo, hoặc bấm vào thẻ). Bài chỉ qua “Chờ kiểm” khi đã nộp link.</p><div class="board" id="board">${COLS.map(s=>{
+      const l=ts.filter(t=>t.status===s&&pass(t)).sort((a,b)=>a.due.localeCompare(b.due));
+      return `<div class="kcol" data-s="${s}"><h4><span>${STAT[s].l}</span><span class="muted">${l.length}</span></h4>${l.map(t=>`<div class="kc" data-id="${t.id}" style="--st:${STAT[s].ink}"><span class="grip" aria-hidden="true"></span><div class="cd">${esc(t.code)}${t.pg?' · '+fmtPg(t.pg)+' tr':''}</div><div class="tt">${esc(t.t)}</div><div class="ft">${iniM(t.o)}<span>${dueH(t,true)}</span></div></div>`).join('')}</div>`;}).join('')}</div>`;
+  }else{
+    CHAPTERS.forEach(c=>{
+      const all=ts.filter(t=>t.ch===c.id),l=all.filter(pass);if(!l.length)return;
+      const open=f!=='all'||cf!=='all'||UI.openC[c.id];const p=pctI(all),pg=all.reduce((a,t)=>a+t.pg,0);
+      h+=`<div class="chap ${open?'open':''}" id="chap-${c.id}"><button data-act="chapt" data-c="${c.id}" aria-expanded="${open}">${chev}<span style="flex:1;min-width:0"><span class="h" style="font-size:20px">${esc(c.n?'Chương '+c.n+'. '+c.t:c.t)}</span>${c.tag?`<br><span class="small muted">${esc(c.tag)}</span>`:''}</span><span class="small" style="text-align:right;white-space:nowrap"><b>${p}%</b> xong${pg?'<br>'+fmtPg(pg)+' trang':''}</span></button>
+       <div class="cb"><div class="ithead"><span>Mục</span><span>Nội dung</span><span>Người viết</span><span>Trang</span><span>Hạn tiếp theo</span><span>Trạng thái</span></div>
+       ${l.map(t=>`<button class="it" data-act="open" data-id="${t.id}"><span class="cdx">${esc(t.code)}</span><span><b>${esc(t.t)}</b></span><span>${chipM(t.o)}${t.c?`<div class="small muted">Kiểm: ${esc(nm(t.c))}</div>`:''}</span><span>${t.pg?fmtPg(t.pg):'–'}</span><span class="small">${dueH(t)}</span><span>${chipS(t.status)}</span></button>`).join('')}</div></div>`;
+    });
+  }
+  return h+'</div>';
+}
+
+/* ================= AGENDA CỦA TÔI ================= */
+function renderMe(){
+  const M=MEM[ME],ts=allI(),t0=today(),L=D.learn[ME]||{};
+  const myAll=ts.filter(t=>t.o===ME),open=myAll.filter(t=>!isDone(t)),done=myAll.filter(isDone);
+  const over=open.filter(isOver),wkEnd=addDays(t0,(7-pd(t0).getDay())%7);
+  const toCheck=ts.filter(t=>t.status==='submitted'&&(t.c===ME||(ME===LEADER&&t.c!==ME)));
+  const toApprove=ME===LEADER?ts.filter(t=>t.status==='checked'):[];
+  const fix=ts.filter(t=>t.o===ME&&t.status==='fix');
+  const help=ts.filter(t=>t.h.includes(ME)&&!isDone(t));
+  const sorted=open.slice().sort((a,b)=>a.due.localeCompare(b.due));
+  const next=sorted.find(t=>!['submitted','checked'].includes(t.status));
+  const groups=[['Đã quá hạn',sorted.filter(t=>t.due<t0)],['Tuần này',sorted.filter(t=>t.due>=t0&&t.due<=wkEnd)],['Tuần sau',sorted.filter(t=>t.due>wkEnd&&t.due<=addDays(wkEnd,7))],['Về sau',sorted.filter(t=>t.due>addDays(wkEnd,7))]];
+  const pg=myAll.reduce((a,t)=>a+t.pg,0),pgd=pgDone(myAll);
+  const srcIds=Array.from(new Set([].concat.apply([],open.map(t=>t.src))));
+  const rows=sorted.concat(done).filter(t=>t.keys.length).map(t=>({label:`<span class="small gl1" title="${esc(t.code+'. '+t.t)}"><b>${esc(t.code)}</b> ${esc(t.t)}</span>`,items:[itemBar(t,M.acc,false)]}));
+  const sentence=[];
+  if(over.length)sentence.push(`Có ${over.length} mục đang trễ hạn. Không sao, hãy nhắn cho nhóm nếu bạn cần được giúp.`);
+  const due7=open.filter(t=>t.due<=addDays(t0,7)&&t.due>=t0).length;
+  sentence.push(due7?`Trong 7 ngày tới bạn có ${due7} mốc hạn.`:'Trong 7 ngày tới bạn chưa có mốc hạn nào.');
+  if(next)sentence.push(`Việc gần nhất: mục ${esc(next.code)} “${esc(next.t)}”, ${next.next?esc(next.next.l.toLowerCase())+' ':''}${fdw(next.due)}.`);
+  else sentence.push('Bạn chưa có việc nào đang chờ: có thể giúp bạn khác hoặc đọc thêm tài liệu.');
+  let h=`<div class="wrap"><div class="hello mt"><span class="bigini" style="background:${M.soft};color:${M.ink};border-color:${M.acc}">${M.ini}</span><div><h1 style="font-size:32px">${greet()}, ${esc(M.n)}</h1><div class="muted">${esc(M.role)}</div></div></div>
+   <div class="card mt"><p style="margin:0">${sentence.join(' ')}</p></div>
+   <div class="grid g2 mt" style="align-items:start"><div class="card"><h3 style="font-size:20px">Hôm nay mình đang…</h3><p class="small muted" style="margin:2px 0 8px">Viết một hai dòng để cả nhóm biết bạn đang làm gì hoặc vướng ở đâu. Cả nhóm sẽ thấy ở trang Tổng quan.</p>
+    <textarea id="ci-t" placeholder="Ví dụ: đang viết xong mục 2.2.3, còn vướng cách trích một bài báo…">${esc(UI.ci&&UI.ci.t!==undefined?UI.ci.t:(L.note||''))}</textarea>
+    <label class="row" style="margin-top:8px;cursor:pointer"><input type="checkbox" id="ci-h" ${(UI.ci&&UI.ci.h!==undefined?UI.ci.h:L.help)?'checked':''}><span>Mình cần được giúp</span></label>
+    <div class="row" style="margin-top:8px"><button class="btn pri" data-act="checkin">Lưu</button>${L.noteAt?`<span class="small muted">Lần cập nhật gần nhất: ${ago(L.noteAt)}</span>`:''}</div></div>
+    <div class="card"><h3 style="font-size:20px">Phần việc của bạn</h3>
+     <div class="wl" style="grid-template-columns:110px 1fr"><span>Số mục</span><span><b>${done.length}/${myAll.length}</b> đã xong</span></div>${barH(pctI(myAll))}
+     <div class="wl" style="grid-template-columns:110px 1fr;margin-top:12px"><span>Số trang</span><span><b>${fmtPg(pgd)}/${fmtPg(pg)}</b> trang (≈ ${Math.round(pg*350)} từ)</span></div>${barH(pg?Math.round(pgd/pg*100):0)}
+     ${help.length?`<div class="small muted" style="margin-top:10px">Bạn còn đang giúp ${help.length} mục của bạn khác.</div>`:''}</div></div>`;
+  const need=[];
+  if(toApprove.length)need.push(['Chờ bạn duyệt',toApprove]);if(toCheck.length)need.push(['Chờ bạn kiểm chéo',toCheck]);if(fix.length)need.push(['Cần sửa lại',fix]);
+  need.forEach(n=>{h+=block(n[0],n[1],'');});
+  h+=`<h2 class="sh">Lịch của bạn</h2><p class="small muted" style="margin:0 0 8px">Mỗi hàng là một mục của bạn. Các chấm tròn là mốc hạn (dàn ý, bản nháp, kiểm chéo, bản cuối); chấm đen là đã xong.</p>${rows.length?ganttHTML(rows,{marks:true,lw:230}):'<div class="empty">Bạn chưa có mục nào.</div>'}`;
+  h+=`<h2 class="sh">Việc theo tuần</h2>`;
+  let any=false;
+  groups.forEach(g=>{if(!g[1].length)return;any=true;h+=`<div class="wkh"><h3 style="font-size:19px">${g[0]}</h3><span class="small muted">${g[1].length} mục</span></div><div class="list">${g[1].map(itemCard).join('')}</div>`;});
+  if(!any)h+='<div class="empty">Không còn việc nào đang chờ bạn.</div>';
+  if(done.length)h+=`<div class="wkh"><h3 style="font-size:19px">Đã xong</h3><span class="small muted">${done.length} mục</span></div><div class="list">${done.map(itemCard).join('')}</div>`;
+  h+=`<h2 class="sh">Tài liệu cần đọc cho việc của bạn</h2>${srcIds.length?`<div class="list">${srcIds.map(srcLine).join('')}</div><div style="margin-top:10px"><button class="btn sm" data-act="tab" data-tab="src">Mở thư viện nguồn để cập nhật trạng thái</button></div>`:'<div class="empty">Các mục còn lại của bạn chưa có nguồn gợi ý.</div>'}
+   <div class="tip mt"><b>Lưu ý cho bạn.</b> ${esc(M.tip)}</div></div>`;
+  return h;
+}
+/* ================= NGĂN CHI TIẾT, TÀI KHOẢN, THÔNG BÁO ================= */
+function mentionH(s){return esc(s).replace(/@(Châu Anh|Bích Ngọc|Thuỳ Dương|Thuỳ Dung)/g,'<span class="mention">@$1</span>');}
+function openItem(id,keep){
+  const t=IT(id);if(!t)return;
+  const md=$('#modal');md.classList.remove('center');
+  const scr=keep?md.scrollTop:0;
+  const ae=document.activeElement;const fo=keep&&ae&&ae.id?{id:ae.id,s:ae.selectionStart,e:ae.selectionEnd}:null;
+  UI.modal=id;const dr=UI.draft[id]||(UI.draft[id]={});
+  const cms=Object.keys(D.comments).map(k=>Object.assign({id:k},D.comments[k])).filter(c=>c.itemId===id).sort((a,b)=>a.at.localeCompare(b.at));
+  const ch=CH_BY[t.ch];
+  const isOwner=t.o===ME,isLead=ME===LEADER,canEdit=canEditI(t);
+  const canSubmit=(isOwner||isLead)&&['todo','doing','fix'].includes(t.status);
+  const canCheck=t.status==='submitted'&&(t.c===ME||isLead);
+  const linkOk=t.link&&/^https:\/\//i.test(t.link);
+  const checks=dr.checks||[false,false,false],mentions=dr.mentions||[];
+  let h=`<div class="row spread"><div class="row"><span class="chip" style="background:var(--soft)">${esc(chLabel(ch))}</span><span class="chip" style="background:var(--soft)">Mục ${esc(t.code)}</span>${t.fl.map(flagH).join('')}</div><button class="btn sm" data-act="closemodal" aria-label="Đóng">Đóng</button></div>
+   <h2 style="margin:14px 0 8px">${esc(t.t)}</h2>
+   <div class="meta" style="margin:0">${chipS(t.status)}<span>Viết</span>${chipM(t.o)}${t.h.length?`<span>Giúp</span>${t.h.map(chipM).join('')}`:''}${t.c?`<span>Kiểm</span>${chipM(t.c)}`:'<span>Duyệt: nhóm trưởng</span>'}${t.pg?`<span>· <b>${fmtPg(t.pg)} trang</b> (≈ ${Math.round(t.pg*350)} từ)</span>`:''}</div>
+   <div class="box"><h5>Các mốc hạn (tick khi xong)</h5><div class="stg">${t.keys.map(s=>{const on=!!t.ticks[s[0]],late=!on&&t.dl[s[0]]<today();return `<label class="${on?'on':''}"><input type="checkbox" data-act="tick" data-id="${id}" data-k="${s[0]}" ${on?'checked':''} ${canEdit?'':'disabled'}><span><b>${s[1]}</b>${fdw(t.dl[s[0]])}${late?' <span class="over">trễ</span>':''}</span></label>`;}).join('')}</div>${t.fl.includes('t')?'<div class="small muted" style="margin-top:6px">Đây là <b>hạn tạm</b> cho đến khi biết hạn thật của cuộc thi.</div>':''}</div>
+   <div class="box"><h5>Viết gì</h5><ul>${t.write.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+   <div class="grid g2"><div class="box"><h5>Input gợi ý</h5><ul>${t.inputs.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div><div class="box"><h5>Sản phẩm yêu cầu</h5>${esc(t.prod)}</div></div>
+   ${t.heads.length?`<div class="box"><h5>Tên mục chuẩn (đặt đúng như sau)</h5>${t.heads.map(x=>`<div>${esc(x)}</div>`).join('')}</div>`:''}
+   ${t.src.length?`<div class="box"><h5>Nguồn gợi ý (tự mở kiểm trước khi trích)</h5>${t.src.map(srcLine).join('')}</div>`:''}`;
+  if(t.link||t.submittedAt)h+=`<div class="box" style="border-left:5px solid var(--acc)"><h5>Bài đã nộp${t.submittedAt?', '+ago(t.submittedAt):''}</h5>${linkOk?`<a class="btn dark sm" href="${esc(t.link)}" target="_blank" rel="noopener noreferrer">Mở bài nộp</a>`:esc(t.link)}${t.note?`<div class="small" style="margin-top:6px">Ghi chú: ${esc(t.note)}</div>`:''}</div>`;
+  if(isOwner&&t.status==='fix')h+=`<div class="box" style="border-left:5px solid var(--bad)"><b>Mục này cần sửa.</b> Xem bình luận bên dưới, sửa xong thì nộp lại.</div>`;
+  if(canSubmit)h+=`<div class="box" style="border:2px solid var(--ink)"><h5>${t.status==='fix'?'Nộp lại sau khi sửa':'Nộp bài cho người kiểm'}</h5>
+    <label class="small muted" for="f-link">Link Google Docs/Sheets (bắt đầu bằng https://)</label><input type="url" id="f-link" value="${esc(dr.link!==undefined?dr.link:t.link)}" placeholder="https://docs.google.com/…">
+    <label class="small muted" for="f-note" style="display:block;margin-top:8px">Ghi chú cho người kiểm (không bắt buộc)</label><textarea id="f-note">${esc(dr.note!==undefined?dr.note:t.note)}</textarea>
+    <div class="checks" style="margin-top:6px">${['Tôi đã mở từng link nguồn tôi dùng.','Tôi đã đối chiếu từng con số với nguồn.','Nếu dùng AI để soạn, tôi đã đọc lại từng câu; nguồn chưa tự mở được đã ghi “chưa kiểm chứng”.'].map((x,i)=>`<label><input type="checkbox" data-act="chk" data-i="${i}" ${checks[i]?'checked':''}><span>${x}</span></label>`).join('')}</div>
+    <button class="btn pri" data-act="submit" data-id="${id}" ${checks.every(Boolean)?'':'disabled'} id="btn-submit">Nộp bài</button><span class="small muted" id="subhint" style="margin-left:8px">${checks.every(Boolean)?'':'Tick đủ 3 ô để nộp.'}</span></div>`;
+  if(canCheck)h+=`<div class="box" style="border:2px solid #D9A400"><h5>Bạn là người kiểm mục này</h5><p class="small" style="margin:0 0 8px">Mở bài nộp, tự mở từng nguồn và đối chiếu số. Chưa ổn thì viết lý do vào ô bình luận bên dưới rồi bấm “Cần sửa”.</p><div class="row"><button class="btn ok" data-act="checkok" data-id="${id}">Đúng, cho qua</button><button class="btn warn" data-act="checkfix" data-id="${id}">Cần sửa</button></div></div>`;
+  if(isLead&&t.status==='checked')h+=`<div class="box" style="border:2px solid var(--acc)"><h5>Nhóm trưởng duyệt</h5><div class="row"><button class="btn ok" data-act="apok" data-id="${id}">Duyệt xong</button><button class="btn warn" data-act="apfix" data-id="${id}">Trả lại</button></div></div>`;
+  if(isLead&&isDone(t))h+=`<div class="mt"><button class="btn sm" data-act="reopen" data-id="${id}">Mở lại mục này</button></div>`;
+  if(isOwner&&(t.status==='todo'||t.status==='fix'))h+=`<div class="mt"><button class="btn" data-act="start" data-id="${id}">${t.status==='fix'?'Bắt đầu sửa':'Bắt đầu viết'}</button></div>`;
+  if(isLead)h+=`<div class="box"><h5>Nhóm trưởng: chỉnh hạn</h5><div class="grid g4" style="grid-template-columns:repeat(auto-fit,minmax(140px,1fr))">${t.keys.map(s=>`<label class="small muted">${s[1]}<input type="date" class="f-dl" data-k="${s[0]}" value="${esc(t.dl[s[0]])}"></label>`).join('')}</div><div class="row" style="margin-top:8px"><label class="row" style="gap:6px;cursor:pointer"><input type="checkbox" id="f-dueok" ${t.dueOk?'checked':''}><span class="small">Các hạn đã chắc chắn (bỏ nhãn “Hạn tạm”)</span></label><button class="btn sm" data-act="savedl" data-id="${id}">Lưu hạn</button></div></div>`;
+  h+=`<div class="mt"><h3 style="font-size:19px">Bình luận (${cms.length})</h3><div id="cm-list">${cms.map(c=>`<div class="cm"><b>${esc(nm(c.from))}</b> <span class="small muted">${ago(c.at)}</span><div>${mentionH(c.text)}</div></div>`).join('')||'<div class="small muted">Chưa có bình luận.</div>'}</div>
+    <div style="margin-top:10px"><label class="small muted">Nhắc ai? (bấm vào tên)</label><div class="pillbar">${MEM_IDS.filter(m=>m!==ME).map(m=>`<button class="${mentions.includes(m)?'on':''}" data-act="mention" data-m="${m}">@${esc(MEM[m].n)}</button>`).join('')}</div>
+    <textarea id="f-cm" placeholder="Viết bình luận…" style="margin-top:8px">${esc(dr.cm||'')}</textarea>
+    <div class="row" style="margin-top:8px"><button class="btn pri" data-act="sendcm" data-id="${id}">Gửi bình luận</button>${t.o!==ME?`<button class="btn" data-act="ping" data-id="${id}">Nhắc ${esc(nm(t.o))} làm</button>`:''}</div></div></div>`;
+  md.innerHTML=h;$('#ov').classList.add('on');document.body.style.overflow='hidden';
+  md.scrollTop=scr;
+  if(fo){const el=document.getElementById(fo.id);if(el){el.focus();try{el.setSelectionRange(fo.s,fo.e);}catch(e){}}}
+}
+function closeModal(){if(MUST)return;UI.modal=null;UI.confirm=null;UI.askcb=null;$('#ov').classList.remove('on');$('#modal').classList.remove('center');$('#modal').innerHTML='';document.body.style.overflow='';}
+function centerModal(html){const md=$('#modal');md.classList.add('center');md.innerHTML=html;$('#ov').classList.add('on');}
+function askConfirm(msg,yes,label){UI.confirm=yes;UI.modal='confirm';centerModal(`<h2>Xác nhận</h2><p>${esc(msg)}</p><div class="row" style="justify-content:flex-end"><button class="btn" data-act="closemodal">Huỷ</button><button class="btn pri" data-act="confirmyes">${esc(label||'Đồng ý')}</button></div>`);}
+function askText(title,ph,cb){UI.askcb=cb;UI.modal='ask';centerModal(`<h2>${esc(title)}</h2><textarea id="ask-t" placeholder="${esc(ph)}" style="margin-top:10px"></textarea><div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn" data-act="closemodal">Huỷ</button><button class="btn pri" data-act="askok">Gửi</button></div>`);setTimeout(()=>{const e=$('#ask-t');if(e)e.focus();},30);}
+function openAcct(){
+  UI.modal='acct';const M=MEM[ME];
+  centerModal(`<div class="row spread"><h2>Tài khoản</h2>${MUST?'':'<button class="btn sm" data-act="closemodal">Đóng</button>'}</div>
+   <div class="row" style="margin-top:10px">${chipM(ME)}<span class="muted">Tên đăng nhập: <b>${esc(M.user)}</b></span></div>
+   ${MUST?'<div class="tip mt">Đây là mật khẩu tạm. Hãy đặt mật khẩu mới của riêng bạn để tiếp tục.</div>':''}
+   <div class="box"><h5>Đổi mật khẩu</h5><label class="small muted" for="pw-o">Mật khẩu hiện tại</label><input type="password" id="pw-o" autocomplete="current-password"><label class="small muted" for="pw-n" style="display:block;margin-top:8px">Mật khẩu mới (ít nhất 8 ký tự)</label><input type="password" id="pw-n" autocomplete="new-password">
+   <div id="pw-msg" class="small" style="min-height:24px;margin-top:6px"></div><button class="btn pri" data-act="chpw">Đổi mật khẩu</button></div>
+   ${ME===LEADER&&!MUST?`<div class="box"><h5>Nhóm trưởng: đặt lại mật khẩu cho bạn khác</h5><div class="row">${MEM_IDS.filter(m=>m!==ME).map(m=>`<button class="btn sm" data-act="resetpw" data-m="${m}">${esc(MEM[m].n)}</button>`).join('')}</div><div id="rs-msg" class="small" style="margin-top:8px"></div></div>`:''}
+   <div class="row" style="margin-top:16px"><button class="btn warn" data-act="logout">Đăng xuất</button></div>`);
+}
+function notifItem(n){return `<div class="tc" style="--st:${n.read?'#D9D4C7':'var(--acc)'}" data-act="opennotif" data-id="${n.id}" data-item="${esc(n.itemId)}"><div><div>${n.read?'':'<b>• </b>'}${esc(n.text)}</div><div class="small muted">${esc(nm(n.from))}, ${ago(n.at)}</div></div></div>`;}
+function renderPanel(){
+  const l=myNotifs().slice(0,30);
+  $('#panel').innerHTML=`<div class="row spread"><h3 style="font-size:19px">Thông báo</h3><div class="row"><button class="btn sm" data-act="readall">Đã đọc hết</button><button class="btn sm" data-act="panel">Đóng</button></div></div><div class="list" style="margin-top:10px">${l.length?l.map(notifItem).join(''):'<div class="empty">Chưa có thông báo nào.</div>'}</div>`;
+  $('#panel').classList.toggle('on',UI.panel);
+}
+
+/* ---------- vẽ lại ---------- */
+let raf=0,loginShown=false;
+function render(){if(raf)return;raf=requestAnimationFrame(()=>{raf=0;renderNow();});}
+function renderNow(){
+  if(!ready){$('#app').innerHTML='<div class="login"><div class="box2"><h1>Đang tải…</h1></div></div>';return;}
+  if(!ME){if(!loginShown||UI.forceLogin){renderLogin();loginShown=true;UI.forceLogin=false;}return;}
+  loginShown=false;
+  if(drag)return;
+  const ae=document.activeElement,keep=ae&&ae.id&&(['dlin','ci-t','nl-t','nl-u','ns-a','ns-y','ns-t','ns-v','ns-l'].includes(ae.id)||ae.id.indexOf('lk-')===0)?{id:ae.id,s:ae.selectionStart,e:ae.selectionEnd}:null;
+  const v={overview:renderOverview,team:renderTeam,me:renderMe,src:renderSrc,learn:renderLearn}[UI.tab]||renderOverview;
+  const bx=$('#board'),bs=bx?bx.scrollLeft:0;
+  $('#app').innerHTML=topbar()+v();
+  if(UI.tab==='learn')fillCode();
+  const nb=$('#board');if(nb)nb.scrollLeft=bs;
+  if(keep){const el=document.getElementById(keep.id);if(el){el.focus();try{el.setSelectionRange(keep.s,keep.e);}catch(e){}}}
+  if(UI.panel)renderPanel();
+  if(UI.modal&&BASE_I[UI.modal]&&$('#ov').classList.contains('on'))openItem(UI.modal,true);
+  if(MUST&&UI.modal!=='acct')openAcct();
+}
+/* ================= SỰ KIỆN, KÉO THẢ, KHỞI ĐỘNG ================= */
+function clip(txt){
+  const ok=()=>toast('Đã sao chép mã.');
+  const fb=()=>{const ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok();}catch(e){toast('Không sao chép được; hãy bôi đen rồi copy.');}ta.remove();};
+  if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(txt).then(ok,fb);else fb();
+}
+const DR=id=>UI.draft[id]||(UI.draft[id]={});
+async function afterLogin(){
+  UI.tab='overview';saveUI();loginShown=false;
+  await sync();startPoll();render();
+  if(MUST)return;
+  const au=autoReminders();if(au.length)setTimeout(()=>toast('Nhắc việc: bạn có '+au.length+' mục sắp đến hạn hoặc trễ hạn.'),700);
+  const un=unread();if(un)setTimeout(()=>toast('Bạn có '+un+' thông báo mới'),2400);
+}
+async function tryLogin(){
+  const u=($('#lg-u')||{}).value||'',p=($('#lg-p')||{}).value||'';
+  if(!u||!p){const e=$('#lg-err');if(e)e.textContent='Hãy nhập tên đăng nhập và mật khẩu.';return;}
+  const btn=$('[data-act=login]');if(btn)btn.disabled=true;
+  const r=await doLogin(u,p);
+  if(r==='ok'){await afterLogin();return;}
+  const msg={pw:'Tên đăng nhập hoặc mật khẩu chưa đúng. Thử: chauanh, bichngoc, thuyduong, thuydung.',setup:'Backend chưa sẵn sàng: cần đặt INITIAL_PASSWORD trong Netlify.',net:'Không kết nối được máy chủ. Kiểm tra mạng rồi thử lại.'}[r];
+  UI.pw={u:u,err:msg};UI.forceLogin=true;renderLogin();loginShown=true;
+}
+let justDragged=false;
+document.addEventListener('click',async e=>{
+  if(e.target.closest('a[data-stop]'))return;
+  if(justDragged&&e.target.closest('.kc')){justDragged=false;return;}
+  const el=e.target.closest('[data-act]');
+  if(!el){const kc=e.target.closest('.kc');if(kc)openItem(kc.dataset.id);return;}
+  const a=el.dataset.act,id=el.dataset.id;
+  if(a==='login'){await tryLogin();}
+  else if(a==='tab'){UI.tab=el.dataset.tab;saveUI();render();window.scrollTo({top:0});}
+  else if(a==='panel'){UI.panel=!UI.panel;renderPanel();}
+  else if(a==='readall'){await readAll();}
+  else if(a==='opennotif'){const nid=el.dataset.id;if(D.notifs[nid]&&!D.notifs[nid].read)put('notifs',nid,{read:true});UI.panel=false;renderPanel();if(el.dataset.item&&BASE_I[el.dataset.item])openItem(el.dataset.item);}
+  else if(a==='open'){openItem(id);}
+  else if(a==='pillar'){openPillar(el.dataset.k);}
+  else if(a==='struct'){openStruct();}
+  else if(a==='closemodal'){closeModal();render();}
+  else if(a==='confirmyes'){const y=UI.confirm;closeModal();if(y)y();}
+  else if(a==='askok'){const v=(($('#ask-t')||{}).value||'').trim();const cb=UI.askcb;if(!v){toast('Hãy viết lý do.');return;}closeModal();if(cb)await cb(v);}
+  else if(a==='acct'){openAcct();}
+  else if(a==='logout'){MUST=false;closeModal();await doLogout();}
+  else if(a==='chpw'){
+    const o=($('#pw-o')||{}).value||'',n=($('#pw-n')||{}).value||'',msg=$('#pw-msg');
+    if(n.length<8){msg.textContent='Mật khẩu mới cần ít nhất 8 ký tự.';msg.style.color='var(--bad)';return;}
+    const r=await Api.pw(o,n);
+    if(r.error){msg.textContent=r.error==='bad'?'Mật khẩu hiện tại chưa đúng.':'Chưa đổi được. Thử lại.';msg.style.color='var(--bad)';return;}
+    msg.textContent='Đã đổi mật khẩu.';msg.style.color='var(--ok)';$('#pw-o').value='';$('#pw-n').value='';
+    if(MUST){MUST=false;setTimeout(()=>{closeModal();render();afterLogin();},700);}
+  }
+  else if(a==='resetpw'){const m=el.dataset.m;const r=await Api.resetpw(m);const o=$('#rs-msg');if(o)o.innerHTML=r.ok?'Mật khẩu tạm của <b>'+esc(MEM[m].n)+'</b> (hiện một lần, gửi riêng cho bạn ấy): <b style="font-family:monospace;font-size:17px">'+esc(r.pw)+'</b>':'Chưa đặt lại được.';}
+  else if(a==='gochap'){UI.openC[el.dataset.c]=true;UI.tab='team';UI.cf=el.dataset.c;UI.view='list';UI.flt='all';saveUI();render();window.scrollTo({top:0});}
+  else if(a==='view'){UI.view=el.dataset.v;saveUI();render();}
+  else if(a==='checkin'){const t=(($('#ci-t')||{}).value||'').trim();await put('learn',ME,{note:t,help:!!($('#ci-h')||{}).checked,noteAt:nowISO()});UI.ci=undefined;toast('Đã lưu. Cả nhóm sẽ thấy ở trang Tổng quan.');}
+  else if(a==='fwt'){UI.fw=!UI.fw;render();}
+  else if(a==='glt'){UI.gl=!UI.gl;render();}
+  else if(a==='flt'){UI.flt=el.dataset.v;render();}
+  else if(a==='chapt'){const c=el.dataset.c;UI.openC[c]=!UI.openC[c];render();}
+  else if(a==='tick'){await actTick(id,el.dataset.k);}
+  else if(a==='chk'){const d=DR(UI.modal);const c=d.checks||(d.checks=[false,false,false]);c[+el.dataset.i]=el.checked;const b=$('#btn-submit');if(b){b.disabled=!c.every(Boolean);const h=$('#subhint');if(h)h.textContent=c.every(Boolean)?'':'Tick đủ 3 ô để nộp.';}}
+  else if(a==='mention'){const d=DR(UI.modal);const ms=d.mentions||(d.mentions=[]);const m=el.dataset.m;const i=ms.indexOf(m);if(i>=0)ms.splice(i,1);else ms.push(m);el.classList.toggle('on',i<0);}
+  else if(a==='submit'){const link=($('#f-link')||{}).value||'',note=($('#f-note')||{}).value||'';const ok=await actSubmit(id,link.trim(),note.trim());if(ok){delete UI.draft[id];openItem(id,true);}}
+  else if(a==='checkok'){const ok=await actCheck(id,true);if(ok)openItem(id,true);}
+  else if(a==='checkfix'){const r=(($('#f-cm')||{}).value||'').trim();const ok=await actCheck(id,false,r);if(ok){DR(id).cm='';openItem(id,true);}}
+  else if(a==='apok'){await actApprove(id,true);openItem(id,true);}
+  else if(a==='apfix'){const r=(($('#f-cm')||{}).value||'').trim();const ok=await actApprove(id,false,r);if(ok){DR(id).cm='';openItem(id,true);}}
+  else if(a==='reopen'){await put('items',id,{status:'doing'});}
+  else if(a==='start'){await put('items',id,{status:'doing'});}
+  else if(a==='savedl'){const dl={};$$('.f-dl').forEach(x=>dl[x.dataset.k]=x.value);await actDates(id,dl,($('#f-dueok')||{}).checked);toast('Đã lưu hạn.');}
+  else if(a==='sendcm'){const tx=(($('#f-cm')||{}).value||'').trim();if(!tx){toast('Hãy viết nội dung bình luận.');return;}const ms=DR(id).mentions||[];await postComment(id,tx,ms);const d=DR(id);d.cm='';d.mentions=[];openItem(id,true);}
+  else if(a==='ping'){await actPing(id,(($('#f-cm')||{}).value||'').trim());}
+  else if(a==='sview'){UI.sv=el.dataset.v;render();}
+  else if(a==='sfl'){UI.sfl=el.dataset.v;render();}
+  else if(a==='savelink'){const k=el.dataset.k;const u=(($('#lk-'+k)||{}).value||'').trim();if(u&&!/^https:\/\//i.test(u)){toast('Link phải bắt đầu bằng https://');return;}await put('links',k,{url:u,at:nowISO()});toast('Đã lưu link.');}
+  else if(a==='addlink'){const t=($('#nl-t').value||'').trim(),u=($('#nl-u').value||'').trim();if(!t||!/^https:\/\//i.test(u)){toast('Nhập tên file và link bắt đầu bằng https://');return;}await put('links','x'+Date.now().toString(36),{title:t,url:u,at:nowISO()});toast('Đã thêm.');}
+  else if(a==='addsrc'){const v=k=>(($('#ns-'+k)||{}).value||'').trim();const l=v('l');if(!v('t')||!/^https:\/\//i.test(l)){toast('Nhập tên bài và link đã mở (bắt đầu bằng https://).');return;}await put('sources','x'+Date.now().toString(36),{a:v('a')||'(chưa rõ tác giả)',y:v('y')||'—',t:v('t'),v:v('v'),use:'',st:'ok',link:l,at:nowISO(),custom:true});toast('Đã thêm nguồn.');}
+  else if(a==='setdl'){const v=($('#dlin')||{}).value;if(!v){toast('Chọn ngày trước.');return;}await put('settings','main',{deadline:v});toast('Đã lưu hạn nộp.');}
+  else if(a==='cldl'){await put('settings','main',{deadline:''});}
+  else if(a==='mt'){UI.mopen[id]=!UI.mopen[id];const b=$('#mod-'+id);if(b){b.classList.toggle('open',!!UI.mopen[id]);el.setAttribute('aria-expanded',!!UI.mopen[id]);}}
+  else if(a==='lstep'){const L=D.learn[ME]||{};const m=LEARN.find(x=>x.id===id);const arr=m.steps.map((_,i)=>!!(L['s_'+id]||[])[i]);arr[+el.dataset.i]=!arr[+el.dataset.i];await put('learn',ME,{['s_'+id]:arr});}
+  else if(a==='ldone'){const L=D.learn[ME]||{};await put('learn',ME,{['d_'+id]:!L['d_'+id]});}
+  else if(a==='llang'){UI.mlang[id]=el.dataset.l;const m=LEARN.find(x=>x.id===id);const p=$('#code-'+id);if(p)p.firstElementChild.textContent=m.code[el.dataset.l];$$('[data-act=llang][data-id='+id+']').forEach(b=>b.classList.toggle('on',b.dataset.l===el.dataset.l));}
+  else if(a==='lcopy'){const m=LEARN.find(x=>x.id===id);clip(m.code[UI.mlang[id]||'R']||m.code[Object.keys(m.code)[0]]);}
+});
+document.addEventListener('change',async e=>{
+  const el=e.target,f=el.dataset&&el.dataset.f;if(!f)return;const id=el.dataset.id;
+  if(f==='sst'){await put('sources',id,{st:el.value});}
+  else if(f==='slk'){const v=el.value.trim();if(v&&!/^https:\/\//i.test(v)){toast('Link phải bắt đầu bằng https://');return;}await put('sources',id,{link:v});}
+  else if(f==='cf'){UI.cf=el.value;render();}
+});
+document.addEventListener('change',e=>{if(e.target.id==='ci-h'){UI.ci=UI.ci||{};UI.ci.h=e.target.checked;}});
+document.addEventListener('input',e=>{
+  const el=e.target;
+  if(el.id==='f-link'&&UI.modal)DR(UI.modal).link=el.value;
+  else if(el.id==='f-note'&&UI.modal)DR(UI.modal).note=el.value;
+  else if(el.id==='f-cm'&&UI.modal)DR(UI.modal).cm=el.value;
+  else if(el.id==='ci-t'){UI.ci=UI.ci||{};UI.ci.t=el.value;}
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){if($('#ov').classList.contains('on')){closeModal();render();}else if(UI.panel){UI.panel=false;renderPanel();}}
+  if(e.key==='Enter'&&(e.target.id==='lg-p'||e.target.id==='lg-u'))tryLogin();
+});
+$('#ov').addEventListener('mousedown',e=>{if(e.target.id==='ov'&&!['confirm','ask'].includes(UI.modal)){closeModal();render();}});
+
+/* ---------- kéo thả (chuột và cảm ứng) ---------- */
+let drag=null;
+document.addEventListener('pointerdown',e=>{
+  const c=e.target.closest('.kc');if(!c||e.button>0)return;
+  if(e.pointerType==='touch'&&!e.target.closest('.grip'))return;
+  drag={id:c.dataset.id,x:e.clientX,y:e.clientY,el:c,started:false,ghost:null,over:null};
+});
+document.addEventListener('pointermove',e=>{
+  if(!drag)return;
+  if(!drag.started){
+    if(Math.hypot(e.clientX-drag.x,e.clientY-drag.y)<7)return;
+    drag.started=true;drag.el.classList.add('dragging');
+    const g=drag.el.cloneNode(true);g.classList.remove('dragging');g.classList.add('ghost');g.removeAttribute('data-id');document.body.appendChild(g);drag.ghost=g;
+  }
+  e.preventDefault();
+  drag.ghost.style.left=(e.clientX-100)+'px';drag.ghost.style.top=(e.clientY-20)+'px';
+  const under=document.elementFromPoint(e.clientX,e.clientY);const col=under&&under.closest?under.closest('.kcol'):null;
+  if(drag.over&&drag.over!==col)drag.over.classList.remove('over');
+  if(col)col.classList.add('over');drag.over=col;
+  const b=$('#board');if(b){const r=b.getBoundingClientRect();if(e.clientX>r.right-50)b.scrollLeft+=14;else if(e.clientX<r.left+50)b.scrollLeft-=14;}
+  if(e.clientY>window.innerHeight-60)window.scrollBy(0,14);else if(e.clientY<60)window.scrollBy(0,-14);
+},{passive:false});
+function endDrag(e,cancel){
+  if(!drag)return;const d=drag;drag=null;
+  if(d.started){
+    justDragged=true;setTimeout(()=>{justDragged=false;},350);
+    d.el.classList.remove('dragging');if(d.ghost)d.ghost.remove();if(d.over)d.over.classList.remove('over');
+    if(!cancel&&d.over){requestMove(d.id,d.over.dataset.s);}
+    render();
+  }
+}
+document.addEventListener('pointerup',e=>endDrag(e,false));
+document.addEventListener('pointercancel',e=>endDrag(e,true));
+
+/* ---------- khởi động ---------- */
+async function detect(){
+  if(location.protocol==='file:')return 'local';
+  try{
+    const ctl=new AbortController();const to=setTimeout(()=>ctl.abort(),4000);
+    const r=await fetch('/api/ping',{signal:ctl.signal});clearTimeout(to);
+    const j=await r.json();if(j&&j.ok===true){BACKEND_READY=!!j.ready;return 'remote';}
+  }catch(e){}
+  return 'local';
+}
+async function boot(){
+  renderNow();
+  const m=await detect();MODE=m;Api=m==='remote'?RemoteApi:LocalApi;
+  if(m==='remote'){
+    try{const t=localStorage.getItem('nckh_tok');if(t){Api.tok=t;const r=await Api.state('','');if(r&&!r.error){try{ME=JSON.parse(atob(t.split('.')[0].replace(/-/g,'+').replace(/_/g,'/'))).m;}catch(e){ME=null;}if(!MEM[ME])ME=null;}else{Api.tok=null;localStorage.removeItem('nckh_tok');}}}catch(e){}
+  }else{
+    try{const m2=localStorage.getItem('nckh_tok_local');if(m2&&MEM[m2]){ME=m2;LocalApi.me=m2;Api.tok='local.'+m2;}}catch(e){}
+  }
+  ready=true;
+  if(ME){await sync();startPoll();setTimeout(()=>{const au=autoReminders();if(au.length)toast('Nhắc việc: bạn có '+au.length+' mục sắp đến hạn hoặc trễ hạn.');},700);}
+  renderNow();
+}
+boot();
+
+</script>
+</body>
+</html>
